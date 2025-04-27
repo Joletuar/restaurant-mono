@@ -1,0 +1,41 @@
+{
+  "name": "node-ts-base-template",
+  "module": "src/index.ts",
+  "type": "module",
+  "private": true,
+  "author": {
+    "name": "Johan Tuarez"
+  },
+  "scripts": {
+    "dev": "bun --watch src/index.ts",
+    "build": "bun run clean && bunx tsc --project tsconfig.prod.json && tsc-alias -p tsconfig.prod.json",
+    "test": "bunx jest",
+    "test:watch": "bunx jest --watch",
+    "test:watch-all": "bunx jest --watchAll",
+    "clean": "bunx rimraf dist && echo 'Done.'",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "rimraf": "6.0.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "19.8.0",
+    "@commitlint/config-conventional": "19.8.0",
+    "@eslint/js": "9.25.1",
+    "@trivago/prettier-plugin-sort-imports": "5.2.2",
+    "@types/bun": "latest",
+    "@types/jest": "29.5.14",
+    "eslint": "9.25.1",
+    "globals": "16.0.0",
+    "husky": "9.1.7",
+    "jest": "29.7.0",
+    "lint-staged": "15.5.1",
+    "prettier": "3.5.3",
+    "ts-jest": "29.3.2",
+    "tsc-alias": "1.8.15",
+    "typescript-eslint": "8.31.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

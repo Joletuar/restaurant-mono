@@ -1,0 +1,22 @@
+/**
+ * @see https://prettier.io/docs/configuration
+ * @type {import("prettier").Config}
+ */
+
+const config = {
+  trailingComma: 'es5',
+  tabWidth: 2,
+  semi: true,
+  singleQuote: true,
+  printWidth: 80,
+  endOfLine: 'lf',
+  quoteProps: 'consistent',
+  plugins: ['@trivago/prettier-plugin-sort-imports'],
+
+  importOrder: ['<THIRD_PARTY_MODULES>', '^@src/', '^[./]'],
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true,
+  importOrderCaseInsensitive: true,
+};
+
+export default config;
