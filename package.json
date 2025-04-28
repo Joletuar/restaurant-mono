@@ -16,7 +16,8 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "rimraf": "6.0.1"
+    "rimraf": "6.0.1",
+    "ulidx": "2.4.1"
   },
   "devDependencies": {
     "@commitlint/cli": "19.8.0",
