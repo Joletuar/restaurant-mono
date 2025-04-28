@@ -1,0 +1,5 @@
+export enum AppErrorCode {
+  DOMAIN_ERROR = '0001',
+  INFRASTRUCTURE_ERROR = '0002',
+  APPLICATION_ERROR = '0003',
+}
