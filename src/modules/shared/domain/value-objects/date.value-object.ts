@@ -26,6 +26,10 @@ export class DateValueObject extends RootValueObject<Date> {
     return new DateValueObject(value);
   }
 
+  static generateDate(): DateValueObject {
+    return new DateValueObject(new Date());
+  }
+
   protected constructor(value: Date) {
     super(value);
   }
@@ -48,10 +52,6 @@ export class DateValueObject extends RootValueObject<Date> {
         `Date value <${this.value.toISOString()}> is invalid.`,
       ]);
     }
-  }
-
-  toPrimitive(): Date {
-    return this.value;
   }
 
   isLessThan(date: DateValueObject): boolean {

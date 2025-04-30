@@ -23,8 +23,4 @@ export class IdValueObject extends RootValueObject<string> {
       ]);
     }
   }
-
-  toPrimitive(): string {
-    return this.value;
-  }
 }

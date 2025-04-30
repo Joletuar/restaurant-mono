@@ -8,8 +8,6 @@ export type Primitives = string | number | boolean | Date;
  */
 
 export abstract class RootValueObject<T extends Primitives> {
-  abstract toPrimitive(): T;
-
   protected abstract validate(): void;
 
   protected readonly _value: T;

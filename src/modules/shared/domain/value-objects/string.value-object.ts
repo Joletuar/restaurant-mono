@@ -27,8 +27,4 @@ export class StringValueObject extends RootValueObject<string> {
       ]);
     }
   }
-
-  toPrimitive(): string {
-    return this.value;
-  }
 }

@@ -36,10 +36,6 @@ export class NumberValueObject extends RootValueObject<number> {
     }
   }
 
-  toPrimitive(): number {
-    return this.value;
-  }
-
   isPositive(): boolean {
     return this.value > 0;
   }
