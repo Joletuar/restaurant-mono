@@ -1,4 +1,4 @@
-import { ValidationError } from '../errors/validation.error';
+import { DomainValidationError } from '../errors/domain-validation.error';
 import { RootValueObject } from './root.value-object';
 
 /**
@@ -18,7 +18,7 @@ export class DateValueObject extends RootValueObject<Date> {
       value.getTime() < startDate.getTime() ||
       value.getTime() > endDate.getTime()
     ) {
-      throw new ValidationError('Date out of range', [
+      throw new DomainValidationError('Date out of range', [
         `Date ${value.toISOString()} is out of range ${startDate.toISOString()} - ${endDate.toISOString()}.`,
       ]);
     }
@@ -36,19 +36,19 @@ export class DateValueObject extends RootValueObject<Date> {
 
   protected validate(): void {
     if (this.value.getTime() < 0) {
-      throw new ValidationError('Date is in the past', [
+      throw new DomainValidationError('Date is in the past', [
         `Date value <${this.value.toISOString()}> is in the past.`,
       ]);
     }
 
     if (isNaN(this.value.getTime())) {
-      throw new ValidationError('Date is invalid', [
+      throw new DomainValidationError('Date is invalid', [
         `Date value <${this.value.toISOString()}> is invalid.`,
       ]);
     }
 
     if (this.value.toString() === 'Invalid Date') {
-      throw new ValidationError('Date is invalid', [
+      throw new DomainValidationError('Date is invalid', [
         `Date value <${this.value.toISOString()}> is invalid.`,
       ]);
     }

@@ -1,4 +1,4 @@
-import { ValidationError } from '../errors/validation.error';
+import { DomainValidationError } from '../errors/domain-validation.error';
 import { RootValueObject } from './root.value-object';
 
 /**
@@ -16,13 +16,13 @@ export class StringValueObject extends RootValueObject<string> {
 
   protected validate(): void {
     if (typeof this.value !== 'string') {
-      throw new ValidationError('Invalid string', [
+      throw new DomainValidationError('Invalid string', [
         `Invalid string value <${this.value}>. Expected a string.`,
       ]);
     }
 
     if (this.value.length === 0) {
-      throw new ValidationError('Empty string', [
+      throw new DomainValidationError('Empty string', [
         'String value cannot be empty.',
       ]);
     }

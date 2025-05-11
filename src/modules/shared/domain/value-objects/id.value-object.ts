@@ -1,6 +1,6 @@
 import { isValid, ulid } from 'ulidx';
 
-import { ValidationError } from '../errors/validation.error';
+import { DomainValidationError } from '../errors/domain-validation.error';
 import { RootValueObject } from './root.value-object';
 
 export class IdValueObject extends RootValueObject<string> {
@@ -18,7 +18,7 @@ export class IdValueObject extends RootValueObject<string> {
 
   protected validate(): void {
     if (!isValid(this.value)) {
-      throw new ValidationError('Invalid ulid id', [
+      throw new DomainValidationError('Invalid ulid id', [
         `Id value <${this.value}> is not a valid ULID. Expected a valid ULID string.`,
       ]);
     }

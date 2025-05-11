@@ -1,4 +1,4 @@
-import { ValidationError } from '../errors/validation.error';
+import { DomainValidationError } from '../errors/domain-validation.error';
 import { RootValueObject } from './root.value-object';
 
 /**
@@ -16,7 +16,7 @@ export class NumberValueObject extends RootValueObject<number> {
     max: number
   ): NumberValueObject {
     if (value < min || value > max) {
-      throw new ValidationError('Number out of range', [
+      throw new DomainValidationError('Number out of range', [
         `Number value <${value}> is out of range. Expected between ${min} and ${max}.`,
       ]);
     }
@@ -30,7 +30,7 @@ export class NumberValueObject extends RootValueObject<number> {
 
   protected validate(): void {
     if (typeof this.value !== 'number') {
-      throw new ValidationError('Invalid number', [
+      throw new DomainValidationError('Invalid number', [
         `Number value <${this.value}> is not a valid number.`,
       ]);
     }
