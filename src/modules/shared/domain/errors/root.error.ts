@@ -4,7 +4,8 @@ export class RootError extends Error {
   constructor(
     message: string,
     readonly appErrorCode: AppErrorCode,
-    readonly errors: string[]
+    readonly errors: string[],
+    readonly originalError?: Error
   ) {
     super(message);
 

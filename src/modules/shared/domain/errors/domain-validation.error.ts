@@ -1,12 +1,12 @@
 import { DomainError } from './domain.error';
 
 /**
- * ValidationError class
+ * DomainDomainValidationError class
  * This class represents an error that occurs during validation.
  * It extends the DomainError class.
  */
 
-export class ValidationError extends DomainError {
+export class DomainValidationError extends DomainError {
   constructor(message: string, errors: string[]) {
     super(message, errors);
 
