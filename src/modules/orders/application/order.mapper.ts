@@ -8,7 +8,7 @@ export class OrderMapper {
     return primitives;
   }
 
-  static toListDto(orders: Order[]): OrderDto[] {
+  static toDtoList(orders: Order[]): OrderDto[] {
     return orders.map((order) => this.toDto(order));
   }
 }
