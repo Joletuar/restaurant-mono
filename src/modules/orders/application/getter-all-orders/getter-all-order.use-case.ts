@@ -9,6 +9,6 @@ export class GetterAllOrdersUseCase {
   async execute(): Promise<OrderDto[]> {
     const orders = await this.orderRepository.getAll();
 
-    return OrderMapper.toListDto(orders);
+    return OrderMapper.toDtoList(orders);
   }
 }
