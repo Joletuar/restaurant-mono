@@ -1,4 +1,4 @@
-import { ValidationError } from '@src/modules/shared/domain/errors/validation.error';
+import { DomainValidationError } from '@src/modules/shared/domain/errors/domain-validation.error';
 import { StringValueObject } from '@src/modules/shared/domain/value-objects/string.value-object';
 
 export enum OrderStatusEnum {
@@ -15,7 +15,7 @@ export class OrderStatus extends StringValueObject {
 
   static fromPrimitives(value: OrderStatusEnum | string): OrderStatus {
     if (!this.isValid(value)) {
-      throw new ValidationError('Invalid order status value', [
+      throw new DomainValidationError('Invalid order status value', [
         `The value <${value}> is not a valid order status.`,
         `Valid values are: ${Object.values(OrderStatusEnum).join(', ')}.`,
       ]);
