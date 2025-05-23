@@ -30,7 +30,7 @@ export class DateValueObject extends RootValueObject<Date> {
     return new DateValueObject(new Date());
   }
 
-  protected constructor(value: Date) {
+  constructor(value: Date) {
     super(value);
   }
 

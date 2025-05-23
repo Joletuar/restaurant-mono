@@ -12,7 +12,7 @@ export class IdValueObject extends RootValueObject<string> {
     return ulid();
   }
 
-  protected constructor(value: string) {
+  constructor(value: string) {
     super(value);
   }
 

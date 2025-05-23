@@ -10,7 +10,7 @@ export class StringValueObject extends RootValueObject<string> {
     return new StringValueObject(value);
   }
 
-  protected constructor(value: string) {
+  constructor(value: string) {
     super(value.trim());
   }
 

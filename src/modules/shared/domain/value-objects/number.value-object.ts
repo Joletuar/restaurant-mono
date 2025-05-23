@@ -24,7 +24,7 @@ export class NumberValueObject extends RootValueObject<number> {
     return new NumberValueObject(value);
   }
 
-  protected constructor(value: number) {
+  constructor(value: number) {
     super(value);
   }
 
