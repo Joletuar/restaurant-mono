@@ -13,7 +13,8 @@
     "test:watch": "bunx jest --watch",
     "test:watch-all": "bunx jest --watchAll",
     "clean": "bunx rimraf dist && echo 'Done.'",
-    "prepare": "husky"
+    "prepare": "husky",
+    "typecheck": "bunx tsc --noEmit"
   },
   "dependencies": {
     "rimraf": "6.0.1",
