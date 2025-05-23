@@ -3,7 +3,7 @@ import { OrderRepository } from '@src/modules/orders/domain/order.repository';
 import { OrderDto } from '../order.dto';
 import { OrderMapper } from '../order.mapper';
 
-export class GetterAllOrdersUseCase {
+export class GetterAllOrders {
   constructor(private readonly orderRepository: OrderRepository) {}
 
   async execute(): Promise<OrderDto[]> {

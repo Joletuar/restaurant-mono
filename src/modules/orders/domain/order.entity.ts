@@ -13,15 +13,17 @@ export type OrderPrimitives = RootEntityPrimitives & {
 };
 
 export class Order extends RootEntity<OrderPrimitives> {
-  static fromPrimitives(orderPrimitives: OrderPrimitives): Order {
-    const { id, recipeId, status, createdAt, updatedAt } = orderPrimitives;
+  static fromPrimitives(
+    props: Omit<OrderPrimitives, 'id' | 'createdAt' | 'updatedAt'>
+  ): Order {
+    const { recipeId, status } = props;
 
     return new Order(
-      IdValueObject.fromPrimitives(id),
-      IdValueObject.fromPrimitives(recipeId),
+      new IdValueObject(IdValueObject.generateId()),
+      new IdValueObject(recipeId),
       OrderStatus.fromPrimitives(status),
-      DateValueObject.fromPrimitives(createdAt),
-      DateValueObject.fromPrimitives(updatedAt)
+      new DateValueObject(new Date()),
+      new DateValueObject(new Date())
     );
   }
 

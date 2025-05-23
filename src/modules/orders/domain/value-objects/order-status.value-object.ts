@@ -44,7 +44,7 @@ export class OrderStatus extends StringValueObject {
     return new OrderStatus(OrderStatusEnum.CANCELLED);
   }
 
-  constructor(value: string) {
+  protected constructor(value: string) {
     super(value);
   }
 }
