@@ -1,6 +1,6 @@
 import { DomainValidationError } from '../errors/domain-validation.error';
 
-export type Primitives = string | number | boolean | Date;
+export type Primitives = string | number | boolean | Date | Object;
 
 /**
  * RootValueObject is an abstract class that represents a value object in the domain.
