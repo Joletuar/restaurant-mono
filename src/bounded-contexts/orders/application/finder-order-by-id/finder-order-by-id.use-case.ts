@@ -1,6 +1,6 @@
-import { OrderRepository } from '@src/modules/orders/domain/order.repository';
-import { NotFoundError } from '@src/modules/shared/domain/errors/not-found.error';
-import { IdValueObject } from '@src/modules/shared/domain/value-objects/id.value-object';
+import { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
+import { NotFoundError } from '@src/bounded-contexts/shared/domain/errors/not-found.error';
+import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
 import { OrderDto } from '../order.dto';
 import { OrderMapper } from '../order.mapper';

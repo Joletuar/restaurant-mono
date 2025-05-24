@@ -1,4 +1,4 @@
-import { OrderRepository } from '@src/modules/orders/domain/order.repository';
+import { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
 
 import { OrderDto } from '../order.dto';
 import { OrderMapper } from '../order.mapper';

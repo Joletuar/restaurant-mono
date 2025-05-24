@@ -1,10 +1,10 @@
-import { Order } from '@src/modules/orders/domain/order.entity';
-import { OrderRepository } from '@src/modules/orders/domain/order.repository';
-import { FinderRecipeById } from '@src/modules/recipes/application/finder-recipe-by-id/finder-recipe-by-id.use-case';
+import { Order } from '@src/bounded-contexts/orders/domain/order.entity';
+import { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
+import { FinderRecipeById } from '@src/bounded-contexts/recipes/application/finder-recipe-by-id/finder-recipe-by-id.use-case';
 
 import { OrderCreatorDto } from './order-creator.dto';
 
-export class OrderCreator {
+export class CreatorOrder {
   constructor(
     private readonly orderRepository: OrderRepository,
     private readonly finderRecipeById: FinderRecipeById

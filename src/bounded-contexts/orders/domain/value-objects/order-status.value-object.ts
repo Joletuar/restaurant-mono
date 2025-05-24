@@ -1,5 +1,5 @@
-import { DomainValidationError } from '@src/modules/shared/domain/errors/domain-validation.error';
-import { StringValueObject } from '@src/modules/shared/domain/value-objects/string.value-object';
+import { DomainValidationError } from '@src/bounded-contexts/shared/domain/errors/domain-validation.error';
+import { StringValueObject } from '@src/bounded-contexts/shared/domain/value-objects/string.value-object';
 
 export enum OrderStatusEnum {
   PENDING = 'PENDING',
