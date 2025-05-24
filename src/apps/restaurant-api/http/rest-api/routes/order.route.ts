@@ -24,7 +24,7 @@ export class OrderRouteRegistrar implements RouteRegistrar {
           this.orderController.createOrder.bind(this.orderController)
         );
 
-        instance.put(
+        instance.patch(
           '/:id',
           this.orderController.updateOrder.bind(this.orderController)
         );

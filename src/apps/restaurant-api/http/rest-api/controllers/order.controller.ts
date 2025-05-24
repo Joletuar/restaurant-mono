@@ -49,7 +49,10 @@ export class OrderController {
 
     await this.creatorOrder.execute(orderData);
 
-    return await reply.code(HttpStatusCode.CREATED).send();
+    return await ResponseBuilder.successNoContent({
+      reply,
+      statusCode: HttpStatusCode.CREATED,
+    });
   }
 
   async updateOrder(
@@ -61,6 +64,6 @@ export class OrderController {
 
     await this.updaterOrderById.execute(id, updateData);
 
-    return await reply.code(HttpStatusCode.OK).send();
+    return await ResponseBuilder.successNoContent({ reply });
   }
 }

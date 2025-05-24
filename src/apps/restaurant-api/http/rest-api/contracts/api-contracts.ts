@@ -1,15 +1,18 @@
 export enum HttpStatusCode {
-  OK = 200,
-  CREATED = 201,
+  OK = 200, // e.g., when the request has succeeded
+  CREATED = 201, // e.g., when a new resource has been successfully created
+  NO_CONTENT = 204, // e.g., when the request has succeeded but there is no content to return
 
-  BAD_REQUEST = 400,
-  UNAUTHORIZED = 401,
-  FORBIDDEN = 403,
-  NOT_FOUND = 404,
-  CONFLICT = 409,
-  UNPROCESSABLE_ENTITY = 422,
+  BAD_REQUEST = 400, // e.g., when the request is malformed or missing required parameters
+  UNAUTHORIZED = 401, // e.g., when authentication is required or has failed
+  FORBIDDEN = 403, // e.g., when the user does not have permission to access the resource
+  NOT_FOUND = 404, // e.g., when the requested resource does not exist
+  CONFLICT = 409, // e.g., when trying to create a resource that already exists
+  UNPROCESSABLE_ENTITY = 422, // e.g., when the request is well-formed but semantically incorrect
 
-  INTERNAL_SERVER_ERROR = 500,
+  INTERNAL_SERVER_ERROR = 500, // e.g., when an unexpected error occurs on the server
+  SERVICE_UNAVAILABLE = 503, // e.g., when the server is temporarily unable to handle the request
+  GATEWAY_TIMEOUT = 504, // e.g., when the server is acting as a gateway and cannot get a response in time
 }
 
 export interface ApiErrorDetails {

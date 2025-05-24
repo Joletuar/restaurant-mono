@@ -19,7 +19,7 @@ export class ResponseBuilder {
     data: T;
     statusCode?: HttpStatusCode;
     meta?: Omit<ApiPaginatedResponse<T>['meta'], 'timestamp'>;
-  }): Promise<void> {
+  }): Promise<FastifyReply> {
     const response: ApiSuccessResponse<T> = {
       data,
       meta: {
@@ -29,6 +29,16 @@ export class ResponseBuilder {
     };
 
     return await reply.status(statusCode).send(response);
+  }
+
+  static async successNoContent({
+    reply,
+    statusCode = HttpStatusCode.NO_CONTENT,
+  }: {
+    reply: FastifyReply;
+    statusCode?: HttpStatusCode;
+  }): Promise<FastifyReply> {
+    return await reply.status(statusCode).send();
   }
 
   static async error({
@@ -45,7 +55,7 @@ export class ResponseBuilder {
     requestId: string;
     message: string;
     details: ApiErrorDetails[];
-  }): Promise<void> {
+  }): Promise<FastifyReply> {
     const response: ApiErrorResponse = {
       error: {
         code,
