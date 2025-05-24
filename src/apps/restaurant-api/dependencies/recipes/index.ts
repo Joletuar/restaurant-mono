@@ -7,14 +7,16 @@ import { dependencyContainer } from '../dependency-container';
 
 const repository = new InMemoryRecipeRepository();
 
+dependencyContainer.register('FinderRepository', () => repository);
+
 // Use Cases
 
-const finderRecipeById = new FinderRecipeById(repository);
+const finderRecipeById = new FinderRecipeById(
+  dependencyContainer.resolve('FinderRepository')
+);
+
+dependencyContainer.register('FinderRecipeById', () => finderRecipeById);
 
 // Controllers
 
 // Routes
-
-// Registering the use cases in the dependency container
-
-dependencyContainer.register('FinderRecipeById', () => finderRecipeById);

@@ -7,17 +7,19 @@ import { dependencyContainer } from '../dependency-container';
 
 const repository = new InMemoryIngredientRepository();
 
+dependencyContainer.register('IngredientRepository', () => repository);
+
 // Use Cases
 
-const finderIngredientById = new FinderIngredientById(repository);
-
-// Controllers
-
-// Routes
-
-// Registering the use cases in the dependency container
+const finderIngredientById = new FinderIngredientById(
+  dependencyContainer.resolve('IngredientRepository')
+);
 
 dependencyContainer.register(
   'FinderIngredientById',
   () => finderIngredientById
 );
+
+// Controllers
+
+// Routes
