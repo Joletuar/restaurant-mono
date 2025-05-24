@@ -1,6 +1,6 @@
-import { RecipeRepository } from '@src/modules/recipes/domain/recipe.repository';
-import { NotFoundError } from '@src/modules/shared/domain/errors/not-found.error';
-import { IdValueObject } from '@src/modules/shared/domain/value-objects/id.value-object';
+import { RecipeRepository } from '@src/bounded-contexts/recipes/domain/recipe.repository';
+import { NotFoundError } from '@src/bounded-contexts/shared/domain/errors/not-found.error';
+import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
 import { RecipeDto } from '../recipe.dto';
 import { RecipeMapper } from '../recipe.mapper';

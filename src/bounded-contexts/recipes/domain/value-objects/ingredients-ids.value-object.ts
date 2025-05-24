@@ -1,6 +1,6 @@
-import { DomainValidationError } from '@src/modules/shared/domain/errors/domain-validation.error';
-import { IdValueObject } from '@src/modules/shared/domain/value-objects/id.value-object';
-import { RootValueObject } from '@src/modules/shared/domain/value-objects/root.value-object';
+import { DomainValidationError } from '@src/bounded-contexts/shared/domain/errors/domain-validation.error';
+import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
+import { RootValueObject } from '@src/bounded-contexts/shared/domain/value-objects/root.value-object';
 
 export type IngredientsIdsPrimitives = { ids: string[] };
 
