@@ -1,10 +1,10 @@
 import {
   RootEntity,
   RootEntityPrimitives,
-} from '@src/modules/shared/domain/entities/root.entity';
-import { DateValueObject } from '@src/modules/shared/domain/value-objects/date.value-object';
-import { IdValueObject } from '@src/modules/shared/domain/value-objects/id.value-object';
-import { StringValueObject } from '@src/modules/shared/domain/value-objects/string.value-object';
+} from '@src/bounded-contexts/shared/domain/entities/root.entity';
+import { DateValueObject } from '@src/bounded-contexts/shared/domain/value-objects/date.value-object';
+import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
+import { StringValueObject } from '@src/bounded-contexts/shared/domain/value-objects/string.value-object';
 
 export type IngredientPrimivites = RootEntityPrimitives & {
   name: string;
@@ -40,5 +40,9 @@ export class Ingredient extends RootEntity<IngredientPrimivites> {
       createdAt: this.createdAt.value,
       updatedAt: this.updatedAt.value,
     };
+  }
+
+  getId(): string {
+    return this.id.value;
   }
 }
