@@ -1,14 +1,15 @@
 import Fastify, { FastifyInstance } from 'fastify';
 import { PinoLoggerOptions } from 'fastify/types/logger';
 
-import orderRoutes from './routes/order.route';
+import { HttpServer } from '../http-server.interface';
+import { errorHandler } from './error-handler';
+import { RouteRegistrar } from './routes/route-registar.interface';
 
 const envToLogger = {
   development: {
     transport: {
       target: 'pino-pretty',
       level: 'trace',
-
       options: {
         translateTime: 'HH:MM:ss Z',
         ignore: 'pid,hostname',
@@ -20,14 +21,17 @@ const envToLogger = {
   test: false,
 };
 
-export class FastifyRestApiServer {
+export type FastifyServerConfig = {
+  port: number;
+  environment: 'production' | 'development' | 'test';
+  routes: RouteRegistrar[];
+};
+
+export class FastifyRestApiServer implements HttpServer<FastifyInstance> {
   private fastify: FastifyInstance;
-  constructor(
-    private readonly port: number = 3000,
-    environment: 'production' | 'development' | 'test' = 'development'
-  ) {
+  constructor(private readonly config: FastifyServerConfig) {
     this.fastify = Fastify({
-      logger: envToLogger[environment] ?? envToLogger.development,
+      logger: envToLogger[this.config.environment] ?? envToLogger.development,
       requestIdHeader: 'x-request-id',
 
       genReqId: () => {
@@ -44,63 +48,51 @@ export class FastifyRestApiServer {
     await this.setupRoutes();
 
     try {
-      await this.fastify.listen({ port: this.port });
+      await this.fastify.listen({ port: this.config.port });
     } catch (err) {
       this.fastify.log.error(err);
-      process.exit(1);
+
+      throw err;
     }
   }
 
   private async setupRoutes(): Promise<void> {
     await this.fastify.register(
       async (fastify) => {
-        fastify.register(orderRoutes, {
-          prefix: '/orders',
-        });
+        for (const registrar of this.config.routes) {
+          await registrar.registerRoutes(fastify);
+        }
       },
       { prefix: '/api' }
     );
   }
 
   private setupHooks(): void {
-    this.fastify.addHook('onRequest', async (request) => {
-      this.fastify.log.info(
-        `Received request: ${request.method} ${request.url}`
-      );
-    });
-
-    this.fastify.addHook('onSend', async (request, reply, payload) => {
-      reply.header('x-request-id', request.id);
-
-      return payload;
-    });
-
-    this.fastify.addHook('onResponse', async (request) => {
-      this.fastify.log.info(
-        `Responded to request: ${request.method} ${request.url}`
-      );
-    });
+    // this.fastify.addHook('onRequest', async (request) => {
+    //   this.fastify.log.info(
+    //     { requestId: request.id },
+    //     `Received request: ${request.method} ${request.url}`
+    //   );
+    // });
+    // this.fastify.addHook('onResponse', async (request) => {
+    //   this.fastify.log.info(
+    //     { requestId: request.id },
+    //     `Responded to request: ${request.method} ${request.url}`
+    //   );
+    // });
   }
 
   private setupErrorHandler(): void {
-    this.fastify.setErrorHandler((error, request, reply) => {
-      this.fastify.log.error(
-        error,
-        `Error occurred during request: ${request.method} ${request.url}`
-      );
-
-      reply.status(500).send({
-        error: 'Internal Server Error',
-        message: error.message,
-      });
+    this.fastify.setErrorHandler(async (error, request, reply) => {
+      return await errorHandler(error, request, reply);
     });
   }
 
   private setupNotFoundHandler(): void {
-    this.fastify.setNotFoundHandler((request, reply) => {
+    this.fastify.setNotFoundHandler(async (request, reply) => {
       this.fastify.log.warn(`Not Found: ${request.method} ${request.url}`);
 
-      reply.status(404).send({
+      return await reply.status(404).send({
         error: 'Not Found',
         message: 'The requested resource could not be found.',
       });
@@ -114,12 +106,11 @@ export class FastifyRestApiServer {
       this.fastify.log.info('Server stopped successfully');
     } catch (err) {
       this.fastify.log.error('Error stopping server:', err);
+      throw err;
     }
-
-    process.exit(0);
   }
 
-  getServer(): FastifyInstance {
+  getInstance(): FastifyInstance {
     return this.fastify;
   }
 }

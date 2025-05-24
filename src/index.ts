@@ -1,10 +1,11 @@
 import { RestaurantApiApp } from './apps/restaurant-api';
+import './apps/restaurant-api/dependencies';
 
 async function main(): Promise<void> {
   console.log('[🚀] Starting application...');
 
   try {
-    await new RestaurantApiApp({}).init();
+    await new RestaurantApiApp().init();
 
     console.log('[✅] Application started successfully.');
   } catch (error) {

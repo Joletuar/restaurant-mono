@@ -1,12 +1,35 @@
 import { FastifyInstance } from 'fastify';
 
-const orderRoutes = async (
-  fastify: FastifyInstance,
-  options: Object
-): Promise<void> => {
-  fastify.get('/', async (request, reply) => {
-    return { hello: 'world' };
-  });
-};
+import { OrderController } from '../controllers/order.controller';
+import { RouteRegistrar } from './route-registar.interface';
 
-export default orderRoutes;
+export class OrderRouteRegistrar implements RouteRegistrar {
+  constructor(private readonly orderController: OrderController) {}
+
+  async registerRoutes(fastify: FastifyInstance): Promise<void> {
+    fastify.register(
+      async (instance) => {
+        instance.get(
+          '/',
+          this.orderController.getAllOrders.bind(this.orderController)
+        );
+
+        instance.get(
+          '/:id',
+          this.orderController.getOrderById.bind(this.orderController)
+        );
+
+        instance.post(
+          '/',
+          this.orderController.createOrder.bind(this.orderController)
+        );
+
+        instance.put(
+          '/:id',
+          this.orderController.updateOrder.bind(this.orderController)
+        );
+      },
+      { prefix: '/orders' }
+    );
+  }
+}
