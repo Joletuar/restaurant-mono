@@ -1,3 +1,4 @@
+import express from '@fastify/express';
 import Fastify, { FastifyInstance } from 'fastify';
 import { PinoLoggerOptions } from 'fastify/types/logger';
 
@@ -44,6 +45,7 @@ export class FastifyRestApiServer implements HttpServer<FastifyInstance> {
     this.setupHooks();
     this.setupErrorHandler();
     this.setupNotFoundHandler();
+    await this.setupMiddlewares();
 
     await this.setupRoutes();
 
@@ -97,6 +99,12 @@ export class FastifyRestApiServer implements HttpServer<FastifyInstance> {
         message: 'The requested resource could not be found.',
       });
     });
+  }
+
+  private async setupMiddlewares(): Promise<void> {
+    await this.fastify.register(express);
+    this.fastify.use(require('cors')());
+    this.fastify.use(require('helmet')());
   }
 
   async stop(): Promise<void> {

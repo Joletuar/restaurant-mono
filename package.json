@@ -17,7 +17,10 @@
     "typecheck": "bunx tsc --noEmit"
   },
   "dependencies": {
+    "@fastify/express": "4.0.2",
+    "cors": "2.8.5",
     "fastify": "5.3.3",
+    "helmet": "8.1.0",
     "rimraf": "6.0.1",
     "ulidx": "2.4.1"
   },
