@@ -1,7 +1,20 @@
-export class RestaurantApp {
-  constructor(readonly httpServer: any) {}
+import { FastifyRestApiServer } from './http/rest-api/fastify-rest-api-server';
 
-  async init(): Promise<void> {}
+type Config = {
+  port?: number;
+};
 
-  async close(): Promise<void> {}
+export class RestaurantApiApp {
+  private readonly server: any;
+  constructor(config: Config) {
+    this.server = new FastifyRestApiServer(config.port);
+  }
+
+  async init(): Promise<void> {
+    await this.server.start();
+  }
+
+  async close(): Promise<void> {
+    await this.server.stop();
+  }
 }

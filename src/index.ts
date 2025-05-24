@@ -1,5 +1,16 @@
+import { RestaurantApiApp } from './apps/restaurant-api';
+
 async function main(): Promise<void> {
-  console.log('Starting application...');
+  console.log('[🚀] Starting application...');
+
+  try {
+    await new RestaurantApiApp({}).init();
+
+    console.log('[✅] Application started successfully.');
+  } catch (error) {
+    console.error('[❎] Error during initialization:', error);
+    process.exit(1);
+  }
 }
 
 process.on('SIGTERM', () => {
