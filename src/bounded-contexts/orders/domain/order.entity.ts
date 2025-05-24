@@ -1,29 +1,29 @@
 import {
-  RootEntity,
-  RootEntityPrimitives,
-} from '@src/bounded-contexts/shared/domain/entities/root.entity';
+  RootAggregate,
+  RootAggregatePrimitives,
+} from '@src/bounded-contexts/shared/domain/root.aggregate';
 import { DateValueObject } from '@src/bounded-contexts/shared/domain/value-objects/date.value-object';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
 import { OrderStatus } from './value-objects/order-status.value-object';
 
-export type OrderPrimitives = RootEntityPrimitives & {
+export type OrderPrimitives = RootAggregatePrimitives & {
   recipeId: string;
   status: string;
 };
 
-export class Order extends RootEntity<OrderPrimitives> {
+export class Order extends RootAggregate<OrderPrimitives> {
   static fromPrimitives(
     props: Omit<OrderPrimitives, 'id' | 'createdAt' | 'updatedAt'>
   ): Order {
     const { recipeId, status } = props;
 
     return new Order(
-      new IdValueObject(IdValueObject.generateId()),
+      IdValueObject.generateId(),
       new IdValueObject(recipeId),
       OrderStatus.fromPrimitives(status),
-      new DateValueObject(new Date()),
-      new DateValueObject(new Date())
+      DateValueObject.now(),
+      DateValueObject.now()
     );
   }
 
@@ -45,10 +45,6 @@ export class Order extends RootEntity<OrderPrimitives> {
       createdAt: this.createdAt.value,
       updatedAt: this.updatedAt.value,
     };
-  }
-
-  getId(): string {
-    return this.id.value;
   }
 
   updateStatus(status: OrderStatus): void {

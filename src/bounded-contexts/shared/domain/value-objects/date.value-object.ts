@@ -26,6 +26,10 @@ export class DateValueObject extends RootValueObject<Date> {
     return new DateValueObject(value);
   }
 
+  static now(): DateValueObject {
+    return new DateValueObject(new Date());
+  }
+
   constructor(value: Date) {
     super(value);
   }

@@ -8,8 +8,8 @@ export class IdValueObject extends RootValueObject<string> {
     return new IdValueObject(value);
   }
 
-  static generateId(): string {
-    return ulid();
+  static generateId(): IdValueObject {
+    return new IdValueObject(ulid());
   }
 
   constructor(value: string) {

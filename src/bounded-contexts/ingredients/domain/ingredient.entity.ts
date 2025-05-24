@@ -1,26 +1,26 @@
 import {
-  RootEntity,
-  RootEntityPrimitives,
-} from '@src/bounded-contexts/shared/domain/entities/root.entity';
+  RootAggregate,
+  RootAggregatePrimitives,
+} from '@src/bounded-contexts/shared/domain/root.aggregate';
 import { DateValueObject } from '@src/bounded-contexts/shared/domain/value-objects/date.value-object';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 import { StringValueObject } from '@src/bounded-contexts/shared/domain/value-objects/string.value-object';
 
-export type IngredientPrimivites = RootEntityPrimitives & {
+export type IngredientPrimivites = RootAggregatePrimitives & {
   name: string;
 };
 
-export class Ingredient extends RootEntity<IngredientPrimivites> {
+export class Ingredient extends RootAggregate<IngredientPrimivites> {
   static fromPrimitives(
     props: Omit<IngredientPrimivites, 'id' | 'createdAt' | 'updatedAt'>
   ): Ingredient {
     const { name } = props;
 
     return new Ingredient(
-      new IdValueObject(IdValueObject.generateId()),
+      IdValueObject.generateId(),
       new StringValueObject(name),
-      new DateValueObject(new Date()),
-      new DateValueObject(new Date())
+      DateValueObject.now(),
+      DateValueObject.now()
     );
   }
 
