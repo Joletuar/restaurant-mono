@@ -17,6 +17,7 @@ export class RestaurantApiApp {
       environment: this.config.http.environment,
       routes: [
         this.dependencies.resolve<RouteRegistrar>('OrderRouteRegistrar'),
+        this.dependencies.resolve<RouteRegistrar>('HealthCheckRouteRegistar'),
       ],
     });
   }
@@ -33,7 +34,7 @@ export class RestaurantApiApp {
 
       this.server
         .getInstance()
-        .log.info(`[✅] Server started on port ${this.config.http.port}`);
+        .log.info(`[✅] Server started on port <${this.config.http.port}>`);
     } catch (error) {
       console.error('[❎] Error starting server:', error);
 

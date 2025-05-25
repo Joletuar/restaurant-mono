@@ -1,4 +1,5 @@
 // prettier-ignore
+import "./health-check";
 import './ingredients';
 import './orders';
 import './recipes';
