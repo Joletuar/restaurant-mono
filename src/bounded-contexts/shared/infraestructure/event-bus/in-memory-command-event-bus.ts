@@ -18,6 +18,8 @@ export class InMemoryCommandBus implements CommandBus {
 
     let next = (cmd: T): Promise<void> => handler.handle(cmd);
 
+    // Se itera de forma inversa para mantener el orden de ejecución de los middlewares
+
     for (let i = this.middlewares.length - 1; i >= 0; i--) {
       const middleware = this.middlewares[i]!;
       const currentNext = next;

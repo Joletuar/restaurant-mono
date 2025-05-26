@@ -2,6 +2,9 @@ import express from '@fastify/express';
 import Fastify, { FastifyInstance } from 'fastify';
 import { PinoLoggerOptions } from 'fastify/types/logger';
 
+import { PinoLogger } from '@src/bounded-contexts/shared/infraestructure/logger/pino-logger';
+
+import { dependencyContainer } from '../../dependencies';
 import { HttpServer } from '../http-server.interface';
 import { errorHandler } from './error-handler';
 import { RouteRegistrar } from './routes/route-registar.interface';
@@ -46,6 +49,7 @@ export class FastifyRestApiServer implements HttpServer<FastifyInstance> {
     this.setupErrorHandler();
     this.setupNotFoundHandler();
     await this.setupMiddlewares();
+    this.setupLogger();
 
     await this.setupRoutes();
 
@@ -105,6 +109,13 @@ export class FastifyRestApiServer implements HttpServer<FastifyInstance> {
     await this.fastify.register(express);
     this.fastify.use(require('cors')());
     this.fastify.use(require('helmet')());
+  }
+
+  private setupLogger(): void {
+    dependencyContainer.register(
+      'Logger',
+      () => new PinoLogger(this.fastify.log)
+    );
   }
 
   async stop(): Promise<void> {

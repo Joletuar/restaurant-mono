@@ -13,6 +13,8 @@ const config = {
   quoteProps: 'consistent',
   plugins: ['@trivago/prettier-plugin-sort-imports'],
 
+  importOrderParserPlugins: ['typescript', 'decorators-legacy'],
+
   importOrder: ['<THIRD_PARTY_MODULES>', '^@src/', '^[./]'],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,

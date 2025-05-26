@@ -50,11 +50,11 @@ export class ResponseBuilder {
     details = [],
   }: {
     reply: FastifyReply;
-    statusCode?: HttpStatusCode;
     code: string;
     requestId: string;
     message: string;
     details: ApiErrorDetails[];
+    statusCode?: HttpStatusCode;
   }): Promise<FastifyReply> {
     const response: ApiErrorResponse = {
       error: {
@@ -62,8 +62,8 @@ export class ResponseBuilder {
         message,
         statusCode,
         details,
-        timestamp: new Date().toISOString(),
         requestId,
+        timestamp: new Date().toISOString(),
       },
     };
 

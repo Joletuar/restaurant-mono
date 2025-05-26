@@ -34,7 +34,7 @@ export class RestaurantApiApp {
 
       this.server
         .getInstance()
-        .log.info(`[✅] Server started on port <${this.config.http.port}>`);
+        .log.info(`[✅] Server started on port ${this.config.http.port}`);
     } catch (error) {
       console.error('[❎] Error starting server:', error);
 
