@@ -26,15 +26,11 @@ export class RestaurantApiApp {
     try {
       await this.server.start();
 
-      this.server
-        .getInstance()
-        .log.info(
-          `[🚀] Restaurant API server started in ${this.config.http.environment} mode`
-        );
+      console.log(
+        `[🚀] Restaurant API server started in ${this.config.http.environment} mode`
+      );
 
-      this.server
-        .getInstance()
-        .log.info(`[✅] Server started on port ${this.config.http.port}`);
+      console.log(`[✅] Server started on port ${this.config.http.port}`);
     } catch (error) {
       console.error('[❎] Error starting server:', error);
 
