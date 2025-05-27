@@ -42,8 +42,12 @@ export const LoggerMethod = (props: Props) => {
       };
 
       // Filtramos los parametros especificados
-
-      if (filterParams.length > 0 && logParams && args.length > 0) {
+      if (
+        filterParams.length > 0 &&
+        logParams &&
+        args.length > 0 &&
+        level !== LogLevel.DEBUG
+      ) {
         const objectArgs = args.filter((arg) => typeof arg === 'object');
 
         filterParams.forEach((param) => {
@@ -63,7 +67,6 @@ export const LoggerMethod = (props: Props) => {
       }
 
       // Log inicial al llamar el metodo
-
       logger[level](
         logData,
         `[📄] ${entryMessage} ${target.constructor.name}.${propertyKey}`
@@ -71,11 +74,9 @@ export const LoggerMethod = (props: Props) => {
 
       try {
         // Ejecutamos el metodo original
-
         const result = await originalMethod.apply(this, args);
 
         // Log al salir del método exitosamente
-
         if ((logResult && result !== undefined) || result !== null) {
           logger[level](
             { ...logData, result },

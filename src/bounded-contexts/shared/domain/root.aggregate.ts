@@ -1,3 +1,4 @@
+import { DomainEvent } from './domain-event.interface';
 import { DateValueObject } from './value-objects/date.value-object';
 import { IdValueObject } from './value-objects/id.value-object';
 
@@ -10,7 +11,7 @@ export type RootAggregatePrimitives = {
 export abstract class RootAggregate<T> {
   abstract toPrimitives(): T;
 
-  private domainEvents: Array<unknown> = [];
+  private domainEvents: Array<DomainEvent> = [];
 
   constructor(
     protected id: IdValueObject,
@@ -18,7 +19,7 @@ export abstract class RootAggregate<T> {
     protected updatedAt: DateValueObject
   ) {}
 
-  protected record(event: unknown): void {
+  protected record(event: DomainEvent): void {
     this.domainEvents.push(event);
   }
 
@@ -38,7 +39,7 @@ export abstract class RootAggregate<T> {
     this.updatedAt = DateValueObject.now();
   }
 
-  pullDomainEvents(): Array<unknown> {
+  pullDomainEvents(): Array<DomainEvent> {
     const events = [...this.domainEvents];
     this.domainEvents = [];
 

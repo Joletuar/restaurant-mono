@@ -2,7 +2,7 @@ import express from '@fastify/express';
 import Fastify, { FastifyInstance } from 'fastify';
 import { PinoLoggerOptions } from 'fastify/types/logger';
 
-import { PinoLogger } from '@src/bounded-contexts/shared/infraestructure/logger/pino-logger';
+import { FastifyPinoLogger } from '@src/bounded-contexts/shared/infraestructure/logger/fastify-pino-logger';
 
 import { dependencyContainer } from '../../dependencies';
 import { HttpServer } from '../http-server.interface';
@@ -114,7 +114,7 @@ export class FastifyRestApiServer implements HttpServer<FastifyInstance> {
   private setupLogger(): void {
     dependencyContainer.register(
       'Logger',
-      () => new PinoLogger(this.fastify.log)
+      () => new FastifyPinoLogger(this.fastify.log)
     );
   }
 
