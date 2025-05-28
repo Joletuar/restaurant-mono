@@ -13,7 +13,7 @@ type Props = {
   filterParams?: string[];
 };
 
-export const LoggerMethod = (props: Props) => {
+export const LogMethod = (props: Props) => {
   const {
     entryMessage = 'Executing method',
     exitMessage = 'Method excuted',
@@ -96,6 +96,7 @@ export const LoggerMethod = (props: Props) => {
           `[❎] ${exitMessage} ${target.constructor.name}.${propertyKey}`
         );
 
+        // Propagamos el error para que siga el flujo normal
         throw error;
       }
     };

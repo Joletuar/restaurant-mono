@@ -2,8 +2,10 @@ import { Order } from '@src/bounded-contexts/orders/domain/order.entity';
 import { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
 import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infraestructure.error';
 import { RootError } from '@src/bounded-contexts/shared/domain/errors/root.error';
+import { LogLevel } from '@src/bounded-contexts/shared/domain/logger.interface';
 import { Nullable } from '@src/bounded-contexts/shared/domain/nullable.type';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
+import { LogMethod } from '@src/bounded-contexts/shared/infraestructure/logger/decorators/log-method.decorator';
 
 export class InMemoryOrderRepository implements OrderRepository {
   private orders: Map<string, Order> = new Map<string, Order>();
@@ -14,6 +16,11 @@ export class InMemoryOrderRepository implements OrderRepository {
     });
   }
 
+  @LogMethod({
+    level: LogLevel.INFO,
+    logParams: true,
+    logResult: true,
+  })
   async findById(id: IdValueObject): Promise<Nullable<Order>> {
     try {
       const order = this.orders.get(id.value);
@@ -25,6 +32,11 @@ export class InMemoryOrderRepository implements OrderRepository {
     }
   }
 
+  @LogMethod({
+    level: LogLevel.INFO,
+    logParams: true,
+    logResult: true,
+  })
   async getAll(): Promise<Order[]> {
     try {
       return Array.from(this.orders.values());
@@ -44,6 +56,11 @@ export class InMemoryOrderRepository implements OrderRepository {
     }
   }
 
+  @LogMethod({
+    level: LogLevel.INFO,
+    logParams: true,
+    logResult: true,
+  })
   async create(order: Order): Promise<void> {
     try {
       const id = order.getId();
