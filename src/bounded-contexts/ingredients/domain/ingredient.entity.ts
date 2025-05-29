@@ -1,6 +1,6 @@
 import {
   RootAggregate,
-  RootAggregatePrimitives,
+  type RootAggregatePrimitives,
 } from '@src/bounded-contexts/shared/domain/root.aggregate';
 import { DateValueObject } from '@src/bounded-contexts/shared/domain/value-objects/date.value-object';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';

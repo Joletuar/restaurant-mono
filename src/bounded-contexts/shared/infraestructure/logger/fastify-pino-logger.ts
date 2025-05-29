@@ -1,6 +1,6 @@
-import { FastifyInstance } from 'fastify';
+import type { FastifyInstance } from 'fastify';
 
-import { Logger } from '@src/bounded-contexts/shared/domain/logger.interface';
+import type { Logger } from '@src/bounded-contexts/shared/domain/logger.interface';
 
 export class FastifyPinoLogger implements Logger {
   constructor(private readonly logger: FastifyInstance['log']) {}

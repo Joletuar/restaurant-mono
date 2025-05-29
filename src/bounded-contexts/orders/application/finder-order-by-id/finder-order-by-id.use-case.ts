@@ -1,10 +1,10 @@
-import { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
+import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
 import { NotFoundError } from '@src/bounded-contexts/shared/domain/errors/not-found.error';
 import { LogLevel } from '@src/bounded-contexts/shared/domain/logger.interface';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 import { LogMethod } from '@src/bounded-contexts/shared/infraestructure/logger/decorators/log-method.decorator';
 
-import { OrderDto } from '../order.dto';
+import type { OrderDto } from '../order.dto';
 import { OrderMapper } from '../order.mapper';
 
 export class FinderOrderById {

@@ -6,53 +6,55 @@ import { GetterAllOrders } from '@src/bounded-contexts/orders/application/getter
 import { UpdaterOrderById } from '@src/bounded-contexts/orders/application/updater-order-by-id/updater-order-by-id.use-case';
 import { InMemoryOrderRepository } from '@src/bounded-contexts/orders/infraestructure/persistence/in-memory-order.repository';
 
-import { dependencyContainer } from '../dependency-container';
+import type { DependencyContainer } from '../dependency-container';
 
-// Repositories
+export const registerOrderDependencies = (
+  container: DependencyContainer
+): void => {
+  // Repositories
 
-const respository = new InMemoryOrderRepository();
+  const respository = new InMemoryOrderRepository();
 
-dependencyContainer.register('OrderRepository', () => respository);
+  container.register('OrderRepository', () => respository);
 
-// Use Cases
+  // Use Cases
 
-const getterAllOrder = new GetterAllOrders(
-  dependencyContainer.resolve('OrderRepository')
-);
-dependencyContainer.register('GetterAllOrders', () => getterAllOrder);
+  const getterAllOrder = new GetterAllOrders(
+    container.resolve('OrderRepository')
+  );
+  container.register('GetterAllOrders', () => getterAllOrder);
 
-const finderOrderById = new FinderOrderById(
-  dependencyContainer.resolve('OrderRepository')
-);
-dependencyContainer.register('FinderOrderById', () => finderOrderById);
+  const finderOrderById = new FinderOrderById(
+    container.resolve('OrderRepository')
+  );
+  container.register('FinderOrderById', () => finderOrderById);
 
-const updaterOderById = new UpdaterOrderById(
-  dependencyContainer.resolve('OrderRepository'),
-  dependencyContainer.resolve('FinderRecipeById')
-);
-dependencyContainer.register('UpdaterOrderById', () => updaterOderById);
+  const updaterOderById = new UpdaterOrderById(
+    container.resolve('OrderRepository'),
+    container.resolve('FinderRecipeById')
+  );
+  container.register('UpdaterOrderById', () => updaterOderById);
 
-const creatorOrder = new CreatorOrder(
-  dependencyContainer.resolve('OrderRepository'),
-  dependencyContainer.resolve('FinderRecipeById')
-);
-dependencyContainer.register('CreatorOrder', () => creatorOrder);
+  const creatorOrder = new CreatorOrder(
+    container.resolve('OrderRepository'),
+    container.resolve('FinderRecipeById')
+  );
+  container.register('CreatorOrder', () => creatorOrder);
 
-// Controllers
+  // Controllers
 
-const controller = new OrderController(
-  dependencyContainer.resolve('FinderOrderById'),
-  dependencyContainer.resolve('GetterAllOrders'),
-  dependencyContainer.resolve('CreatorOrder'),
-  dependencyContainer.resolve('UpdaterOrderById')
-);
+  const controller = new OrderController(
+    container.resolve('FinderOrderById'),
+    container.resolve('GetterAllOrders'),
+    container.resolve('CreatorOrder'),
+    container.resolve('UpdaterOrderById')
+  );
 
-dependencyContainer.register('OrderController', () => controller);
+  container.register('OrderController', () => controller);
 
-// Routes
+  // Routes
 
-const routes = new OrderRouteRegistrar(
-  dependencyContainer.resolve('OrderController')
-);
+  const routes = new OrderRouteRegistrar(container.resolve('OrderController'));
 
-dependencyContainer.register('OrderRouteRegistrar', () => routes);
+  container.register('OrderRouteRegistrar', () => routes);
+};

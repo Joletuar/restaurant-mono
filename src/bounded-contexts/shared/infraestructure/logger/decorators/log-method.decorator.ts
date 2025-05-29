@@ -1,6 +1,6 @@
-import { dependencyContainer } from '@src/apps/restaurant-api/dependencies';
+import dependencyContainer from '@src/apps/restaurant-api/dependencies';
 import {
-  Logger,
+  type Logger,
   LogLevel,
 } from '@src/bounded-contexts/shared/domain/logger.interface';
 

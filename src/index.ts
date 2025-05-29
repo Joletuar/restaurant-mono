@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { RestaurantApiApp } from './apps/restaurant-api';
 import './apps/restaurant-api/dependencies';
 

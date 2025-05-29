@@ -1,3 +1,3 @@
-export interface UpdateOrderByIdDto {
+export interface UpdaterOrderByIdDto {
   status: string;
 }

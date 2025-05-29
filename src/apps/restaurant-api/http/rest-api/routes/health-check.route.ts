@@ -1,7 +1,7 @@
-import { FastifyInstance } from 'fastify';
+import type { FastifyInstance } from 'fastify';
 
 import { HealthCheckController } from '../controllers/health-check.controller';
-import { RouteRegistrar } from './route-registar.interface';
+import type { RouteRegistrar } from './route-registar.interface';
 
 export class HealthCheckRouteRegistar implements RouteRegistrar {
   constructor(private readonly controller: HealthCheckController) {}

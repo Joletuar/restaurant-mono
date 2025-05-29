@@ -1,4 +1,4 @@
-import { FastifyReply, FastifyRequest } from 'fastify';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 
 import { AppErrorCode } from '@src/bounded-contexts/shared/domain/app-error-code.enum';
 import { DomainValidationError } from '@src/bounded-contexts/shared/domain/errors/domain-validation.error';

@@ -1,25 +1,26 @@
 import { FinderIngredientById } from '@src/bounded-contexts/ingredients/application/finder-ingredient-by-id/finder-ingredient-by-id.use-case';
 import { InMemoryIngredientRepository } from '@src/bounded-contexts/ingredients/infraestructure/persistence/in-memory-ingredient.repository';
 
-import { dependencyContainer } from '../dependency-container';
+import type { DependencyContainer } from '../dependency-container';
 
-// Repositories
+export const registerIngredientsDependencies = (
+  container: DependencyContainer
+): void => {
+  // Repositories
 
-const repository = new InMemoryIngredientRepository();
+  const repository = new InMemoryIngredientRepository();
 
-dependencyContainer.register('IngredientRepository', () => repository);
+  container.register('IngredientRepository', () => repository);
 
-// Use Cases
+  // Use Cases
 
-const finderIngredientById = new FinderIngredientById(
-  dependencyContainer.resolve('IngredientRepository')
-);
+  const finderIngredientById = new FinderIngredientById(
+    container.resolve('IngredientRepository')
+  );
 
-dependencyContainer.register(
-  'FinderIngredientById',
-  () => finderIngredientById
-);
+  container.register('FinderIngredientById', () => finderIngredientById);
 
-// Controllers
+  // Controllers
 
-// Routes
+  // Routes
+};

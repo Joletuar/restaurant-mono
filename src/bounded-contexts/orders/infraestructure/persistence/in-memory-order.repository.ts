@@ -1,16 +1,25 @@
 import { Order } from '@src/bounded-contexts/orders/domain/order.entity';
-import { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
+import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
 import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infraestructure.error';
 import { RootError } from '@src/bounded-contexts/shared/domain/errors/root.error';
 import { LogLevel } from '@src/bounded-contexts/shared/domain/logger.interface';
-import { Nullable } from '@src/bounded-contexts/shared/domain/nullable.type';
+import type { Nullable } from '@src/bounded-contexts/shared/domain/nullable.type';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 import { LogMethod } from '@src/bounded-contexts/shared/infraestructure/logger/decorators/log-method.decorator';
+
+import { OrderStatus } from '../../domain/value-objects/order-status.value-object';
 
 export class InMemoryOrderRepository implements OrderRepository {
   private orders: Map<string, Order> = new Map<string, Order>();
 
-  constructor(initialOrders: Order[] = []) {
+  constructor(
+    initialOrders: Order[] = [
+      Order.fromPrimitives({
+        recipeId: IdValueObject.generateId().value,
+        status: OrderStatus.createCompleted().value,
+      }),
+    ]
+  ) {
     initialOrders.forEach((order) => {
       this.orders.set(order.getId(), order);
     });

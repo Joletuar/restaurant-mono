@@ -1,10 +1,10 @@
 import { Order } from '@src/bounded-contexts/orders/domain/order.entity';
-import { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
+import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
 import { FinderRecipeById } from '@src/bounded-contexts/recipes/application/finder-recipe-by-id/finder-recipe-by-id.use-case';
 import { LogLevel } from '@src/bounded-contexts/shared/domain/logger.interface';
 import { LogMethod } from '@src/bounded-contexts/shared/infraestructure/logger/decorators/log-method.decorator';
 
-import { OrderCreatorDto } from './order-creator.dto';
+import type { CreatorOrderDto } from './creator-order.dto';
 
 export class CreatorOrder {
   constructor(
@@ -17,12 +17,12 @@ export class CreatorOrder {
     logParams: true,
     logResult: true,
   })
-  async execute(orderCreatorDto: OrderCreatorDto): Promise<void> {
-    await this.ensureIsValidRecipe(orderCreatorDto.recipeId);
+  async execute(creatorOrderDto: CreatorOrderDto): Promise<void> {
+    await this.ensureIsValidRecipe(creatorOrderDto.recipeId);
 
     const order = Order.fromPrimitives({
-      recipeId: orderCreatorDto.recipeId,
-      status: orderCreatorDto.status,
+      recipeId: creatorOrderDto.recipeId,
+      status: creatorOrderDto.status,
     });
 
     await this.orderRepository.create(order);

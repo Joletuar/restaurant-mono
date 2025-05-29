@@ -34,6 +34,7 @@ export interface ApiSuccessResponse<T = unknown> {
   data: T;
   meta: {
     timestamp: string;
+    requestId: string;
   };
 }
 

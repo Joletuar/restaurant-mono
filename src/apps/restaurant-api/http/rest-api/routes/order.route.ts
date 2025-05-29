@@ -1,7 +1,7 @@
-import { FastifyInstance } from 'fastify';
+import type { FastifyInstance } from 'fastify';
 
 import { OrderController } from '../controllers/order.controller';
-import { RouteRegistrar } from './route-registar.interface';
+import type { RouteRegistrar } from './route-registar.interface';
 
 export class OrderRouteRegistrar implements RouteRegistrar {
   constructor(private readonly orderController: OrderController) {}

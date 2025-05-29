@@ -1,8 +1,8 @@
 import {
-  Command,
-  CommandBus,
-  CommandHandler,
-  CommandMiddleware,
+  type Command,
+  type CommandBus,
+  type CommandHandler,
+  type CommandMiddleware,
 } from '@src/bounded-contexts/shared/domain/command-bus.interface';
 
 export class InMemoryCommandBus implements CommandBus {

@@ -48,5 +48,3 @@ export class DependencyContainer {
     return factory();
   }
 }
-
-export const dependencyContainer = new DependencyContainer();

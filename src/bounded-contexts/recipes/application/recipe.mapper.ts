@@ -1,5 +1,5 @@
 import { Recipe } from '../domain/recipe.entity';
-import { RecipeDto } from './recipe.dto';
+import type { RecipeDto } from './recipe.dto';
 
 export class RecipeMapper {
   static toDto(recipe: Recipe): RecipeDto {

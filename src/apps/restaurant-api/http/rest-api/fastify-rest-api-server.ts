@@ -1,13 +1,10 @@
 import express from '@fastify/express';
-import Fastify, { FastifyInstance } from 'fastify';
-import { PinoLoggerOptions } from 'fastify/types/logger';
+import Fastify, { type FastifyInstance } from 'fastify';
+import type { PinoLoggerOptions } from 'fastify/types/logger';
 
-import { FastifyPinoLogger } from '@src/bounded-contexts/shared/infraestructure/logger/fastify-pino-logger';
-
-import { dependencyContainer } from '../../dependencies';
-import { HttpServer } from '../http-server.interface';
+import type { HttpServer } from '../http-server.interface';
 import { errorHandler } from './error-handler';
-import { RouteRegistrar } from './routes/route-registar.interface';
+import type { RouteRegistrar } from './routes/route-registar.interface';
 
 const envToLogger = {
   development: {
@@ -49,7 +46,6 @@ export class FastifyRestApiServer implements HttpServer<FastifyInstance> {
     this.setupErrorHandler();
     this.setupNotFoundHandler();
     await this.setupMiddlewares();
-    this.setupLogger();
 
     await this.setupRoutes();
 
@@ -73,20 +69,7 @@ export class FastifyRestApiServer implements HttpServer<FastifyInstance> {
     );
   }
 
-  private setupHooks(): void {
-    // this.fastify.addHook('onRequest', async (request) => {
-    //   this.fastify.log.info(
-    //     { requestId: request.id },
-    //     `Received request: ${request.method} ${request.url}`
-    //   );
-    // });
-    // this.fastify.addHook('onResponse', async (request) => {
-    //   this.fastify.log.info(
-    //     { requestId: request.id },
-    //     `Responded to request: ${request.method} ${request.url}`
-    //   );
-    // });
-  }
+  private setupHooks(): void {}
 
   private setupErrorHandler(): void {
     this.fastify.setErrorHandler(async (error, request, reply) => {
@@ -109,13 +92,6 @@ export class FastifyRestApiServer implements HttpServer<FastifyInstance> {
     await this.fastify.register(express);
     this.fastify.use(require('cors')());
     this.fastify.use(require('helmet')());
-  }
-
-  private setupLogger(): void {
-    dependencyContainer.register(
-      'Logger',
-      () => new FastifyPinoLogger(this.fastify.log)
-    );
   }
 
   async stop(): Promise<void> {

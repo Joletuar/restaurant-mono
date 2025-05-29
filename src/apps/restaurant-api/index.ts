@@ -1,25 +1,14 @@
-import { FastifyInstance } from 'fastify';
-
 import { ConfigProvider } from './config/app-config';
-import { dependencyContainer } from './dependencies/dependency-container';
-import { HttpServer } from './http/http-server.interface';
-import { FastifyRestApiServer } from './http/rest-api/fastify-rest-api-server';
-import { RouteRegistrar } from './http/rest-api/routes/route-registar.interface';
+import dependencyContainer from './dependencies';
+import type { HttpServer } from './http/http-server.interface';
 
 export class RestaurantApiApp {
-  private readonly server: HttpServer<FastifyInstance>;
+  private readonly server: HttpServer;
   private readonly config = ConfigProvider.getConfig();
   private readonly dependencies = dependencyContainer;
 
   constructor() {
-    this.server = new FastifyRestApiServer({
-      port: this.config.http.port,
-      environment: this.config.http.environment,
-      routes: [
-        this.dependencies.resolve<RouteRegistrar>('OrderRouteRegistrar'),
-        this.dependencies.resolve<RouteRegistrar>('HealthCheckRouteRegistar'),
-      ],
-    });
+    this.server = this.dependencies.resolve<HttpServer>('HttpServer');
   }
 
   async init(): Promise<void> {

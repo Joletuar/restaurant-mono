@@ -1,10 +1,10 @@
-import { FastifyReply } from 'fastify';
+import type { FastifyReply } from 'fastify';
 
 import {
-  ApiErrorDetails,
-  ApiErrorResponse,
-  ApiPaginatedResponse,
-  ApiSuccessResponse,
+  type ApiErrorDetails,
+  type ApiErrorResponse,
+  type ApiPaginatedResponse,
+  type ApiSuccessResponse,
   HttpStatusCode,
 } from '../contracts/api-contracts';
 
@@ -25,6 +25,7 @@ export class ResponseBuilder {
       meta: {
         ...meta,
         timestamp: new Date().toISOString(),
+        requestId: reply.request.id,
       },
     };
 

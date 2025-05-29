@@ -1,4 +1,4 @@
-import { DomainEvent } from './domain-event.interface';
+import type { DomainEvent } from './domain-event.interface';
 import { DateValueObject } from './value-objects/date.value-object';
 import { IdValueObject } from './value-objects/id.value-object';
 

@@ -1,4 +1,4 @@
-import { DomainEvent } from './domain-event.interface';
+import type { DomainEvent } from './domain-event.interface';
 
 export type EventHandler<TPayload> = (
   event: DomainEvent<TPayload>

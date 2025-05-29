@@ -1,5 +1,5 @@
 import { Ingredient } from '../domain/ingredient.entity';
-import { IngredientDto } from './ingredient.dto';
+import type { IngredientDto } from './ingredient.dto';
 
 export class IngredientMapper {
   static toDto(ingredient: Ingredient): IngredientDto {

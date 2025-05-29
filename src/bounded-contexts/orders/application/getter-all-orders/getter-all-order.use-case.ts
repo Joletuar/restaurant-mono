@@ -1,8 +1,8 @@
-import { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
+import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
 import { LogLevel } from '@src/bounded-contexts/shared/domain/logger.interface';
 import { LogMethod } from '@src/bounded-contexts/shared/infraestructure/logger/decorators/log-method.decorator';
 
-import { OrderDto } from '../order.dto';
+import type { OrderDto } from '../order.dto';
 import { OrderMapper } from '../order.mapper';
 
 export class GetterAllOrders {

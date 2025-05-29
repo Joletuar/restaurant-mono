@@ -1,5 +1,5 @@
 import { Order } from '../domain/order.entity';
-import { OrderDto } from './order.dto';
+import type { OrderDto } from './order.dto';
 
 export class OrderMapper {
   static toDto(order: Order): OrderDto {
