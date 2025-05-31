@@ -1,6 +1,5 @@
 import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
 import { NotFoundError } from '@src/bounded-contexts/shared/domain/errors/not-found.error';
-import { LogLevel } from '@src/bounded-contexts/shared/domain/logger.interface';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 import { LogMethod } from '@src/bounded-contexts/shared/infraestructure/logger/decorators/log-method.decorator';
 
@@ -11,7 +10,6 @@ export class FinderOrderById {
   constructor(private readonly orderRepository: OrderRepository) {}
 
   @LogMethod({
-    level: LogLevel.INFO,
     logParams: true,
     logResult: true,
   })

@@ -2,7 +2,7 @@
 import { HealthCheckController } from '@src/apps/restaurant-api/http/rest-api/controllers/health-check.controller';
 import { HealthCheckRouteRegistar } from '@src/apps/restaurant-api/http/rest-api/routes/health-check.route';
 
-import type { DependencyContainer } from '../dependency-container';
+import { DependencyContainer } from '../dependency-container';
 
 export const registerHealthCheckDependencies = (
   container: DependencyContainer
@@ -11,7 +11,10 @@ export const registerHealthCheckDependencies = (
 
   const controller = new HealthCheckController();
 
-  container.register('HealthCheckController', () => controller);
+  container.register({
+    key: 'HealthCheckController',
+    factory: () => controller,
+  });
 
   // Routes
 
@@ -19,5 +22,8 @@ export const registerHealthCheckDependencies = (
     container.resolve('HealthCheckController')
   );
 
-  container.register('HealthCheckRouteRegistar', () => routes);
+  container.register({
+    key: 'HealthCheckRouteRegistar',
+    factory: () => routes,
+  });
 };

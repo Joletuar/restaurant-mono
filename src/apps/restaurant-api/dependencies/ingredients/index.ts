@@ -10,7 +10,10 @@ export const registerIngredientsDependencies = (
 
   const repository = new InMemoryIngredientRepository();
 
-  container.register('IngredientRepository', () => repository);
+  container.register({
+    key: 'IngredientRepository',
+    factory: () => repository,
+  });
 
   // Use Cases
 
@@ -18,7 +21,10 @@ export const registerIngredientsDependencies = (
     container.resolve('IngredientRepository')
   );
 
-  container.register('FinderIngredientById', () => finderIngredientById);
+  container.register({
+    key: 'FinderIngredientById',
+    factory: () => finderIngredientById,
+  });
 
   // Controllers
 

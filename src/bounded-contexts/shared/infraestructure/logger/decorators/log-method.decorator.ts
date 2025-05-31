@@ -5,7 +5,7 @@ import {
 } from '@src/bounded-contexts/shared/domain/logger.interface';
 
 type Props = {
-  level: LogLevel;
+  level?: LogLevel;
   entryMessage?: string;
   exitMessage?: string;
   logParams?: boolean;
@@ -13,6 +13,7 @@ type Props = {
   filterParams?: string[];
 };
 
+// TODO: cambiar el comportamiento por defecto en modo production
 export const LogMethod = (props: Props) => {
   const {
     entryMessage = 'Executing method',
@@ -77,12 +78,7 @@ export const LogMethod = (props: Props) => {
         const result = await originalMethod.apply(this, args);
 
         // Log al salir del método exitosamente
-        if ((logResult && result !== undefined) || result !== null) {
-          logger[level](
-            { ...logData, result },
-            `[✅] ${exitMessage} ${target.constructor.name}.${propertyKey}`
-          );
-        } else {
+        if (logResult) {
           logger[level](
             { ...logData, result },
             `[✅] ${exitMessage} ${target.constructor.name}.${propertyKey}`

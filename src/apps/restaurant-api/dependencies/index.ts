@@ -17,7 +17,10 @@ if (!isBooststrapped) {
   (function bootstrap(): void {
     // Global
 
-    dependencyContainer.register('Logger', () => new PinoLogger());
+    dependencyContainer.register({
+      key: 'Logger',
+      factory: () => new PinoLogger(),
+    });
 
     // Routes
 
@@ -28,9 +31,9 @@ if (!isBooststrapped) {
 
     // App
 
-    dependencyContainer.register<HttpServer>(
-      'HttpServer',
-      () =>
+    dependencyContainer.register<HttpServer>({
+      key: 'HttpServer',
+      factory: () =>
         new FastifyRestApiServer({
           port: config.http.port,
           environment: config.http.environment,
@@ -38,8 +41,8 @@ if (!isBooststrapped) {
             dependencyContainer.resolve('HealthCheckRouteRegistar'),
             dependencyContainer.resolve('OrderRouteRegistrar'),
           ],
-        })
-    );
+        }),
+    });
 
     isBooststrapped = true;
   })();

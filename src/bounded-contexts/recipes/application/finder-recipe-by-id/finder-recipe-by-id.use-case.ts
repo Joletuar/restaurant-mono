@@ -1,6 +1,5 @@
 import type { RecipeRepository } from '@src/bounded-contexts/recipes/domain/recipe.repository';
 import { NotFoundError } from '@src/bounded-contexts/shared/domain/errors/not-found.error';
-import { LogLevel } from '@src/bounded-contexts/shared/domain/logger.interface';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 import { LogMethod } from '@src/bounded-contexts/shared/infraestructure/logger/decorators/log-method.decorator';
 
@@ -11,7 +10,6 @@ export class FinderRecipeById {
   constructor(private readonly repository: RecipeRepository) {}
 
   @LogMethod({
-    level: LogLevel.INFO,
     logParams: true,
     logResult: true,
   })

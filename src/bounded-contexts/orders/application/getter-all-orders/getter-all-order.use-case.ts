@@ -1,5 +1,4 @@
 import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
-import { LogLevel } from '@src/bounded-contexts/shared/domain/logger.interface';
 import { LogMethod } from '@src/bounded-contexts/shared/infraestructure/logger/decorators/log-method.decorator';
 
 import type { OrderDto } from '../order.dto';
@@ -9,7 +8,6 @@ export class GetterAllOrders {
   constructor(private readonly orderRepository: OrderRepository) {}
 
   @LogMethod({
-    level: LogLevel.INFO,
     logParams: true,
     logResult: true,
   })
