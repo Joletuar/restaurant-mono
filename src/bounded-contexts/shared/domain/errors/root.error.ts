@@ -1,4 +1,4 @@
-import { AppErrorCode } from '../app-error-code.enum';
+import type { AppErrorCode } from '../app-error-code.enum';
 
 export class RootError extends Error {
   constructor(

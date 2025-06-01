@@ -2,7 +2,7 @@
 import { HealthCheckController } from '@src/apps/restaurant-api/http/rest-api/controllers/health-check.controller';
 import { HealthCheckRouteRegistar } from '@src/apps/restaurant-api/http/rest-api/routes/health-check.route';
 
-import { DependencyContainer } from '../dependency-container';
+import type { DependencyContainer } from '../dependency-container';
 
 export const registerHealthCheckDependencies = (
   container: DependencyContainer

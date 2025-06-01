@@ -1,4 +1,4 @@
-import { Order } from '../domain/order.entity';
+import type { Order } from '../domain/order.entity';
 import type { OrderDto } from './order.dto';
 
 export class OrderMapper {

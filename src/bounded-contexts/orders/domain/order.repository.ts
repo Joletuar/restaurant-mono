@@ -1,7 +1,7 @@
 import type { Nullable } from '@src/bounded-contexts/shared/domain/nullable.type';
-import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
+import type { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
-import { Order } from './order.entity';
+import type { Order } from './order.entity';
 
 export interface OrderRepository {
   findById(id: IdValueObject): Promise<Nullable<Order>>;

@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 
-import { OrderController } from '../controllers/order.controller';
+import type { OrderController } from '../controllers/order.controller';
 import type { RouteRegistrar } from './route-registar.interface';
 
 export class OrderRouteRegistrar implements RouteRegistrar {

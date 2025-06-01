@@ -1,4 +1,4 @@
-import { Ingredient } from '../domain/ingredient.entity';
+import type { Ingredient } from '../domain/ingredient.entity';
 import type { IngredientDto } from './ingredient.dto';
 
 export class IngredientMapper {

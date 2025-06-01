@@ -1,9 +1,9 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
 
-import { CreatorOrder } from '@src/bounded-contexts/orders/application/creator-order/creator-order.use-case';
-import { FinderOrderById } from '@src/bounded-contexts/orders/application/finder-order-by-id/finder-order-by-id.use-case';
-import { GetterAllOrders } from '@src/bounded-contexts/orders/application/getter-all-orders/getter-all-order.use-case';
-import { UpdaterOrderById } from '@src/bounded-contexts/orders/application/updater-order-by-id/updater-order-by-id.use-case';
+import type { CreatorOrder } from '@src/bounded-contexts/orders/application/creator-order/creator-order.use-case';
+import type { FinderOrderById } from '@src/bounded-contexts/orders/application/finder-order-by-id/finder-order-by-id.use-case';
+import type { GetterAllOrders } from '@src/bounded-contexts/orders/application/getter-all-orders/getter-all-order.use-case';
+import type { UpdaterOrderById } from '@src/bounded-contexts/orders/application/updater-order-by-id/updater-order-by-id.use-case';
 
 import { HttpStatusCode } from '../contracts/api-contracts';
 import { ResponseBuilder } from '../utils/response.builder';

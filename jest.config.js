@@ -9,6 +9,6 @@ export default {
   },
 
   transform: {
-    '^.+\.ts?$': ['ts-jest', {}],
+    '^.+\.ts?$': ['ts-jest', { useESM: true }],
   },
 };

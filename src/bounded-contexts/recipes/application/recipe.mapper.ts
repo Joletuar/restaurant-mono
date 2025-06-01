@@ -1,4 +1,4 @@
-import { Recipe } from '../domain/recipe.entity';
+import type { Recipe } from '../domain/recipe.entity';
 import type { RecipeDto } from './recipe.dto';
 
 export class RecipeMapper {

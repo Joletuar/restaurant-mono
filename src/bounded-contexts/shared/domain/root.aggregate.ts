@@ -1,6 +1,6 @@
 import type { DomainEvent } from './domain-event.interface';
 import { DateValueObject } from './value-objects/date.value-object';
-import { IdValueObject } from './value-objects/id.value-object';
+import type { IdValueObject } from './value-objects/id.value-object';
 
 export type RootAggregatePrimitives = {
   id: string;

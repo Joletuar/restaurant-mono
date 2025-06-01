@@ -32,6 +32,13 @@ export default tseslint.config(
         'warn',
         { allowExpressions: true },
       ],
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+          disallowTypeAnnotations: false,
+        },
+      ],
     },
   },
 
