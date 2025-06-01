@@ -2,8 +2,8 @@
   "compilerOptions": {
     // Environment setup & latest features
     "lib": ["ESNext"],
-    "target": "ES2024",
-    "module": "CommonJS",
+    "target": "ESNext",
+    "module": "NodeNext",
     "moduleDetection": "force",
     "allowJs": true,
     "sourceMap": true,
@@ -11,9 +11,11 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
 
     // Bundler mode
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
     "allowImportingTsExtensions": true,
     "allowSyntheticDefaultImports": true,
     "noEmit": true,

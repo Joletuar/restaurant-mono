@@ -14,7 +14,8 @@
     "test:watch-all": "bunx jest --watchAll",
     "clean": "bunx rimraf dist && echo 'Done.'",
     "prepare": "husky",
-    "typecheck": "bunx tsc --noEmit"
+    "typecheck": "bunx tsc --noEmit",
+    "lint": "bunx eslint ."
   },
   "dependencies": {
     "@fastify/express": "4.0.2",
