@@ -3,8 +3,8 @@ import { NotFoundError } from '@src/bounded-contexts/shared/domain/errors/not-fo
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 import { LogMethod } from '@src/bounded-contexts/shared/infraestructure/logger/decorators/log-method.decorator';
 
-import type { OrderDto } from '../order.dto';
-import { OrderMapper } from '../order.mapper';
+import type { OrderDto } from '../../order.dto';
+import { OrderMapper } from '../../order.mapper';
 
 export class FinderOrderById {
   constructor(private readonly orderRepository: OrderRepository) {}
