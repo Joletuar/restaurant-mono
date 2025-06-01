@@ -3,6 +3,7 @@ import type { Logger } from '@src/bounded-contexts/shared/domain/logger.interfac
 import {
   type Query,
   type QueryBus,
+  type QueryClass,
   type QueryHandler,
   type QueryMiddleware,
   type QueryResponse,
@@ -11,32 +12,33 @@ import {
 export class InMemoryQueryBus implements QueryBus {
   private _logger?: Logger;
 
-  private readonly handlers: Map<string, QueryHandler<any, any>> = new Map();
+  private readonly handlers: Map<QueryClass, QueryHandler<any, any>> =
+    new Map();
   private middlewares: QueryMiddleware[] = [];
 
   register<Q extends Query, R extends QueryResponse<unknown>>(
-    queryName: string,
+    query: QueryClass,
     handler: QueryHandler<Q, R>
   ): void {
-    if (this.handlers.has(queryName)) {
+    if (this.handlers.has(query)) {
       this.logger.warn(
         {},
-        `Query handler <${queryName}> is already registered.`
+        `Query handler <${query.name}> is already registered.`
       );
 
       return;
     }
 
-    this.handlers.set(queryName, handler);
+    this.handlers.set(query, handler);
   }
 
-  async ask<Q extends Query, R extends QueryResponse<unknown>>(
+  async dispatch<Q extends Query, R extends QueryResponse<unknown>>(
     query: Q
   ): Promise<R> {
-    const handler = this.handlers.get(query._name);
+    const handler = this.handlers.get(query.constructor as QueryClass);
 
     if (!handler) {
-      throw new Error(`No handler registered for <${query._name}>.`); // TODO: USE CUSTOM ERROR
+      throw new Error(`No handler registered for <${query.constructor.name}>.`); // TODO: USE CUSTOM ERROR
     }
 
     let next = (query: Q): Promise<R> => handler.handle(query);
@@ -55,7 +57,7 @@ export class InMemoryQueryBus implements QueryBus {
     if (this.middlewares.find((m) => m === middleware)) {
       this.logger.warn(
         {},
-        `Middleware <${middleware._name}> is already registered.`
+        `Middleware <${middleware.constructor.name}> is already registered.`
       );
 
       return;

@@ -1,6 +1,5 @@
 export interface Query {
   readonly _id: string;
-  readonly _name: string;
   readonly _metadata?: Record<string, unknown>;
 }
 
@@ -16,21 +15,25 @@ export interface QueryHandler<
 }
 
 export interface QueryMiddleware {
-  readonly _name: string;
-
   execute<Q extends Query, R extends QueryResponse<unknown>>(
     q: Q,
     next: (query: Q) => Promise<R>
   ): Promise<R>;
 }
 
+export interface QueryClass {
+  new (...args: any[]): Query;
+}
+
 export interface QueryBus {
   register<Q extends Query, R extends QueryResponse<unknown>>(
-    queryName: string,
+    query: QueryClass,
     handler: QueryHandler<Q, R>
   ): void;
 
-  ask<Q extends Query, R extends QueryResponse<unknown>>(query: Q): Promise<R>;
+  dispatch<Q extends Query, R extends QueryResponse<unknown>>(
+    query: Q
+  ): Promise<R>;
 
   addMiddlewares(middleware: QueryMiddleware): void;
 }

@@ -7,7 +7,6 @@ export class FinderIngredientByIdQuery implements Query {
   }
 
   readonly _id: string = IdValueObject.generateId().value;
-  readonly _name = 'FinderIngredientByIdQuery';
 
   constructor(readonly recipeId: string) {}
 }

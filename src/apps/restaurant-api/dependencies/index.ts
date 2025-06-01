@@ -11,44 +11,38 @@ import { registerRecipesDependencies } from './recipes';
 import { registerSharedDependencies } from './shared';
 
 const config = ConfigProvider.getConfig();
-const dependencyContainer: DependencyContainer = new DependencyContainer();
-let isBooststrapped = false;
 
-if (!isBooststrapped) {
-  (function bootstrap(): void {
-    // Global
+export default (function bootstrap(): DependencyContainer {
+  const dependencyContainer: DependencyContainer = new DependencyContainer();
 
-    dependencyContainer.register({
-      key: 'Logger',
-      factory: () => new PinoLogger(),
-    });
+  dependencyContainer.register({
+    key: 'Logger',
+    factory: () => new PinoLogger(),
+  });
 
-    registerSharedDependencies(dependencyContainer);
+  registerSharedDependencies(dependencyContainer);
 
-    // Routes
+  // Routes
 
-    registerHealthCheckDependencies(dependencyContainer);
-    registerIngredientsDependencies(dependencyContainer);
-    registerRecipesDependencies(dependencyContainer);
-    registerOrderDependencies(dependencyContainer);
+  registerHealthCheckDependencies(dependencyContainer);
+  registerIngredientsDependencies(dependencyContainer);
+  registerRecipesDependencies(dependencyContainer);
+  registerOrderDependencies(dependencyContainer);
 
-    // App
+  // App
 
-    dependencyContainer.register<HttpServer>({
-      key: 'HttpServer',
-      factory: () =>
-        new FastifyRestApiServer({
-          port: config.http.port,
-          environment: config.http.environment,
-          routes: [
-            dependencyContainer.resolve('HealthCheckRouteRegistar'),
-            dependencyContainer.resolve('OrderRouteRegistrar'),
-          ],
-        }),
-    });
+  dependencyContainer.register<HttpServer>({
+    key: 'HttpServer',
+    factory: () =>
+      new FastifyRestApiServer({
+        port: config.http.port,
+        environment: config.http.environment,
+        routes: [
+          dependencyContainer.resolve('HealthCheckRouteRegistar'),
+          dependencyContainer.resolve('OrderRouteRegistrar'),
+        ],
+      }),
+  });
 
-    isBooststrapped = true;
-  })();
-}
-
-export default dependencyContainer;
+  return dependencyContainer;
+})();

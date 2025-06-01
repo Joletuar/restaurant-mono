@@ -1,3 +1,4 @@
+import { FinderIngredientByIdQuery } from '@src/bounded-contexts/ingredients/application/queries/finder-ingredient-by-id/finder-ingredient-by-id.query';
 import { FinderIngredientByIdQueryHandler } from '@src/bounded-contexts/ingredients/application/queries/finder-ingredient-by-id/finder-ingredient-by-id.query-handler';
 import { FinderIngredientById } from '@src/bounded-contexts/ingredients/application/use-cases/finder-ingredient-by-id/finder-ingredient-by-id.use-case';
 import { InMemoryIngredientRepository } from '@src/bounded-contexts/ingredients/infraestructure/persistence/in-memory-ingredient.repository';
@@ -36,7 +37,7 @@ export const registerIngredientsDependencies = (
   const queryBus = container.resolve<QueryBus>('QueryBus');
 
   queryBus.register(
-    'FinderIngredientByIdQuery',
+    FinderIngredientByIdQuery,
     container.resolve<FinderIngredientByIdQueryHandler>(
       'FinderIngredientByIdQueryHandler'
     )
