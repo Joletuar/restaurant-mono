@@ -12,6 +12,11 @@ import { registerSharedDependencies } from './shared';
 
 const config = ConfigProvider.getConfig();
 
+/**
+ ** TODO: añadir TOKENS o CONSTANTES para todas las depedencias registradas para
+ ** no tener magic strings o problemas de nombres incorrectos
+ */
+
 export default (function bootstrap(): DependencyContainer {
   const dependencyContainer: DependencyContainer = new DependencyContainer();
 
