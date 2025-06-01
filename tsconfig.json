@@ -3,7 +3,7 @@
     // Environment setup & latest features
     "lib": ["ESNext"],
     "target": "ES2024",
-    "module": "ES2022",
+    "module": "CommonJS",
     "moduleDetection": "force",
     "allowJs": true,
     "sourceMap": true,
@@ -13,12 +13,11 @@
     "emitDecoratorMetadata": true,
 
     // Bundler mode
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "allowSyntheticDefaultImports": true,
     "noEmit": true,
     "incremental": true,
-    "verbatimModuleSyntax": true,
 
     // Best practices
     "strict": true,
