@@ -3,6 +3,7 @@ import { NotFoundError } from '@src/bounded-contexts/shared/domain/errors/not-fo
 import type { QueryHandler } from '@src/bounded-contexts/shared/domain/query-bus.interface';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
+import { IngredientMapper } from '../../ingredient.mapper';
 import type { FinderIngredientByIdQuery } from './finder-ingredient-by-id.query';
 import type { FinderIngredientByIdQueryResponse } from './finder-ingredient-by-id.query-response';
 
@@ -27,6 +28,6 @@ export class FinderIngredientByIdQueryHandler
       ]);
     }
 
-    return { data: ingredient.toPrimitives() };
+    return { data: IngredientMapper.toDto(ingredient) };
   }
 }
