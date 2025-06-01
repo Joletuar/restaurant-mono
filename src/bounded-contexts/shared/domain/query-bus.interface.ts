@@ -8,17 +8,25 @@ export interface QueryResponse<Data> {
   readonly data: Data;
 }
 
-export interface QueryHandler<
-  Q extends Query,
-  R extends QueryResponse<unknown>,
-> {
-  handle(query: Q): Promise<R>;
+export interface QueryHandler {
+  handle<Q extends Query, R extends QueryResponse<unknown>>(
+    query: Q
+  ): Promise<R>;
+}
+
+export interface QueryMiddleware {
+  queryMidlewareName: string;
+
+  execute<Q extends Query, R extends QueryResponse<unknown>>(
+    q: Q,
+    next: (query: Q) => Promise<R>
+  ): Promise<R>;
 }
 
 export interface QueryBus {
+  register<Q extends Query>(query: Q, handler: QueryHandler): void;
+
   ask<Q extends Query, R extends QueryResponse<unknown>>(query: Q): Promise<R>;
-  register<Q extends Query, R extends QueryResponse<unknown>>(
-    queryName: Q,
-    handler: QueryHandler<Q, R>
-  ): void;
+
+  addMiddlewares(middleware: QueryMiddleware): void;
 }

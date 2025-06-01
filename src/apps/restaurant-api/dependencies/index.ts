@@ -8,6 +8,7 @@ import { registerHealthCheckDependencies } from './health-check';
 import { registerIngredientsDependencies } from './ingredients';
 import { registerOrderDependencies } from './orders';
 import { registerRecipesDependencies } from './recipes';
+import { registerSharedDependencies } from './shared';
 
 const config = ConfigProvider.getConfig();
 const dependencyContainer: DependencyContainer = new DependencyContainer();
@@ -21,6 +22,8 @@ if (!isBooststrapped) {
       key: 'Logger',
       factory: () => new PinoLogger(),
     });
+
+    registerSharedDependencies(dependencyContainer);
 
     // Routes
 

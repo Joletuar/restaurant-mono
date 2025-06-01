@@ -1,12 +1,16 @@
+import dependencyContainer from '@src/apps/restaurant-api/dependencies';
 import {
   type Command,
   type CommandBus,
   type CommandHandler,
   type CommandMiddleware,
 } from '@src/bounded-contexts/shared/domain/command-bus.interface';
+import { type Logger } from '@src/bounded-contexts/shared/domain/logger.interface';
 
 export class InMemoryCommandBus implements CommandBus {
-  private handlers: Map<string, CommandHandler<any>> = new Map();
+  private readonly logger: Logger = dependencyContainer.resolve('Logger');
+
+  private handlers: Map<string, CommandHandler> = new Map();
   private middlewares: CommandMiddleware[] = [];
 
   async dispatch<T extends Command>(cmd: T): Promise<void> {
@@ -30,9 +34,12 @@ export class InMemoryCommandBus implements CommandBus {
     return next(cmd);
   }
 
-  register<T extends Command>(cmd: T, handler: CommandHandler<T>): void {
+  register<T extends Command>(cmd: T, handler: CommandHandler): void {
     if (this.handlers.has(cmd.commandName)) {
-      console.log(`Command handler <${cmd.commandName}> is already registered`);
+      this.logger.warn(
+        {},
+        `Command handler <${cmd.commandName}> is already registered.`
+      );
 
       return;
     }
@@ -41,6 +48,15 @@ export class InMemoryCommandBus implements CommandBus {
   }
 
   addMiddleware(middleware: CommandMiddleware): void {
+    if (this.middlewares.find((m) => m === middleware)) {
+      this.logger.warn(
+        {},
+        `Middleware <${middleware.commandMiddlewareName}> is already registered.`
+      );
+
+      return;
+    }
+
     this.middlewares.push(middleware);
   }
 }
