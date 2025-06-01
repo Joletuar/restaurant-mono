@@ -1,7 +1,6 @@
 {
   "name": "node-ts-base-template",
   "module": "src/index.ts",
-  "type": "module",
   "private": true,
   "author": {
     "name": "Johan Tuarez"
@@ -9,6 +8,7 @@
   "scripts": {
     "dev": "bun --watch src/index.ts",
     "build": "bun run clean && bunx tsc --project tsconfig.prod.json && tsc-alias -p tsconfig.prod.json",
+    "start": "node dist/index.js",
     "test": "bunx jest",
     "test:watch": "bunx jest --watch",
     "test:watch-all": "bunx jest --watchAll",

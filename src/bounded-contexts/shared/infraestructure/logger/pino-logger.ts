@@ -1,32 +1,37 @@
-import pino, { type LoggerOptions } from 'pino';
+import { type LoggerOptions, pino } from 'pino';
+import pretty, { type PrettyStream } from 'pino-pretty';
 
-import type { Logger } from '@src/bounded-contexts/shared/domain/logger.interface';
+import type { Logger } from '@src/bounded-contexts/shared/domain/logger.interface.ts';
+
+const env =
+  (process.env['NODE_ENV'] as 'production' | 'test' | 'development') ??
+  'development';
 
 export class PinoLogger implements Logger {
-  private readonly opt = {
+  private readonly pinoOpt: Record<typeof env, LoggerOptions> = {
     development: {
-      transport: {
-        target: 'pino-pretty',
-        level: 'trace',
-        options: {
-          translateTime: 'HH:MM:ss Z',
-          ignore: 'pid,hostname',
-          colorize: true,
-        },
-      },
-    } satisfies LoggerOptions,
-    production: {} satisfies LoggerOptions,
-    test: {} satisfies LoggerOptions,
+      level: 'trace',
+    },
+    production: {
+      level: 'warn',
+    },
+    test: { level: 'warn' },
   };
 
-  private readonly logger = pino(
-    this.opt[
-      (process.env['NODE_ENV'] as 'development' | 'production' | 'test') ??
-        'development'
-    ]
-  );
+  private readonly prettyOpt: Record<typeof env, PrettyStream> = {
+    development: pretty({
+      translateTime: 'HH:MM:ss Z',
+      minimumLevel: 'debug',
+      colorize: true,
+    }),
+    production: pretty({
+      translateTime: 'HH:MM:ss Z',
+      minimumLevel: 'warn',
+    }),
+    test: pretty({ translateTime: 'HH:MM:ss Z', minimumLevel: 'warn' }),
+  };
 
-  constructor() {}
+  private readonly logger = pino(this.pinoOpt[env], this.prettyOpt[env]);
 
   info(data: unknown, msg: string, ...args: unknown[]): void {
     this.logger.info(data, msg, args);
@@ -41,8 +46,6 @@ export class PinoLogger implements Logger {
   }
 
   debug(data: unknown, msg: string, ...args: unknown[]): void {
-    if (process.env['NODE_ENV'] !== 'production') {
-      this.logger.debug(data, msg, args);
-    }
+    this.logger.debug(data, msg, args);
   }
 }

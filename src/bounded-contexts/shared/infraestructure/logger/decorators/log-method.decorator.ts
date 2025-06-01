@@ -1,11 +1,7 @@
 import dependencyContainer from '@src/apps/restaurant-api/dependencies';
-import {
-  type Logger,
-  LogLevel,
-} from '@src/bounded-contexts/shared/domain/logger.interface';
+import { type Logger } from '@src/bounded-contexts/shared/domain/logger.interface.ts';
 
 type Props = {
-  level?: LogLevel;
   entryMessage?: string;
   exitMessage?: string;
   logParams?: boolean;
@@ -13,14 +9,12 @@ type Props = {
   filterParams?: string[];
 };
 
-// TODO: cambiar el comportamiento por defecto en modo production
 export const LogMethod = (props: Props) => {
   const {
     entryMessage = 'Executing method',
     exitMessage = 'Method excuted',
     logParams = false,
     logResult = false,
-    level = LogLevel.INFO,
     filterParams = [],
   } = props;
 
@@ -43,12 +37,7 @@ export const LogMethod = (props: Props) => {
       };
 
       // Filtramos los parametros especificados
-      if (
-        filterParams.length > 0 &&
-        logParams &&
-        args.length > 0 &&
-        level !== LogLevel.DEBUG
-      ) {
+      if (filterParams.length > 0 && logParams && args.length > 0) {
         const objectArgs = args.filter((arg) => typeof arg === 'object');
 
         filterParams.forEach((param) => {
@@ -68,7 +57,7 @@ export const LogMethod = (props: Props) => {
       }
 
       // Log inicial al llamar el metodo
-      logger[level](
+      logger.info(
         logData,
         `[📄] ${entryMessage} ${target.constructor.name}.${propertyKey}`
       );
@@ -79,15 +68,20 @@ export const LogMethod = (props: Props) => {
 
         // Log al salir del método exitosamente
         if (logResult) {
-          logger[level](
-            { ...logData, result },
-            `[✅] ${exitMessage} ${target.constructor.name}.${propertyKey}`
+          logger.debug(
+            { output: result },
+            `[🔭] Output of ${target.constructor.name}.${propertyKey}:`
           );
         }
 
+        logger.info(
+          undefined,
+          `[✅] ${exitMessage} ${target.constructor.name}.${propertyKey}`
+        );
+
         return result;
       } catch (error) {
-        logger[level](
+        logger.error(
           error,
           `[❎] ${exitMessage} ${target.constructor.name}.${propertyKey}`
         );
