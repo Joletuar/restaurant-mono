@@ -6,15 +6,17 @@ import type { DependencyContainer } from '../dependency-container';
 export const registerSharedDependencies = (
   container: DependencyContainer
 ): void => {
+  // Command and Query Buses
+
   container.register({
     key: 'CommandBus',
     lifetime: 'singleton',
-    factory: () => new InMemoryQueryBus(),
+    factory: () => new InMemoryCommandBus(),
   });
 
   container.register({
     key: 'QueryBus',
     lifetime: 'singleton',
-    factory: () => new InMemoryCommandBus(),
+    factory: () => new InMemoryQueryBus(),
   });
 };

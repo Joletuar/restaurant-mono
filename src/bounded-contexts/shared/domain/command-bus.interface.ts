@@ -1,7 +1,7 @@
 export interface Command {
-  readonly commandName: string;
-  readonly id: string;
-  readonly metadata?: Record<string, unknown>;
+  readonly _id: string;
+  readonly _name: string;
+  readonly _metadata?: Record<string, unknown>;
 }
 
 export interface CommandHandler {
@@ -9,7 +9,7 @@ export interface CommandHandler {
 }
 
 export interface CommandMiddleware {
-  commandMiddlewareName: string;
+  _name: string;
 
   execute<T extends Command>(
     cmd: T,
@@ -19,6 +19,6 @@ export interface CommandMiddleware {
 
 export interface CommandBus {
   dispatch<T extends Command>(cmd: T): Promise<void>;
-  register<T extends Command>(cmd: T, handler: CommandHandler): void;
+  register(commandName: string, handler: CommandHandler): void;
   addMiddleware(middleware: CommandMiddleware): void;
 }

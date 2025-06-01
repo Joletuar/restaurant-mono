@@ -8,16 +8,16 @@ import {
 import { type Logger } from '@src/bounded-contexts/shared/domain/logger.interface';
 
 export class InMemoryCommandBus implements CommandBus {
-  private readonly logger: Logger = dependencyContainer.resolve('Logger');
+  private _logger?: Logger;
 
   private handlers: Map<string, CommandHandler> = new Map();
   private middlewares: CommandMiddleware[] = [];
 
   async dispatch<T extends Command>(cmd: T): Promise<void> {
-    const handler = this.handlers.get(cmd.commandName);
+    const handler = this.handlers.get(cmd._name);
 
     if (!handler) {
-      throw new Error(`No handler registered for <${cmd.commandName}>.`); // TODO: USE CUSTOM ERROR
+      throw new Error(`No handler registered for <${cmd._name}>.`); // TODO: USE CUSTOM ERROR
     }
 
     let next = (cmd: T): Promise<void> => handler.handle(cmd);
@@ -34,29 +34,36 @@ export class InMemoryCommandBus implements CommandBus {
     return next(cmd);
   }
 
-  register<T extends Command>(cmd: T, handler: CommandHandler): void {
-    if (this.handlers.has(cmd.commandName)) {
+  register(commandName: string, handler: CommandHandler): void {
+    if (this.handlers.has(commandName)) {
       this.logger.warn(
         {},
-        `Command handler <${cmd.commandName}> is already registered.`
+        `Command handler <${commandName}> is already registered.`
       );
 
       return;
     }
 
-    this.handlers.set(cmd.commandName, handler);
+    this.handlers.set(commandName, handler);
   }
 
   addMiddleware(middleware: CommandMiddleware): void {
     if (this.middlewares.find((m) => m === middleware)) {
       this.logger.warn(
         {},
-        `Middleware <${middleware.commandMiddlewareName}> is already registered.`
+        `Middleware <${middleware._name}> is already registered.`
       );
 
       return;
     }
 
     this.middlewares.push(middleware);
+  }
+
+  private get logger(): Logger {
+    if (!this._logger) {
+      this._logger = dependencyContainer.resolve('Logger');
+    }
+    return this._logger;
   }
 }

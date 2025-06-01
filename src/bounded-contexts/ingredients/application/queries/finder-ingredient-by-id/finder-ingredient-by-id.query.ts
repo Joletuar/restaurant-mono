@@ -1,0 +1,13 @@
+import type { Query } from '@src/bounded-contexts/shared/domain/query-bus.interface';
+import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
+
+export class FinderIngredientByIdQuery implements Query {
+  static fromPrimitives(recipeId: string): FinderIngredientByIdQuery {
+    return new FinderIngredientByIdQuery(recipeId);
+  }
+
+  readonly _id: string = IdValueObject.generateId().value;
+  readonly _name = 'FinderIngredientByIdQuery';
+
+  constructor(readonly recipeId: string) {}
+}

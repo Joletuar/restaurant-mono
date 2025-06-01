@@ -13,69 +13,59 @@ export const registerOrderDependencies = (
 ): void => {
   // Repositories
 
-  const respository = new InMemoryOrderRepository();
-
   container.register({
     key: 'OrderRepository',
-    factory: () => respository,
+    factory: () => new InMemoryOrderRepository(),
   });
 
   // Use Cases
 
-  const getterAllOrder = new GetterAllOrders(
-    container.resolve('OrderRepository')
-  );
   container.register({
     key: 'GetterAllOrders',
-    factory: () => getterAllOrder,
+    factory: () => new GetterAllOrders(container.resolve('OrderRepository')),
   });
 
-  const finderOrderById = new FinderOrderById(
-    container.resolve('OrderRepository')
-  );
   container.register({
     key: 'FinderOrderById',
-    factory: () => finderOrderById,
+    factory: () => new FinderOrderById(container.resolve('OrderRepository')),
   });
 
-  const updaterOderById = new UpdaterOrderById(
-    container.resolve('OrderRepository'),
-    container.resolve('FinderRecipeById')
-  );
   container.register({
     key: 'UpdaterOrderById',
-    factory: () => updaterOderById,
+    factory: () =>
+      new UpdaterOrderById(
+        container.resolve('OrderRepository'),
+        container.resolve('FinderRecipeById')
+      ),
   });
 
-  const creatorOrder = new CreatorOrder(
-    container.resolve('OrderRepository'),
-    container.resolve('FinderRecipeById')
-  );
   container.register({
     key: 'CreatorOrder',
-    factory: () => creatorOrder,
+    factory: () =>
+      new CreatorOrder(
+        container.resolve('OrderRepository'),
+        container.resolve('FinderRecipeById')
+      ),
   });
 
   // Controllers
 
-  const controller = new OrderController(
-    container.resolve('FinderOrderById'),
-    container.resolve('GetterAllOrders'),
-    container.resolve('CreatorOrder'),
-    container.resolve('UpdaterOrderById')
-  );
-
   container.register({
     key: 'OrderController',
-    factory: () => controller,
+    factory: () =>
+      new OrderController(
+        container.resolve('FinderOrderById'),
+        container.resolve('GetterAllOrders'),
+        container.resolve('CreatorOrder'),
+        container.resolve('UpdaterOrderById')
+      ),
   });
 
   // Routes
 
-  const routes = new OrderRouteRegistrar(container.resolve('OrderController'));
-
   container.register({
     key: 'OrderRouteRegistrar',
-    factory: () => routes,
+    factory: () =>
+      new OrderRouteRegistrar(container.resolve('OrderController')),
   });
 };

@@ -8,22 +8,16 @@ export const registerRecipesDependencies = (
 ): void => {
   // Repositories
 
-  const repository = new InMemoryRecipeRepository();
-
   container.register({
     key: 'FinderRepository',
-    factory: () => repository,
+    factory: () => new InMemoryRecipeRepository(),
   });
 
   // Use Cases
 
-  const finderRecipeById = new FinderRecipeById(
-    container.resolve('FinderRepository')
-  );
-
   container.register({
     key: 'FinderRecipeById',
-    factory: () => finderRecipeById,
+    factory: () => new FinderRecipeById(container.resolve('FinderRepository')),
   });
 
   // Controllers

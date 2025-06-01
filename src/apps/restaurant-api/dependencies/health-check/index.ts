@@ -9,21 +9,16 @@ export const registerHealthCheckDependencies = (
 ): void => {
   // Controllers
 
-  const controller = new HealthCheckController();
-
   container.register({
     key: 'HealthCheckController',
-    factory: () => controller,
+    factory: () => new HealthCheckController(),
   });
 
   // Routes
 
-  const routes = new HealthCheckRouteRegistar(
-    container.resolve('HealthCheckController')
-  );
-
   container.register({
     key: 'HealthCheckRouteRegistar',
-    factory: () => routes,
+    factory: () =>
+      new HealthCheckRouteRegistar(container.resolve('HealthCheckController')),
   });
 };
