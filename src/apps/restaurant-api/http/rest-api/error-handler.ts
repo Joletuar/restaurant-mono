@@ -19,7 +19,7 @@ export const errorHandler = async (
   if (error instanceof RootError) {
     reply.log.error(
       error,
-      `Expected error occurred during request: ${request.method} ${request.url}`
+      `Controlled error occurred during request: ${request.method} ${request.url}`
     );
 
     if (error instanceof NotFoundError) {
@@ -39,7 +39,7 @@ export const errorHandler = async (
         requestId,
         code: error.appErrorCode,
         message: error.message,
-        statusCode: HttpStatusCode.BAD_REQUEST,
+        statusCode: HttpStatusCode.UNPROCESSABLE_ENTITY,
         details: error.errors.map((err) => ({ message: err })),
       });
     }
