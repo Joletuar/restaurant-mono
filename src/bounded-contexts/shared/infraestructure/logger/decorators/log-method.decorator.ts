@@ -1,5 +1,5 @@
 import dependencyContainer from '@src/apps/restaurant-api/dependencies';
-import { type Logger } from '@src/bounded-contexts/shared/domain/logger.interface.ts';
+import { type Logger } from '@src/bounded-contexts/shared/domain/logger.interface';
 
 type Props = {
   entryMessage?: string;
