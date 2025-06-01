@@ -44,6 +44,7 @@ export default (function bootstrap(): DependencyContainer {
         environment: config.http.environment,
         routes: [
           dependencyContainer.resolve('HealthCheckRouteRegistar'),
+          dependencyContainer.resolve('RecipeRouteRegistrar'),
           dependencyContainer.resolve('OrderRouteRegistrar'),
         ],
       }),

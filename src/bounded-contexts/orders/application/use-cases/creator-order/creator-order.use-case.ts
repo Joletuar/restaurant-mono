@@ -1,6 +1,6 @@
 import { Order } from '@src/bounded-contexts/orders/domain/order.entity';
 import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
-import { FinderRecipeById } from '@src/bounded-contexts/recipes/application/finder-recipe-by-id/finder-recipe-by-id.use-case';
+import { FinderRecipeById } from '@src/bounded-contexts/recipes/application/use-cases/finder-recipe-by-id/finder-recipe-by-id.use-case';
 import { LogMethod } from '@src/bounded-contexts/shared/infraestructure/logger/decorators/log-method.decorator';
 
 import type { CreatorOrderDto } from './creator-order.dto';

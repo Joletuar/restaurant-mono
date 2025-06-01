@@ -1,14 +1,17 @@
 import { OrderController } from '@src/apps/restaurant-api/http/rest-api/controllers/order.controller';
 import { OrderRouteRegistrar } from '@src/apps/restaurant-api/http/rest-api/routes/order.route';
+import { CreatorOrderCommand } from '@src/bounded-contexts/orders/application/commands/creator-order/creator-order.command';
+import { CreatorOrderCommandHandler } from '@src/bounded-contexts/orders/application/commands/creator-order/creator-order.command-handler';
 import { FinderOrderByIdQuery } from '@src/bounded-contexts/orders/application/queries/finder-order-by-id/finder-order-by-id.query';
 import { FinderOrderByIdQueryHandler } from '@src/bounded-contexts/orders/application/queries/finder-order-by-id/finder-order-by-id.query-handler';
-import { GetterAllOrdersQuery } from '@src/bounded-contexts/orders/application/queries/getter-al-orders/getter-all-order.query';
-import { GetterAllOrdersQueryHandler } from '@src/bounded-contexts/orders/application/queries/getter-al-orders/getter-all-order.query-handler';
+import { GetterAllOrdersQuery } from '@src/bounded-contexts/orders/application/queries/getter-all-orders/getter-all-orders.query';
+import { GetterAllOrdersQueryHandler } from '@src/bounded-contexts/orders/application/queries/getter-all-orders/getter-all-orders.query-handler';
 import { CreatorOrder } from '@src/bounded-contexts/orders/application/use-cases/creator-order/creator-order.use-case';
 import { FinderOrderById } from '@src/bounded-contexts/orders/application/use-cases/finder-order-by-id/finder-order-by-id.use-case';
 import { GetterAllOrders } from '@src/bounded-contexts/orders/application/use-cases/getter-all-orders/getter-all-order.use-case';
 import { UpdaterOrderById } from '@src/bounded-contexts/orders/application/use-cases/updater-order-by-id/updater-order-by-id.use-case';
 import { InMemoryOrderRepository } from '@src/bounded-contexts/orders/infraestructure/persistence/in-memory-order.repository';
+import type { CommandBus } from '@src/bounded-contexts/shared/domain/command-bus.interface';
 import type { QueryBus } from '@src/bounded-contexts/shared/domain/query-bus.interface';
 
 import type { DependencyContainer } from '../dependency-container';
@@ -21,6 +24,7 @@ export const registerOrderDependencies = (
   container.register({
     key: 'OrderRepository',
     factory: () => new InMemoryOrderRepository(),
+    lifetime: 'singleton',
   });
 
   // Use Cases
@@ -81,6 +85,24 @@ export const registerOrderDependencies = (
     container.resolve<FinderOrderByIdQueryHandler>(
       'FinderOrderByIdQueryHandler'
     )
+  );
+
+  // Command Handlers
+
+  container.register({
+    key: 'CreatorOrderCommandHandler',
+    factory: () =>
+      new CreatorOrderCommandHandler(
+        container.resolve('OrderRepository'),
+        queryBus
+      ),
+  });
+
+  const commandBus = container.resolve<CommandBus>('CommandBus');
+
+  commandBus.register(
+    CreatorOrderCommand,
+    container.resolve<CreatorOrderCommandHandler>('CreatorOrderCommandHandler')
   );
 
   // Controllers

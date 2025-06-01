@@ -12,4 +12,8 @@ export class RecipeMapper {
       updatedAt,
     };
   }
+
+  static toDtoList(recipes: Recipe[]): RecipeDto[] {
+    return recipes.map((recipe) => RecipeMapper.toDto(recipe));
+  }
 }

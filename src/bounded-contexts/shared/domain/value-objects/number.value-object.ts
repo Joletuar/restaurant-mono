@@ -7,6 +7,8 @@ import { RootValueObject } from './root.value-object';
 
 export class NumberValueObject extends RootValueObject<number> {
   static fromPrimitives(value: number): NumberValueObject {
+    this.validate(value);
+
     return new NumberValueObject(value);
   }
 
@@ -15,6 +17,8 @@ export class NumberValueObject extends RootValueObject<number> {
     min: number,
     max: number
   ): NumberValueObject {
+    this.validate(value);
+
     if (value < min || value > max) {
       throw new DomainValidationError('Number out of range', [
         `Number value <${value}> is out of range. Expected between ${min} and ${max}.`,
@@ -24,16 +28,16 @@ export class NumberValueObject extends RootValueObject<number> {
     return new NumberValueObject(value);
   }
 
-  constructor(value: number) {
-    super(value);
-  }
-
-  protected validate(): void {
-    if (typeof this.value !== 'number') {
+  private static validate(value: number): void {
+    if (typeof value !== 'number') {
       throw new DomainValidationError('Invalid number', [
-        `Number value <${this.value}> is not a valid number.`,
+        `Number value <${value}> is not a valid number.`,
       ]);
     }
+  }
+
+  constructor(value: number) {
+    super(value);
   }
 
   isPositive(): boolean {

@@ -8,15 +8,12 @@ export type Primitives = string | number | boolean | Date | Object;
  */
 
 export abstract class RootValueObject<T extends Primitives> {
-  protected abstract validate(): void;
-
   protected readonly _value: T;
 
   constructor(value: T) {
     this._value = Object.freeze(value);
 
     this.ensureIsDefined();
-    this.validate();
   }
 
   get value(): T {

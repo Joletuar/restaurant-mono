@@ -5,4 +5,6 @@ import type { Recipe } from './recipe.entity';
 
 export interface RecipeRepository {
   findById(id: IdValueObject): Promise<Nullable<Recipe>>;
+
+  getAll(): Promise<Recipe[]>;
 }

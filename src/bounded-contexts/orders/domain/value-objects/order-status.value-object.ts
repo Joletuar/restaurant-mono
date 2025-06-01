@@ -14,18 +14,22 @@ export class OrderStatus extends StringValueObject {
   static fromPrimitives(value: string): OrderStatus;
 
   static fromPrimitives(value: OrderStatusEnum | string): OrderStatus {
-    if (!this.isValid(value)) {
+    this.isValid(value);
+
+    return new OrderStatus(value);
+  }
+
+  private static isValid(value: string): void {
+    const isValid = Object.values(OrderStatusEnum).includes(
+      value as OrderStatusEnum
+    );
+
+    if (!isValid) {
       throw new DomainValidationError('Invalid order status value', [
         `The value <${value}> is not a valid order status.`,
         `Valid values are: ${Object.values(OrderStatusEnum).join(', ')}.`,
       ]);
     }
-
-    return new OrderStatus(value);
-  }
-
-  static isValid(value: string): boolean {
-    return Object.values(OrderStatusEnum).includes(value as OrderStatusEnum);
   }
 
   static createPending(): OrderStatus {

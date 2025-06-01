@@ -6,7 +6,29 @@ import { RootValueObject } from './root.value-object';
  */
 export class DateValueObject extends RootValueObject<Date> {
   static fromPrimitives(value: Date): DateValueObject {
+    this.validate(value);
+
     return new DateValueObject(value);
+  }
+
+  private static validate(value: Date): void {
+    if (value.getTime() < 0) {
+      throw new DomainValidationError('Date is in the past', [
+        `Date value <${value.toISOString()}> is in the past.`,
+      ]);
+    }
+
+    if (isNaN(value.getTime())) {
+      throw new DomainValidationError('Date is invalid', [
+        `Date value <${value.toISOString()}> is invalid.`,
+      ]);
+    }
+
+    if (value.toString() === 'Invalid Date') {
+      throw new DomainValidationError('Date is invalid', [
+        `Date value <${value.toISOString()}> is invalid.`,
+      ]);
+    }
   }
 
   static createInRange(
@@ -32,26 +54,6 @@ export class DateValueObject extends RootValueObject<Date> {
 
   constructor(value: Date) {
     super(value);
-  }
-
-  protected validate(): void {
-    if (this.value.getTime() < 0) {
-      throw new DomainValidationError('Date is in the past', [
-        `Date value <${this.value.toISOString()}> is in the past.`,
-      ]);
-    }
-
-    if (isNaN(this.value.getTime())) {
-      throw new DomainValidationError('Date is invalid', [
-        `Date value <${this.value.toISOString()}> is invalid.`,
-      ]);
-    }
-
-    if (this.value.toString() === 'Invalid Date') {
-      throw new DomainValidationError('Date is invalid', [
-        `Date value <${this.value.toISOString()}> is invalid.`,
-      ]);
-    }
   }
 
   isLessThan(date: DateValueObject): boolean {

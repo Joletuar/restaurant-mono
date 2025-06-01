@@ -3,8 +3,8 @@ export interface Command {
   readonly _metadata?: Record<string, unknown>;
 }
 
-export interface CommandHandler {
-  handle<T extends Command>(cmd: T): Promise<void>;
+export interface CommandHandler<T extends Command> {
+  handle(cmd: T): Promise<void>;
 }
 
 export interface CommandMiddleware {
@@ -19,7 +19,10 @@ export interface CommandClass {
 }
 
 export interface CommandBus {
-  register(cmd: CommandClass, handler: CommandHandler): void;
+  register<T extends Command>(
+    cmd: CommandClass,
+    handler: CommandHandler<T>
+  ): void;
   dispatch<T extends Command>(cmd: T): Promise<void>;
   addMiddleware(middleware: CommandMiddleware): void;
 }

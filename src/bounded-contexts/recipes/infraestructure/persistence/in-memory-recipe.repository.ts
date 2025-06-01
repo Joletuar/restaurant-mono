@@ -4,21 +4,22 @@ import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/
 import { RootError } from '@src/bounded-contexts/shared/domain/errors/root.error';
 import type { Nullable } from '@src/bounded-contexts/shared/domain/nullable.type';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
-import { LogMethod } from '@src/bounded-contexts/shared/infraestructure/logger/decorators/log-method.decorator';
 
 export class InMemoryRecipeRepository implements RecipeRepository {
   private recipes: Map<string, Recipe> = new Map<string, Recipe>();
 
-  constructor(initialRecipes: Recipe[] = []) {
+  constructor(
+    initialRecipes: Recipe[] = [
+      Recipe.fromPrimitives({
+        ingredientsIds: [IdValueObject.generateId().value],
+      }),
+    ]
+  ) {
     initialRecipes.forEach((recipe) => {
       this.recipes.set(recipe.getId(), recipe);
     });
   }
 
-  @LogMethod({
-    logParams: true,
-    logResult: true,
-  })
   async findById(id: IdValueObject): Promise<Nullable<Recipe>> {
     try {
       const recipe = this.recipes.get(id.value);
@@ -27,6 +28,15 @@ export class InMemoryRecipeRepository implements RecipeRepository {
     } catch (error) {
       this.errorHandler(error);
       return null;
+    }
+  }
+
+  async getAll(): Promise<Recipe[]> {
+    try {
+      return Array.from(this.recipes.values());
+    } catch (error) {
+      this.errorHandler(error);
+      return [];
     }
   }
 

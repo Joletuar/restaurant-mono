@@ -11,10 +11,13 @@ import { type Logger } from '@src/bounded-contexts/shared/domain/logger.interfac
 export class InMemoryCommandBus implements CommandBus {
   private _logger?: Logger;
 
-  private handlers: Map<CommandClass, CommandHandler> = new Map();
+  private handlers: Map<CommandClass, CommandHandler<any>> = new Map();
   private middlewares: CommandMiddleware[] = [];
 
-  register(cmd: CommandClass, handler: CommandHandler): void {
+  register<T extends Command>(
+    cmd: CommandClass,
+    handler: CommandHandler<T>
+  ): void {
     if (this.handlers.has(cmd)) {
       this.logger.warn(
         {},

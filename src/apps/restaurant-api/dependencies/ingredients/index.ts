@@ -14,6 +14,7 @@ export const registerIngredientsDependencies = (
   container.register({
     key: 'IngredientRepository',
     factory: () => new InMemoryIngredientRepository(),
+    lifetime: 'singleton',
   });
 
   // Use Cases

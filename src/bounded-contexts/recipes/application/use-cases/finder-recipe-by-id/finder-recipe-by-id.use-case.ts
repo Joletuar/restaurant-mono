@@ -3,8 +3,8 @@ import { NotFoundError } from '@src/bounded-contexts/shared/domain/errors/not-fo
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 import { LogMethod } from '@src/bounded-contexts/shared/infraestructure/logger/decorators/log-method.decorator';
 
-import type { RecipeDto } from '../recipe.dto';
-import { RecipeMapper } from '../recipe.mapper';
+import type { RecipeDto } from '../../recipe.dto';
+import { RecipeMapper } from '../../recipe.mapper';
 
 export class FinderRecipeById {
   constructor(private readonly repository: RecipeRepository) {}

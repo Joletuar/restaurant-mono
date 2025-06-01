@@ -6,27 +6,27 @@ export type IngredientsIdsPrimitives = { ids: string[] };
 
 export class IngredientsIds extends RootValueObject<IngredientsIdsPrimitives> {
   static fromPrimitives(ids: string[]): IngredientsIds {
+    this.validate(ids);
+
     return new IngredientsIds(ids.map((id) => new IdValueObject(id)));
+  }
+
+  private static validate(value: string[]): void {
+    if (!Array.isArray(value)) {
+      throw new DomainValidationError('Ids must be an array', [
+        `Expected an array of strings, but got: ${value}.`,
+      ]);
+    }
+
+    if (value.length === 0) {
+      throw new DomainValidationError('Ids cannot be an empty array', [
+        `Expected a non-empty array of strings, but got: ${value}.`,
+      ]);
+    }
   }
 
   constructor(ids: IdValueObject[]) {
     super({ ids: ids.map((id) => id.value) });
-  }
-
-  protected validate(): void {
-    const { ids } = this.value;
-
-    if (!Array.isArray(ids)) {
-      throw new DomainValidationError('Ids must be an array', [
-        `Expected an array of strings, but got: ${ids}.`,
-      ]);
-    }
-
-    if (ids.length === 0) {
-      throw new DomainValidationError('Ids cannot be an empty array', [
-        `Expected a non-empty array of strings, but got: ${ids}.`,
-      ]);
-    }
   }
 
   get ids(): string[] {
