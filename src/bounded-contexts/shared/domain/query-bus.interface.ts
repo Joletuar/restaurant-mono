@@ -16,7 +16,7 @@ export interface QueryHandler<
 
 export interface QueryMiddleware {
   execute<Q extends Query, R extends QueryResponse<unknown>>(
-    q: Q,
+    query: Q,
     next: (query: Q) => Promise<R>
   ): Promise<R>;
 }
@@ -35,5 +35,5 @@ export interface QueryBus {
     query: Q
   ): Promise<R>;
 
-  addMiddlewares(middleware: QueryMiddleware): void;
+  addMiddleware(middleware: QueryMiddleware): void;
 }

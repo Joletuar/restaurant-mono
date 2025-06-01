@@ -53,7 +53,7 @@ export class InMemoryQueryBus implements QueryBus {
     return next(query);
   }
 
-  addMiddlewares(middleware: QueryMiddleware): void {
+  addMiddleware(middleware: QueryMiddleware): void {
     if (this.middlewares.find((m) => m === middleware)) {
       this.logger.warn(
         {},
