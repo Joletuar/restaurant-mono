@@ -6,6 +6,7 @@ type Props = {
   exitMessage?: string;
   logParams?: boolean;
   logResult?: boolean;
+  logErrors?: boolean;
   filterParams?: string[];
 };
 
@@ -15,6 +16,7 @@ export const LogMethod = (props: Props) => {
     exitMessage = 'Method excuted',
     logParams = false,
     logResult = false,
+    logErrors = false,
     filterParams = [],
   } = props;
 
@@ -70,7 +72,7 @@ export const LogMethod = (props: Props) => {
         if (logResult) {
           logger.debug(
             { output: result },
-            `[🔭] Output of ${target.constructor.name}.${propertyKey}:`
+            `[🔭] Output of ${target.constructor.name}.${propertyKey}`
           );
         }
 
@@ -81,9 +83,16 @@ export const LogMethod = (props: Props) => {
 
         return result;
       } catch (error) {
+        if (logErrors) {
+          logger.error(
+            error,
+            `[❎] Error to execute ${target.constructor.name}.${propertyKey}`
+          );
+        }
+
         logger.error(
-          error,
-          `[❎] ${exitMessage} ${target.constructor.name}.${propertyKey}`
+          undefined,
+          `[❎] Error to execute ${target.constructor.name}.${propertyKey}`
         );
 
         // Propagamos el error para que siga el flujo normal
