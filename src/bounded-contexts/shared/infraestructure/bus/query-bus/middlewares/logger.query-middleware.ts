@@ -27,14 +27,14 @@ export class LoggerQueryMiddleware implements QueryMiddleware {
       const result = await next(query);
       const executionTime = (performance.now() - startTime).toFixed(2);
 
-      this.logger.info(
-        { reqId, queryType: queryName, executionTime: `${executionTime}ms` },
-        `[✅ Query] Completed execution of ${queryName}`
-      );
-
       this.logger.debug(
         { reqId, output: result },
         `[🔭 Query] Output of ${queryName}`
+      );
+
+      this.logger.info(
+        { reqId, queryType: queryName, executionTime: `${executionTime}ms` },
+        `[✅ Query] Completed execution of ${queryName}`
       );
 
       return result;
