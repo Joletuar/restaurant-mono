@@ -41,7 +41,7 @@ export class OrderController {
 
     const order = await this.queryBus.dispatch(query);
 
-    return ResponseBuilder.success({
+    return await ResponseBuilder.success({
       reply,
       data: order,
     });
