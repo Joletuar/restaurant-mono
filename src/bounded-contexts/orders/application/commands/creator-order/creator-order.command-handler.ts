@@ -34,7 +34,7 @@ export class CreatorOrderCommandHandler
     recipeId: string,
     metadata: Record<string, unknown> | undefined
   ): Promise<void> {
-    await this.queryBus.dispatch(new FinderRecipeByIdQuery(recipeId, metadata));
+    await this.queryBus.dispatch(new FinderRecipeByIdQuery(recipeId, metadata)); // TODO: quitar el query bus y usar el repo
   }
 
   private async publisEvents(order: Order): Promise<void> {
