@@ -45,7 +45,9 @@ export class DependencyContainer {
 
   private createScope(scope: string): void {
     if (this.scopes.has(scope)) {
-      return;
+      throw new Error(
+        `Dependency with scope "${scope}" is already registered.`
+      );
     }
 
     this.scopes.set(scope, new Map());
