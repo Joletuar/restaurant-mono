@@ -7,6 +7,7 @@ export abstract class DomainEvent<TPayload = unknown> {
   constructor(
     readonly eventName: string,
     readonly aggregateId: string,
+    readonly eventVersion: number,
     readonly payload: TPayload
   ) {
     this.eventId = IdValueObject.generateId().value;
