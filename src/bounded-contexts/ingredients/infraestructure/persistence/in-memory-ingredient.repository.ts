@@ -3,12 +3,18 @@ import type { IngredientRepository } from '@src/bounded-contexts/ingredients/dom
 import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infraestructure.error';
 import { RootError } from '@src/bounded-contexts/shared/domain/errors/root.error';
 import type { Nullable } from '@src/bounded-contexts/shared/domain/nullable.type';
+import { RootRespository } from '@src/bounded-contexts/shared/domain/root.repository';
 import type { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
-export class InMemoryIngredientRepository implements IngredientRepository {
+export class InMemoryIngredientRepository
+  extends RootRespository
+  implements IngredientRepository
+{
   private ingredients: Map<string, Ingredient> = new Map<string, Ingredient>();
 
   constructor(initialIngredients: Ingredient[] = []) {
+    super();
+
     initialIngredients.forEach((ingredient) => {
       this.ingredients.set(ingredient.getId(), ingredient);
     });

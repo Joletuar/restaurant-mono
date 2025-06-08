@@ -3,9 +3,13 @@ import type { RecipeRepository } from '@src/bounded-contexts/recipes/domain/reci
 import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infraestructure.error';
 import { RootError } from '@src/bounded-contexts/shared/domain/errors/root.error';
 import type { Nullable } from '@src/bounded-contexts/shared/domain/nullable.type';
+import { RootRespository } from '@src/bounded-contexts/shared/domain/root.repository';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
-export class InMemoryRecipeRepository implements RecipeRepository {
+export class InMemoryRecipeRepository
+  extends RootRespository
+  implements RecipeRepository
+{
   private recipes: Map<string, Recipe> = new Map<string, Recipe>();
 
   constructor(
@@ -15,6 +19,8 @@ export class InMemoryRecipeRepository implements RecipeRepository {
       }),
     ]
   ) {
+    super();
+
     initialRecipes.forEach((recipe) => {
       this.recipes.set(recipe.getId(), recipe);
     });

@@ -4,9 +4,13 @@ import { OrderStatus } from '@src/bounded-contexts/orders/domain/value-objects/o
 import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infraestructure.error';
 import { RootError } from '@src/bounded-contexts/shared/domain/errors/root.error';
 import type { Nullable } from '@src/bounded-contexts/shared/domain/nullable.type';
+import { RootRespository } from '@src/bounded-contexts/shared/domain/root.repository';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
-export class InMemoryOrderRepository implements OrderRepository {
+export class InMemoryOrderRepository
+  extends RootRespository
+  implements OrderRepository
+{
   private orders: Map<string, Order> = new Map<string, Order>();
 
   constructor(
@@ -17,6 +21,8 @@ export class InMemoryOrderRepository implements OrderRepository {
       }),
     ]
   ) {
+    super();
+
     initialOrders.forEach((order) => {
       this.orders.set(order.getId(), order);
     });
