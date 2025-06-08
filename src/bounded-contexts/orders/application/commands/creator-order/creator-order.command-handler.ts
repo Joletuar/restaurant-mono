@@ -1,8 +1,8 @@
 import { Order } from '@src/bounded-contexts/orders/domain/order.entity';
 import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
 import { FinderRecipeByIdQuery } from '@src/bounded-contexts/recipes/application/queries/finder-recipe-by-id/finder-recipe-by-id.query';
-import type { CommandHandler } from '@src/bounded-contexts/shared/domain/command-bus.interface';
-import type { QueryBus } from '@src/bounded-contexts/shared/domain/query-bus.interface';
+import type { CommandHandler } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
+import type { QueryBus } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
 
 import type { CreatorOrderCommand } from './creator-order.command';
 

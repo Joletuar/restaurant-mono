@@ -9,8 +9,8 @@ import { FinderOrderByIdQueryHandler } from '@src/bounded-contexts/orders/applic
 import { GetterAllOrdersQuery } from '@src/bounded-contexts/orders/application/queries/getter-all-orders/getter-all-orders.query';
 import { GetterAllOrdersQueryHandler } from '@src/bounded-contexts/orders/application/queries/getter-all-orders/getter-all-orders.query-handler';
 import { InMemoryOrderRepository } from '@src/bounded-contexts/orders/infraestructure/persistence/in-memory-order.repository';
-import type { CommandBus } from '@src/bounded-contexts/shared/domain/command-bus.interface';
-import type { QueryBus } from '@src/bounded-contexts/shared/domain/query-bus.interface';
+import type { CommandBus } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
+import type { QueryBus } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
 
 import type { DependencyContainer } from '../dependency-container';
 

@@ -2,7 +2,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify';
 
 import { FinderRecipeByIdQuery } from '@src/bounded-contexts/recipes/application/queries/finder-recipe-by-id/finder-recipe-by-id.query';
 import { GetterAllRecipesQuery } from '@src/bounded-contexts/recipes/application/queries/getter-all-recipes/getter-all-recipes.query';
-import type { QueryBus } from '@src/bounded-contexts/shared/domain/query-bus.interface';
+import type { QueryBus } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
 
 import { ResponseBuilder } from '../utils/response.builder';
 

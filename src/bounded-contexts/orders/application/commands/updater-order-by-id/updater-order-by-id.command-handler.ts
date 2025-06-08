@@ -1,7 +1,7 @@
 import type { Order } from '@src/bounded-contexts/orders/domain/order.entity';
 import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
 import { OrderStatus } from '@src/bounded-contexts/orders/domain/value-objects/order-status.value-object';
-import type { CommandHandler } from '@src/bounded-contexts/shared/domain/command-bus.interface';
+import type { CommandHandler } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import { NotFoundError } from '@src/bounded-contexts/shared/domain/errors/not-found.error';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 

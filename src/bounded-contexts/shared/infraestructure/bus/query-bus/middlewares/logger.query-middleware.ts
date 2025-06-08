@@ -1,10 +1,10 @@
 import dependencies from '@src/apps/restaurant-api/dependencies';
-import type { Logger } from '@src/bounded-contexts/shared/domain/logger.interface';
 import type {
   Query,
   QueryMiddleware,
   QueryResponse,
-} from '@src/bounded-contexts/shared/domain/query-bus.interface';
+} from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
+import type { Logger } from '@src/bounded-contexts/shared/domain/logger.interface';
 
 export class LoggerQueryMiddleware implements QueryMiddleware {
   private _logger?: Logger;

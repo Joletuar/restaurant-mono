@@ -4,8 +4,8 @@ import { CreatorOrderCommand } from '@src/bounded-contexts/orders/application/co
 import { UpdaterOrderByIdCommand } from '@src/bounded-contexts/orders/application/commands/updater-order-by-id/updater-order-by-id.command';
 import { FinderOrderByIdQuery } from '@src/bounded-contexts/orders/application/queries/finder-order-by-id/finder-order-by-id.query';
 import { GetterAllOrdersQuery } from '@src/bounded-contexts/orders/application/queries/getter-all-orders/getter-all-orders.query';
-import type { CommandBus } from '@src/bounded-contexts/shared/domain/command-bus.interface';
-import type { QueryBus } from '@src/bounded-contexts/shared/domain/query-bus.interface';
+import type { CommandBus } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
+import type { QueryBus } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
 
 import { HttpStatusCode } from '../contracts/api-contracts';
 import { ResponseBuilder } from '../utils/response.builder';

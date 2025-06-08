@@ -1,4 +1,4 @@
-import type { Command } from '@src/bounded-contexts/shared/domain/command-bus.interface';
+import type { Command } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
 interface Data {

@@ -2,7 +2,7 @@ import dependencies from '@src/apps/restaurant-api/dependencies';
 import type {
   Command,
   CommandMiddleware,
-} from '@src/bounded-contexts/shared/domain/command-bus.interface';
+} from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import type { Logger } from '@src/bounded-contexts/shared/domain/logger.interface';
 
 export class LoggerCommandMiddleware implements CommandMiddleware {

@@ -1,5 +1,4 @@
 import dependencyContainer from '@src/apps/restaurant-api/dependencies';
-import type { Logger } from '@src/bounded-contexts/shared/domain/logger.interface';
 import {
   type Query,
   type QueryBus,
@@ -7,7 +6,8 @@ import {
   type QueryHandler,
   type QueryMiddleware,
   type QueryResponse,
-} from '@src/bounded-contexts/shared/domain/query-bus.interface';
+} from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
+import type { Logger } from '@src/bounded-contexts/shared/domain/logger.interface';
 
 export class InMemoryQueryBus implements QueryBus {
   private _logger?: Logger;

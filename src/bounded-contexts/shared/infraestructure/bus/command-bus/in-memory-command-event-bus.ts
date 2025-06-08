@@ -5,7 +5,7 @@ import {
   type CommandClass,
   type CommandHandler,
   type CommandMiddleware,
-} from '@src/bounded-contexts/shared/domain/command-bus.interface';
+} from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import { type Logger } from '@src/bounded-contexts/shared/domain/logger.interface';
 
 export class InMemoryCommandBus implements CommandBus {
