@@ -1,3 +1,4 @@
+import { OrderCreatedEvent } from '@src/bounded-contexts/orders/domain/events/order-created.event';
 import { Order } from '@src/bounded-contexts/orders/domain/order.entity';
 import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
 import { FinderRecipeByIdQuery } from '@src/bounded-contexts/recipes/application/queries/finder-recipe-by-id/finder-recipe-by-id.query';
@@ -37,8 +38,8 @@ export class CreatorOrderCommandHandler
   }
 
   private async publisEvents(order: Order): Promise<void> {
-    const events = order.pullDomainEvents();
+    const event = OrderCreatedEvent.fromPrimitives(order);
 
-    await this.eventBus.publishAll(events);
+    await this.eventBus.publish(event);
   }
 }
