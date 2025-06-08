@@ -16,9 +16,9 @@ export class InMemoryQueryBus implements QueryBus {
     new Map();
   private middlewares: QueryMiddleware[] = [];
 
-  register<Q extends Query, R extends QueryResponse<unknown>>(
+  register(
     query: QueryClass,
-    handler: QueryHandler<Q, R>
+    handler: QueryHandler<Query, QueryResponse<unknown>>
   ): void {
     if (this.handlers.has(query)) {
       this.logger.warn(
@@ -32,16 +32,15 @@ export class InMemoryQueryBus implements QueryBus {
     this.handlers.set(query, handler);
   }
 
-  async dispatch<Q extends Query, R extends QueryResponse<unknown>>(
-    query: Q
-  ): Promise<R> {
+  async dispatch(query: Query): Promise<QueryResponse<unknown>> {
     const handler = this.handlers.get(query.constructor as QueryClass);
 
     if (!handler) {
       throw new Error(`No handler registered for <${query.constructor.name}>.`); // TODO: USE CUSTOM ERROR
     }
 
-    let next = (query: Q): Promise<R> => handler.handle(query);
+    let next = (query: Query): Promise<QueryResponse<unknown>> =>
+      handler.handle(query);
 
     for (let i = this.middlewares.length - 1; i >= 0; i--) {
       const middleware = this.middlewares[i]!;

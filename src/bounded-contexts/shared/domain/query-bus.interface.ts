@@ -15,10 +15,10 @@ export interface QueryHandler<
 }
 
 export interface QueryMiddleware {
-  execute<Q extends Query, R extends QueryResponse<unknown>>(
-    query: Q,
-    next: (query: Q) => Promise<R>
-  ): Promise<R>;
+  execute(
+    query: Query,
+    next: (query: Query) => Promise<QueryResponse<unknown>>
+  ): Promise<QueryResponse<unknown>>;
 }
 
 export interface QueryClass {
@@ -26,14 +26,12 @@ export interface QueryClass {
 }
 
 export interface QueryBus {
-  register<Q extends Query, R extends QueryResponse<unknown>>(
+  register(
     query: QueryClass,
-    handler: QueryHandler<Q, R>
+    handler: QueryHandler<Query, QueryResponse<unknown>>
   ): void;
 
-  dispatch<Q extends Query, R extends QueryResponse<unknown>>(
-    query: Q
-  ): Promise<R>;
+  dispatch(query: Query): Promise<QueryResponse<unknown>>;
 
   addMiddleware(middleware: QueryMiddleware): void;
 }
