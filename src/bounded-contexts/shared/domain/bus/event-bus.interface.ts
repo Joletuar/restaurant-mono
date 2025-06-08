@@ -1,10 +1,17 @@
 import type { DomainEvent } from '../domain-event.interface';
 
-export type EventHandler<TPayload> = (
-  event: DomainEvent<TPayload>
-) => Promise<void> | void;
+export interface EventHandler<T extends DomainEvent> {
+  handle(event: T): Promise<void>;
+
+  get eventType(): string;
+}
 
 export interface EventBus {
-  publish<TPayload>(events: DomainEvent<TPayload>[]): Promise<void>;
-  subscribe<TPayload>(eventName: string, handler: EventHandler<TPayload>): void;
+  publish<T extends DomainEvent>(event: T): Promise<void>;
+
+  publishAll(events: DomainEvent[]): Promise<void>;
+
+  subscribe<T extends DomainEvent>(handler: EventHandler<T>): void;
+
+  unsubscribe<T extends DomainEvent>(handler: EventHandler<T>): void;
 }

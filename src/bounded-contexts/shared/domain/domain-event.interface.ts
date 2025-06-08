@@ -1,7 +1,15 @@
-export interface DomainEvent<TPayload = unknown> {
-  readonly eventName: string;
+import { IdValueObject } from './value-objects/id.value-object';
+
+export abstract class DomainEvent<TPayload = unknown> {
   readonly eventId: string;
-  readonly aggregateId: string;
   readonly occurredOn: Date;
-  readonly payload: TPayload;
+
+  constructor(
+    readonly eventName: string,
+    readonly aggregateId: string,
+    readonly payload: TPayload
+  ) {
+    this.eventId = IdValueObject.generateId().value;
+    this.occurredOn = new Date();
+  }
 }
