@@ -5,6 +5,7 @@ import { CreatorOrderCommandHandler } from '@src/bounded-contexts/orders/applica
 import { UpdaterOrderByIdCommand } from '@src/bounded-contexts/orders/application/commands/updater-order-by-id/updater-order-by-id.command';
 import { UpdaterOrderByIdCommandHandler } from '@src/bounded-contexts/orders/application/commands/updater-order-by-id/updater-order-by-id.command-handler';
 import { OrderCreatedEventHandler } from '@src/bounded-contexts/orders/application/event-handlers/order-created/order-created.event-handler';
+import { OrderStatusUpdatedEventHandler } from '@src/bounded-contexts/orders/application/event-handlers/order-status-updated/order-status-updated.event-handler';
 import { FinderOrderByIdQuery } from '@src/bounded-contexts/orders/application/queries/finder-order-by-id/finder-order-by-id.query';
 import { FinderOrderByIdQueryHandler } from '@src/bounded-contexts/orders/application/queries/finder-order-by-id/finder-order-by-id.query-handler';
 import { GetterAllOrdersQuery } from '@src/bounded-contexts/orders/application/queries/getter-all-orders/getter-all-orders.query';
@@ -61,13 +62,25 @@ export const registerOrderDependencies = (
 
   container.register({
     key: 'OrderCreatedEventHandler',
-    factory: () => new OrderCreatedEventHandler(),
+    factory: () => new OrderCreatedEventHandler(container.resolve('Logger')),
+  });
+
+  container.register({
+    key: 'OrderStatusUpdatedEventHandler',
+    factory: () =>
+      new OrderStatusUpdatedEventHandler(container.resolve('Logger')),
   });
 
   const eventBus = container.resolve<EventBus>('EventBus');
 
   eventBus.subscribe(
     container.resolve<OrderCreatedEventHandler>('OrderCreatedEventHandler')
+  );
+
+  eventBus.subscribe(
+    container.resolve<OrderStatusUpdatedEventHandler>(
+      'OrderStatusUpdatedEventHandler'
+    )
   );
 
   // Command Handlers
@@ -85,7 +98,10 @@ export const registerOrderDependencies = (
   container.register({
     key: 'UpdaterOrderByIdCommandHandler',
     factory: () =>
-      new UpdaterOrderByIdCommandHandler(container.resolve('OrderRepository')),
+      new UpdaterOrderByIdCommandHandler(
+        container.resolve('OrderRepository'),
+        container.resolve('EventBus')
+      ),
   });
 
   const commandBus = container.resolve<CommandBus>('CommandBus');

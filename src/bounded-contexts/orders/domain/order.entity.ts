@@ -6,6 +6,8 @@ import { DateValueObject } from '@src/bounded-contexts/shared/domain/value-objec
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
 import { InvalidOrderStatusTransitionError } from './errors/invalid-order-status-transition.error';
+import { OrderCreatedEvent } from './events/order-created.event';
+import { OrderStatusUpdatedEvent } from './events/order-status-updated.event';
 import { OrderStatus } from './value-objects/order-status.value-object';
 
 export type OrderPrimitives = RootAggregatePrimitives & {
@@ -66,6 +68,14 @@ export class Order extends RootAggregate<OrderPrimitives> {
         );
       }
     }
+
+    this.record(
+      new OrderStatusUpdatedEvent({
+        orderId: this.id.value,
+        previousStatus: this.status.value,
+        newStatus: newStatus.value,
+      })
+    );
 
     this.status = newStatus;
   }

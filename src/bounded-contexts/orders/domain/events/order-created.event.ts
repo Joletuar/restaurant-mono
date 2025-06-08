@@ -3,15 +3,13 @@ import { DomainEvent } from '@src/bounded-contexts/shared/domain/domain-event.in
 import type { Order, OrderPrimitives } from '../order.entity';
 
 export class OrderCreatedEvent extends DomainEvent<OrderPrimitives> {
-  static eventName(): string {
-    return 'order.created';
-  }
+  static readonly EVENT_NAME = 'order.created';
 
   static fromPrimitives(order: Order): OrderCreatedEvent {
     return new OrderCreatedEvent(order);
   }
 
   constructor(order: Order) {
-    super('order.created', order.getId(), order.toPrimitives());
+    super(OrderCreatedEvent.EVENT_NAME, order.getId(), order.toPrimitives());
   }
 }

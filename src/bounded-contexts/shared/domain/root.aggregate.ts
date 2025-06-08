@@ -19,10 +19,6 @@ export abstract class RootAggregate<T> {
     protected updatedAt: DateValueObject
   ) {}
 
-  protected record(event: DomainEvent): void {
-    this.domainEvents.push(event);
-  }
-
   getId(): string {
     return this.id.value;
   }
@@ -52,5 +48,17 @@ export abstract class RootAggregate<T> {
 
   toString(): string {
     return JSON.stringify(this.toPrimitives(), null, 2);
+  }
+
+  protected record(event: DomainEvent): void {
+    this.domainEvents.push(event);
+  }
+
+  protected static recordCreation<T extends RootAggregate<unknown>>(
+    instance: T,
+    creationEvent: DomainEvent
+  ): T {
+    instance.record(creationEvent);
+    return instance;
   }
 }

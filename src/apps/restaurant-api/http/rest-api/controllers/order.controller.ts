@@ -76,7 +76,10 @@ export class OrderController {
     const updateData = request.body as { status: string };
 
     await this.commandBus.dispatch(
-      new UpdaterOrderByIdCommand({ orderId: id, status: updateData.status })
+      new UpdaterOrderByIdCommand(
+        { orderId: id, status: updateData.status },
+        { reqId: request.id }
+      )
     );
 
     return await ResponseBuilder.successNoContent({ reply });
