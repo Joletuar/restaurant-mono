@@ -17,7 +17,7 @@ export class CreatorOrderCommandHandler
   ) {}
 
   async handle(command: CreatorOrderCommand): Promise<void> {
-    await this.ensureIsValidRecipe(command.data.recipeId);
+    await this.ensureIsValidRecipe(command.data.recipeId, command._metadata);
 
     const order = Order.fromPrimitives({
       recipeId: command.data.recipeId,
@@ -29,8 +29,11 @@ export class CreatorOrderCommandHandler
     await this.publisEvents(order);
   }
 
-  private async ensureIsValidRecipe(recipeId: string): Promise<void> {
-    await this.queryBus.dispatch(new FinderRecipeByIdQuery(recipeId));
+  private async ensureIsValidRecipe(
+    recipeId: string,
+    metadata: Record<string, unknown> | undefined
+  ): Promise<void> {
+    await this.queryBus.dispatch(new FinderRecipeByIdQuery(recipeId, metadata));
   }
 
   private async publisEvents(order: Order): Promise<void> {
