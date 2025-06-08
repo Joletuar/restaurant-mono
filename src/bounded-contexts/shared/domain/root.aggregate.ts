@@ -1,6 +1,7 @@
 import type { DomainEvent } from './domain-event.interface';
 import { DateValueObject } from './value-objects/date.value-object';
 import type { IdValueObject } from './value-objects/id.value-object';
+import type { NumberValueObject } from './value-objects/number.value-object';
 
 export type RootAggregatePrimitives = {
   id: string;
@@ -15,6 +16,7 @@ export abstract class RootAggregate<T> {
 
   constructor(
     protected id: IdValueObject,
+    protected version: NumberValueObject,
     protected createdAt: DateValueObject,
     protected updatedAt: DateValueObject
   ) {}

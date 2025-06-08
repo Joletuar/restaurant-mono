@@ -21,12 +21,12 @@ export class EventEmitterEventBus {
   }
 
   subscribe<T extends DomainEvent>(handler: EventHandler<T>): void {
-    this.emitter.on(handler.eventType, async (event: T) => {
+    this.emitter.on(handler.getEventType(), async (event: T) => {
       await handler.handle(event);
     });
   }
 
   unsubscribe<T extends DomainEvent>(handler: EventHandler<T>): void {
-    this.emitter.off(handler.eventType, handler.handle);
+    this.emitter.off(handler.getEventType(), handler.handle);
   }
 }

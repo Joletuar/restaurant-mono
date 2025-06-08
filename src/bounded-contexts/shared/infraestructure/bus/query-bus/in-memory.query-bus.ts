@@ -21,7 +21,7 @@ export class InMemoryQueryBus implements QueryBus {
     handler: QueryHandler<Query, QueryResponse<unknown>>
   ): void {
     if (this.handlers.has(query)) {
-      this.logger.warn(
+      this.getLogger().warn(
         {},
         `Query handler <${query.name}> is already registered.`
       );
@@ -54,7 +54,7 @@ export class InMemoryQueryBus implements QueryBus {
 
   addMiddleware(middleware: QueryMiddleware): void {
     if (this.middlewares.find((m) => m === middleware)) {
-      this.logger.warn(
+      this.getLogger().warn(
         {},
         `Middleware <${middleware.constructor.name}> is already registered.`
       );
@@ -65,7 +65,7 @@ export class InMemoryQueryBus implements QueryBus {
     this.middlewares.push(middleware);
   }
 
-  private get logger(): Logger {
+  private getLogger(): Logger {
     if (!this._logger) {
       this._logger = dependencyContainer.resolve('Logger');
     }

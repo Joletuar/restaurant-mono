@@ -3,7 +3,7 @@ import type { DomainEvent } from '../domain-event.interface';
 export interface EventHandler<T extends DomainEvent> {
   handle(event: T): Promise<void>;
 
-  get eventType(): string;
+  getEventType(): string;
 }
 
 export interface EventBus {

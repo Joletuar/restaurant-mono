@@ -11,7 +11,7 @@ export class OrderStatusUpdatedEventHandler
     this.logger.info(event, 'OrderStatusUpdatedEventHandler');
   }
 
-  get eventType(): string {
+  getEventType(): string {
     return OrderStatusUpdatedEvent.EVENT_NAME;
   }
 }

@@ -16,7 +16,7 @@ export class LoggerCommandMiddleware implements CommandMiddleware {
     const commandName = command.constructor.name;
     const { _metadata, ...commandData } = { ...command };
 
-    this.logger.info(
+    this.getLogger().info(
       { reqId, commandType: commandName, commandId: command._id, commandData },
       `[🛠️ Command] Starting execution of ${commandName}`
     );
@@ -26,7 +26,7 @@ export class LoggerCommandMiddleware implements CommandMiddleware {
       const result = await next(command);
       const executionTime = (performance.now() - startTime).toFixed(2);
 
-      this.logger.info(
+      this.getLogger().info(
         {
           reqId,
           commandType: commandName,
@@ -37,7 +37,7 @@ export class LoggerCommandMiddleware implements CommandMiddleware {
 
       return result;
     } catch (error) {
-      this.logger.error(
+      this.getLogger().error(
         {
           reqId,
           commandType: commandName,
@@ -51,7 +51,7 @@ export class LoggerCommandMiddleware implements CommandMiddleware {
     }
   }
 
-  private get logger(): Logger {
+  private getLogger(): Logger {
     if (!this._logger) {
       this._logger = dependencies.resolve('Logger');
     }

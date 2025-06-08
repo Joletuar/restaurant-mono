@@ -4,6 +4,7 @@ import {
 } from '@src/bounded-contexts/shared/domain/root.aggregate';
 import { DateValueObject } from '@src/bounded-contexts/shared/domain/value-objects/date.value-object';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
+import { NumberValueObject } from '@src/bounded-contexts/shared/domain/value-objects/number.value-object';
 import { StringValueObject } from '@src/bounded-contexts/shared/domain/value-objects/string.value-object';
 
 export type IngredientPrimivites = RootAggregatePrimitives & {
@@ -30,7 +31,7 @@ export class Ingredient extends RootAggregate<IngredientPrimivites> {
     createdAt: DateValueObject,
     updatedAt: DateValueObject
   ) {
-    super(id, createdAt, updatedAt);
+    super(id, new NumberValueObject(1), createdAt, updatedAt);
   }
 
   toPrimitives(): IngredientPrimivites {

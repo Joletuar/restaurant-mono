@@ -16,7 +16,7 @@ export class InMemoryCommandBus implements CommandBus {
 
   register(cmd: CommandClass, handler: CommandHandler<Command>): void {
     if (this.handlers.has(cmd)) {
-      this.logger.warn(
+      this.getLogger().warn(
         {},
         `Command handler <${cmd.name}> is already registered.`
       );
@@ -50,7 +50,7 @@ export class InMemoryCommandBus implements CommandBus {
 
   addMiddleware(middleware: CommandMiddleware): void {
     if (this.middlewares.find((m) => m === middleware)) {
-      this.logger.warn(
+      this.getLogger().warn(
         {},
         `Middleware <${middleware.constructor.name}> is already registered.`
       );
@@ -61,7 +61,7 @@ export class InMemoryCommandBus implements CommandBus {
     this.middlewares.push(middleware);
   }
 
-  private get logger(): Logger {
+  private getLogger(): Logger {
     if (!this._logger) {
       this._logger = dependencyContainer.resolve('Logger');
     }

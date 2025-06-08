@@ -17,7 +17,7 @@ export class LoggerQueryMiddleware implements QueryMiddleware {
     const queryName = query.constructor.name;
     const { _metadata, ...queryData } = { ...query };
 
-    this.logger.info(
+    this.getLogger().info(
       { reqId, queryType: queryName, queryId: query._id, queryData },
       `[🔍 Query] Starting execution of ${queryName}`
     );
@@ -27,19 +27,19 @@ export class LoggerQueryMiddleware implements QueryMiddleware {
       const result = await next(query);
       const executionTime = (performance.now() - startTime).toFixed(2);
 
-      this.logger.debug(
+      this.getLogger().debug(
         { reqId, output: result },
         `[🔭 Query] Output of ${queryName}`
       );
 
-      this.logger.info(
+      this.getLogger().info(
         { reqId, queryType: queryName, executionTime: `${executionTime}ms` },
         `[✅ Query] Completed execution of ${queryName}`
       );
 
       return result;
     } catch (error) {
-      this.logger.error(
+      this.getLogger().error(
         { reqId, queryType: queryName, queryId: query._id, queryData },
         `[❌ Query] Error when executing ${queryName}`
       );
@@ -48,7 +48,7 @@ export class LoggerQueryMiddleware implements QueryMiddleware {
     }
   }
 
-  private get logger(): Logger {
+  private getLogger(): Logger {
     if (!this._logger) {
       this._logger = dependencies.resolve('Logger');
     }

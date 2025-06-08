@@ -11,7 +11,7 @@ export class OrderCreatedEventHandler
     this.logger.info(event, `Order created: `);
   }
 
-  get eventType(): string {
+  getEventType(): string {
     return OrderCreatedEvent.EVENT_NAME;
   }
 }

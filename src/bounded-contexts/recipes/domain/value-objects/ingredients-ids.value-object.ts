@@ -29,7 +29,7 @@ export class IngredientsIds extends RootValueObject<IngredientsIdsPrimitives> {
     super({ ids: ids.map((id) => id.value) });
   }
 
-  get ids(): string[] {
+  getIds(): string[] {
     return this.value.ids;
   }
 }

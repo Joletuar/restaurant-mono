@@ -22,7 +22,7 @@ export class InMemoryEventBus implements EventBus {
   }
 
   subscribe<T extends DomainEvent>(handler: EventHandler<T>): void {
-    const eventType = handler.eventType;
+    const eventType = handler.getEventType();
     const handlers = this.handlers.get(eventType) || [];
 
     handlers.push(handler);
@@ -31,7 +31,7 @@ export class InMemoryEventBus implements EventBus {
   }
 
   unsubscribe<T extends DomainEvent>(handler: EventHandler<T>): void {
-    const eventType = handler.eventType;
+    const eventType = handler.getEventType();
     const handlers = this.handlers.get(eventType) || [];
     const index = handlers.indexOf(handler);
 

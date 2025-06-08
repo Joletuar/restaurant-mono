@@ -4,9 +4,9 @@ import {
 } from '@src/bounded-contexts/shared/domain/root.aggregate';
 import { DateValueObject } from '@src/bounded-contexts/shared/domain/value-objects/date.value-object';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
+import { NumberValueObject } from '@src/bounded-contexts/shared/domain/value-objects/number.value-object';
 
 import { InvalidOrderStatusTransitionError } from './errors/invalid-order-status-transition.error';
-import { OrderCreatedEvent } from './events/order-created.event';
 import { OrderStatusUpdatedEvent } from './events/order-status-updated.event';
 import { OrderStatus } from './value-objects/order-status.value-object';
 
@@ -37,7 +37,7 @@ export class Order extends RootAggregate<OrderPrimitives> {
     createdAt: DateValueObject,
     updatedAt: DateValueObject
   ) {
-    super(id, createdAt, updatedAt);
+    super(id, new NumberValueObject(1), createdAt, updatedAt);
   }
 
   toPrimitives(): OrderPrimitives {
