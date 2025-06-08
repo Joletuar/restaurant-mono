@@ -27,7 +27,11 @@ export class LoggerCommandMiddleware implements CommandMiddleware {
       const executionTime = (performance.now() - startTime).toFixed(2);
 
       this.logger.info(
-        { reqId, commandType: command, executionTime: `${executionTime}ms` },
+        {
+          reqId,
+          commandType: commandName,
+          executionTime: `${executionTime}ms`,
+        },
         `[✅ Command] Completed execution of ${commandName}`
       );
 
