@@ -13,7 +13,7 @@ export class InMemoryOrderRepository implements OrderRepository {
     initialOrders: Order[] = [
       Order.fromPrimitives({
         recipeId: IdValueObject.generateId().value,
-        status: OrderStatus.createCompleted().value,
+        status: OrderStatus.Pending().value,
       }),
     ]
   ) {

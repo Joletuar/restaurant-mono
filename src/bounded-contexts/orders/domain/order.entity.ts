@@ -5,6 +5,7 @@ import {
 import { DateValueObject } from '@src/bounded-contexts/shared/domain/value-objects/date.value-object';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
+import { InvalidOrderStatusTransitionError } from './errors/invalid-order-status-transition.error';
 import { OrderStatus } from './value-objects/order-status.value-object';
 
 export type OrderPrimitives = RootAggregatePrimitives & {
@@ -47,7 +48,25 @@ export class Order extends RootAggregate<OrderPrimitives> {
     };
   }
 
-  updateStatus(status: OrderStatus): void {
-    this.status = status;
+  updateStatus(newStatus: OrderStatus): void {
+    if (this.status.isCancelled() || this.status.isCompleted()) {
+      throw new InvalidOrderStatusTransitionError(
+        'Cannot update status for an order that is already cancelled or completed',
+        this.status.value,
+        newStatus.value
+      );
+    }
+
+    if (this.status.isPending()) {
+      if (newStatus.isCancelled() || newStatus.isCompleted()) {
+        throw new InvalidOrderStatusTransitionError(
+          'Cannot transition directly from pending status to cancelled or completed',
+          this.status.value,
+          newStatus.value
+        );
+      }
+    }
+
+    this.status = newStatus;
   }
 }

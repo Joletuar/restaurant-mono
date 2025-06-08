@@ -10,9 +10,7 @@ export class GetterAllRecipesQueryHandler
 {
   constructor(private readonly repository: RecipeRepository) {}
 
-  async handle(
-    query: GetterAllRecipesQuery
-  ): Promise<GetterAllRecipesQueryResponse> {
+  async handle(): Promise<GetterAllRecipesQueryResponse> {
     const recipes = await this.repository.getAll();
 
     return { data: RecipeMapper.toDtoList(recipes) };

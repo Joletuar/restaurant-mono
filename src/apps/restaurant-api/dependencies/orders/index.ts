@@ -2,6 +2,8 @@ import { OrderController } from '@src/apps/restaurant-api/http/rest-api/controll
 import { OrderRouteRegistrar } from '@src/apps/restaurant-api/http/rest-api/routes/order.route';
 import { CreatorOrderCommand } from '@src/bounded-contexts/orders/application/commands/creator-order/creator-order.command';
 import { CreatorOrderCommandHandler } from '@src/bounded-contexts/orders/application/commands/creator-order/creator-order.command-handler';
+import { UpdaterOrderByIdCommand } from '@src/bounded-contexts/orders/application/commands/updater-order-by-id/updater-order-by-id.command';
+import { UpdaterOrderByIdCommandHandler } from '@src/bounded-contexts/orders/application/commands/updater-order-by-id/updater-order-by-id.command-handler';
 import { FinderOrderByIdQuery } from '@src/bounded-contexts/orders/application/queries/finder-order-by-id/finder-order-by-id.query';
 import { FinderOrderByIdQueryHandler } from '@src/bounded-contexts/orders/application/queries/finder-order-by-id/finder-order-by-id.query-handler';
 import { GetterAllOrdersQuery } from '@src/bounded-contexts/orders/application/queries/getter-all-orders/getter-all-orders.query';
@@ -98,11 +100,24 @@ export const registerOrderDependencies = (
       ),
   });
 
+  container.register({
+    key: 'UpdaterOrderByIdCommandHandler',
+    factory: () =>
+      new UpdaterOrderByIdCommandHandler(container.resolve('OrderRepository')),
+  });
+
   const commandBus = container.resolve<CommandBus>('CommandBus');
 
   commandBus.register(
     CreatorOrderCommand,
     container.resolve<CreatorOrderCommandHandler>('CreatorOrderCommandHandler')
+  );
+
+  commandBus.register(
+    UpdaterOrderByIdCommand,
+    container.resolve<UpdaterOrderByIdCommandHandler>(
+      'UpdaterOrderByIdCommandHandler'
+    )
   );
 
   // Controllers

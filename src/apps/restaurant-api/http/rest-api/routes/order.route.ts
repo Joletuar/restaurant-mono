@@ -24,10 +24,10 @@ export class OrderRouteRegistrar implements RouteRegistrar {
           this.orderController.createOrder.bind(this.orderController)
         );
 
-        // instance.patch(
-        //   '/:id',
-        //   this.orderController.updateOrder.bind(this.orderController)
-        // );
+        instance.patch(
+          '/:id',
+          this.orderController.updateOrder.bind(this.orderController)
+        );
       },
       { prefix: '/orders' }
     );

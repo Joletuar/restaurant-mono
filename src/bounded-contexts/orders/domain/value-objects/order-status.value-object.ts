@@ -32,23 +32,39 @@ export class OrderStatus extends StringValueObject {
     }
   }
 
-  static createPending(): OrderStatus {
+  static Pending(): OrderStatus {
     return new OrderStatus(OrderStatusEnum.PENDING);
   }
 
-  static createInProgress(): OrderStatus {
+  static InProgress(): OrderStatus {
     return new OrderStatus(OrderStatusEnum.IN_PROGRESS);
   }
 
-  static createCompleted(): OrderStatus {
+  static Completed(): OrderStatus {
     return new OrderStatus(OrderStatusEnum.COMPLETED);
   }
 
-  static createCancelled(): OrderStatus {
+  static Cancelled(): OrderStatus {
     return new OrderStatus(OrderStatusEnum.CANCELLED);
   }
 
   protected constructor(value: string) {
     super(value);
+  }
+
+  isPending(): boolean {
+    return this._value === OrderStatusEnum.PENDING.valueOf();
+  }
+
+  isInProgress(): boolean {
+    return this._value === OrderStatusEnum.IN_PROGRESS.valueOf();
+  }
+
+  isCompleted(): boolean {
+    return this._value === OrderStatusEnum.COMPLETED.valueOf();
+  }
+
+  isCancelled(): boolean {
+    return this._value === OrderStatusEnum.CANCELLED.valueOf();
   }
 }

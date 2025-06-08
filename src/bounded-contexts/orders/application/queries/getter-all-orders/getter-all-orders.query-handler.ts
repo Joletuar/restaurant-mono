@@ -10,9 +10,7 @@ export class GetterAllOrdersQueryHandler
 {
   constructor(private readonly orderRepository: OrderRepository) {}
 
-  async handle(
-    query: GetterAllOrdersQuery
-  ): Promise<GetterAllOrdersQueryResponse> {
+  async handle(): Promise<GetterAllOrdersQueryResponse> {
     const orders = await this.orderRepository.getAll();
 
     return { data: OrderMapper.toDtoList(orders) };

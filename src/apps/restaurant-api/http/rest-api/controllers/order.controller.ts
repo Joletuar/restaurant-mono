@@ -1,6 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
 
 import { CreatorOrderCommand } from '@src/bounded-contexts/orders/application/commands/creator-order/creator-order.command';
+import { UpdaterOrderByIdCommand } from '@src/bounded-contexts/orders/application/commands/updater-order-by-id/updater-order-by-id.command';
 import { FinderOrderByIdQuery } from '@src/bounded-contexts/orders/application/queries/finder-order-by-id/finder-order-by-id.query';
 import { GetterAllOrdersQuery } from '@src/bounded-contexts/orders/application/queries/getter-all-orders/getter-all-orders.query';
 import type { CommandBus } from '@src/bounded-contexts/shared/domain/command-bus.interface';
@@ -65,15 +66,19 @@ export class OrderController {
     });
   }
 
-  // async updateOrder(
-  //   request: FastifyRequest<{ Params: { id: string } }>,
-  //   reply: FastifyReply
-  // ): Promise<void> {
-  //   const { id } = request.params;
-  //   const updateData = request.body as { status: string };
+  async updateOrder(
+    request: FastifyRequest<{ Params: { id: string } }>,
+    reply: FastifyReply
+  ): Promise<void> {
+    // TODO: añadir validaciones de esquemas para datos basura y validaciones comunes
 
-  //   await this.updaterOrderById.execute(id, updateData);
+    const { id } = request.params;
+    const updateData = request.body as { status: string };
 
-  //   return await ResponseBuilder.successNoContent({ reply });
-  // }
+    await this.commandBus.dispatch(
+      new UpdaterOrderByIdCommand({ orderId: id, status: updateData.status })
+    );
+
+    return await ResponseBuilder.successNoContent({ reply });
+  }
 }
