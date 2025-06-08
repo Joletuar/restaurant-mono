@@ -8,10 +8,6 @@ import { FinderOrderByIdQuery } from '@src/bounded-contexts/orders/application/q
 import { FinderOrderByIdQueryHandler } from '@src/bounded-contexts/orders/application/queries/finder-order-by-id/finder-order-by-id.query-handler';
 import { GetterAllOrdersQuery } from '@src/bounded-contexts/orders/application/queries/getter-all-orders/getter-all-orders.query';
 import { GetterAllOrdersQueryHandler } from '@src/bounded-contexts/orders/application/queries/getter-all-orders/getter-all-orders.query-handler';
-import { CreatorOrder } from '@src/bounded-contexts/orders/application/use-cases/creator-order/creator-order.use-case';
-import { FinderOrderById } from '@src/bounded-contexts/orders/application/use-cases/finder-order-by-id/finder-order-by-id.use-case';
-import { GetterAllOrders } from '@src/bounded-contexts/orders/application/use-cases/getter-all-orders/getter-all-order.use-case';
-import { UpdaterOrderById } from '@src/bounded-contexts/orders/application/use-cases/updater-order-by-id/updater-order-by-id.use-case';
 import { InMemoryOrderRepository } from '@src/bounded-contexts/orders/infraestructure/persistence/in-memory-order.repository';
 import type { CommandBus } from '@src/bounded-contexts/shared/domain/command-bus.interface';
 import type { QueryBus } from '@src/bounded-contexts/shared/domain/query-bus.interface';
@@ -27,36 +23,6 @@ export const registerOrderDependencies = (
     key: 'OrderRepository',
     factory: () => new InMemoryOrderRepository(),
     lifetime: 'singleton',
-  });
-
-  // Use Cases
-
-  container.register({
-    key: 'GetterAllOrders',
-    factory: () => new GetterAllOrders(container.resolve('OrderRepository')),
-  });
-
-  container.register({
-    key: 'FinderOrderById',
-    factory: () => new FinderOrderById(container.resolve('OrderRepository')),
-  });
-
-  container.register({
-    key: 'UpdaterOrderById',
-    factory: () =>
-      new UpdaterOrderById(
-        container.resolve('OrderRepository'),
-        container.resolve('FinderRecipeById')
-      ),
-  });
-
-  container.register({
-    key: 'CreatorOrder',
-    factory: () =>
-      new CreatorOrder(
-        container.resolve('OrderRepository'),
-        container.resolve('FinderRecipeById')
-      ),
   });
 
   //  Query Handlers

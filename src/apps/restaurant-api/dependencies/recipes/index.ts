@@ -4,7 +4,6 @@ import { FinderRecipeByIdQuery } from '@src/bounded-contexts/recipes/application
 import { FinderRecipeByIdQueryHandler } from '@src/bounded-contexts/recipes/application/queries/finder-recipe-by-id/finder-recipe-by-id.query-handler';
 import { GetterAllRecipesQuery } from '@src/bounded-contexts/recipes/application/queries/getter-all-recipes/getter-all-recipes.query';
 import { GetterAllRecipesQueryHandler } from '@src/bounded-contexts/recipes/application/queries/getter-all-recipes/getter-all-recipes.query-handler';
-import { FinderRecipeById } from '@src/bounded-contexts/recipes/application/use-cases/finder-recipe-by-id/finder-recipe-by-id.use-case';
 import { InMemoryRecipeRepository } from '@src/bounded-contexts/recipes/infraestructure/persistence/in-memory-recipe.repository';
 import type { QueryBus } from '@src/bounded-contexts/shared/domain/query-bus.interface';
 
@@ -19,13 +18,6 @@ export const registerRecipesDependencies = (
     key: 'RecipeRepository',
     factory: () => new InMemoryRecipeRepository(),
     lifetime: 'singleton',
-  });
-
-  // Use Cases
-
-  container.register({
-    key: 'FinderRecipeById',
-    factory: () => new FinderRecipeById(container.resolve('FinderRepository')),
   });
 
   // Query Handlers
