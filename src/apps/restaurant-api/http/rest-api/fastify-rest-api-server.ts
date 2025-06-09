@@ -1,15 +1,7 @@
 import express from '@fastify/express';
 import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
-import Fastify, {
-  type FastifyInstance,
-  type RawReplyDefaultExpression,
-  type RawRequestDefaultExpression,
-  type RawServerDefault,
-} from 'fastify';
-import type {
-  FastifyBaseLogger,
-  PinoLoggerOptions,
-} from 'fastify/types/logger';
+import Fastify, { type FastifyInstance } from 'fastify';
+import type { PinoLoggerOptions } from 'fastify/types/logger';
 
 import type { HttpServer } from '../http-server.interface';
 import { errorHandler } from './error-handler';
@@ -30,14 +22,6 @@ const envToLogger = {
   production: true,
   test: false,
 };
-
-export type FastifyTypebox = FastifyInstance<
-  RawServerDefault,
-  RawRequestDefaultExpression<RawServerDefault>,
-  RawReplyDefaultExpression<RawServerDefault>,
-  FastifyBaseLogger,
-  TypeBoxTypeProvider
->;
 
 export type FastifyServerConfig = {
   port: number;
