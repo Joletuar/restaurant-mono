@@ -49,12 +49,12 @@ export class OrderController {
   }
 
   async createOrder(
-    request: FastifyRequest,
+    request: FastifyRequest<{ Body: { recipeId: string; status: string } }>,
     reply: FastifyReply
   ): Promise<void> {
     // TODO: añadir validaciones de esquemas para datos basura y validaciones comunes
 
-    const orderData = request.body as { recipeId: string; status: string };
+    const orderData = request.body;
 
     const command = new CreatorOrderCommand(orderData, { reqId: request.id });
 
@@ -67,13 +67,16 @@ export class OrderController {
   }
 
   async updateOrder(
-    request: FastifyRequest<{ Params: { id: string } }>,
+    request: FastifyRequest<{
+      Params: { id: string };
+      Body: { status: string };
+    }>,
     reply: FastifyReply
   ): Promise<void> {
     // TODO: añadir validaciones de esquemas para datos basura y validaciones comunes
 
     const { id } = request.params;
-    const updateData = request.body as { status: string };
+    const updateData = request.body;
 
     await this.commandBus.dispatch(
       new UpdaterOrderByIdCommand(

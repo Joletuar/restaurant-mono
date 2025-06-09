@@ -1,3 +1,4 @@
+import { Type } from '@fastify/type-provider-typebox';
 import type { FastifyInstance } from 'fastify';
 
 import type { OrderController } from '../controllers/order.controller';
@@ -16,6 +17,13 @@ export class OrderRouteRegistrar implements RouteRegistrar {
 
         instance.get(
           '/:id',
+          {
+            schema: {
+              params: Type.Object({
+                id: Type.Number(),
+              }),
+            },
+          },
           this.orderController.getOrderById.bind(this.orderController)
         );
 
