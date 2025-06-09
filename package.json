@@ -20,6 +20,7 @@
   "dependencies": {
     "@fastify/express": "4.0.2",
     "@fastify/type-provider-typebox": "5.1.0",
+    "@sinclair/typebox": "0.34.33",
     "cors": "2.8.5",
     "fastify": "5.3.3",
     "helmet": "8.1.0",
