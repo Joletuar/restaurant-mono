@@ -2,6 +2,7 @@ import { Type } from '@fastify/type-provider-typebox';
 import type { FastifyInstance } from 'fastify';
 
 import type { OrderController } from '../controllers/order.controller';
+import type { FastifyTypebox } from '../fastify-rest-api-server';
 import type { RouteRegistrar } from './route-registar.interface';
 
 export class OrderRouteRegistrar implements RouteRegistrar {
@@ -9,7 +10,7 @@ export class OrderRouteRegistrar implements RouteRegistrar {
 
   async registerRoutes(fastify: FastifyInstance): Promise<void> {
     fastify.register(
-      async (instance) => {
+      async (instance: FastifyTypebox) => {
         instance.get(
           '/',
           this.orderController.getAllOrders.bind(this.orderController)
@@ -17,13 +18,6 @@ export class OrderRouteRegistrar implements RouteRegistrar {
 
         instance.get(
           '/:id',
-          {
-            schema: {
-              params: Type.Object({
-                id: Type.Number(),
-              }),
-            },
-          },
           this.orderController.getOrderById.bind(this.orderController)
         );
 
