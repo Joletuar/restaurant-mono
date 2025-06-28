@@ -1,3 +1,5 @@
+import type { IngredientDto } from '@src/bounded-contexts/ingredients/application/ingredient.dto';
+import { IngredientMapper } from '@src/bounded-contexts/ingredients/application/ingredient.mapper';
 import type { IngredientRepository } from '@src/bounded-contexts/ingredients/domain/ingredient.repository';
 import type {
   QueryHandler,
@@ -6,8 +8,6 @@ import type {
 import { NotFoundError } from '@src/bounded-contexts/shared/domain/errors/not-found.error';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
-import type { IngredientDto } from '../../ingredient.dto';
-import { IngredientMapper } from '../../ingredient.mapper';
 import type { FinderIngredientByIdQuery } from './finder-ingredient-by-id.query';
 
 export class FinderIngredientByIdQueryHandler

@@ -48,8 +48,7 @@ export class InMemoryQueryBus implements QueryBus {
       const middleware = this.middlewares[i]!;
       const currentNext = next;
 
-      next = (query) =>
-        middleware.execute(query, currentNext) as Promise<QueryResponse<Data>>;
+      next = (query) => middleware.execute(query, currentNext);
     }
 
     return next(query);

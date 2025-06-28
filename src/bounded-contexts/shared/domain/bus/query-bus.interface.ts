@@ -12,10 +12,10 @@ export interface QueryHandler<Q extends Query, Data = unknown> {
 }
 
 export interface QueryMiddleware {
-  execute<Q extends Query>(
+  execute<Q extends Query, Data = unknown>(
     query: Q,
-    next: (query: Q) => Promise<QueryResponse<unknown>>
-  ): Promise<QueryResponse<unknown>>;
+    next: (query: Q) => Promise<QueryResponse<Data>>
+  ): Promise<QueryResponse<Data>>;
 }
 
 export interface QueryClass<Q extends Query = Query> {

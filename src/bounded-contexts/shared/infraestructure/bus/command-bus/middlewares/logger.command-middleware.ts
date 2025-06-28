@@ -8,9 +8,9 @@ import type { Logger } from '@src/bounded-contexts/shared/domain/logger.interfac
 export class LoggerCommandMiddleware implements CommandMiddleware {
   private _logger?: Logger;
 
-  async execute(
-    command: Command,
-    next: (cmd: Command) => Promise<void>
+  async execute<T extends Command>(
+    command: T,
+    next: (cmd: T) => Promise<void>
   ): Promise<void> {
     const reqId = command._metadata?.['reqId'] || 'unknown';
     const commandName = command.constructor.name;

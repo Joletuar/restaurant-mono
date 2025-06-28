@@ -8,15 +8,23 @@ export interface CommandHandler<T extends Command> {
 }
 
 export interface CommandMiddleware {
-  execute(cmd: Command, next: (cmd: Command) => Promise<void>): Promise<void>;
+  execute<T extends Command>(
+    cmd: T,
+    next: (cmd: T) => Promise<void>
+  ): Promise<void>;
 }
 
-export interface CommandClass {
-  new (...args: any[]): Command;
+export interface CommandClass<T extends Command = Command> {
+  new (...args: any[]): T;
 }
 
 export interface CommandBus {
-  register(cmd: CommandClass, handler: CommandHandler<Command>): void;
-  dispatch(cmd: Command): Promise<void>;
+  register<T extends Command>(
+    cmd: CommandClass<T>,
+    handler: CommandHandler<T>
+  ): void;
+
+  dispatch<T extends Command>(cmd: T): Promise<void>;
+
   addMiddleware(middleware: CommandMiddleware): void;
 }

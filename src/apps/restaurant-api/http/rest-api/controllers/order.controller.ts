@@ -46,9 +46,7 @@ export class OrderController {
 
     const query = new FinderOrderByIdQuery(id, { reqId: request.id });
 
-    const order = await this.queryBus.dispatch<FinderOrderByIdQuery, OrderDto>(
-      query
-    );
+    const order = await this.queryBus.dispatch(query);
 
     return await ResponseBuilder.success({
       reply,

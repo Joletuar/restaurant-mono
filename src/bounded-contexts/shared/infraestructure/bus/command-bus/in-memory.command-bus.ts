@@ -14,7 +14,10 @@ export class InMemoryCommandBus implements CommandBus {
   private handlers: Map<CommandClass, CommandHandler<any>> = new Map();
   private middlewares: CommandMiddleware[] = [];
 
-  register(cmd: CommandClass, handler: CommandHandler<Command>): void {
+  register<T extends Command>(
+    cmd: CommandClass<T>,
+    handler: CommandHandler<T>
+  ): void {
     if (this.handlers.has(cmd)) {
       this.getLogger().warn(
         {},
@@ -31,13 +34,12 @@ export class InMemoryCommandBus implements CommandBus {
     const handler = this.handlers.get(cmd.constructor as CommandClass);
 
     if (!handler) {
-      throw new Error(`No handler registered for <${cmd.constructor.name}>.`); // TODO: USE CUSTOM ERROR
+      throw new Error(`No handler registered for <${cmd.constructor.name}>.`);
     }
 
     let next = (cmd: Command): Promise<void> => handler.handle(cmd);
 
     // Se itera de forma inversa para mantener el orden de ejecución de los middlewares
-
     for (let i = this.middlewares.length - 1; i >= 0; i--) {
       const middleware = this.middlewares[i]!;
       const currentNext = next;
