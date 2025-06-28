@@ -1,21 +1,23 @@
 import type { IngredientRepository } from '@src/bounded-contexts/ingredients/domain/ingredient.repository';
-import type { QueryHandler } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
+import type {
+  QueryHandler,
+  QueryResponse,
+} from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
 import { NotFoundError } from '@src/bounded-contexts/shared/domain/errors/not-found.error';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
+import type { IngredientDto } from '../../ingredient.dto';
 import { IngredientMapper } from '../../ingredient.mapper';
 import type { FinderIngredientByIdQuery } from './finder-ingredient-by-id.query';
-import type { FinderIngredientByIdQueryResponse } from './finder-ingredient-by-id.query-response';
 
 export class FinderIngredientByIdQueryHandler
-  implements
-    QueryHandler<FinderIngredientByIdQuery, FinderIngredientByIdQueryResponse>
+  implements QueryHandler<FinderIngredientByIdQuery, IngredientDto>
 {
   constructor(private readonly repository: IngredientRepository) {}
 
   async handle(
     query: FinderIngredientByIdQuery
-  ): Promise<FinderIngredientByIdQueryResponse> {
+  ): Promise<QueryResponse<IngredientDto>> {
     const { recipeId } = query;
 
     const ingredient = await this.repository.findById(

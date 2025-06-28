@@ -7,31 +7,30 @@ export interface QueryResponse<Data> {
   readonly data: Data;
 }
 
-export interface QueryHandler<
-  Q extends Query,
-  R extends QueryResponse<unknown>,
-> {
-  handle(query: Q): Promise<R>;
+export interface QueryHandler<Q extends Query, Data = unknown> {
+  handle(query: Q): Promise<QueryResponse<Data>>;
 }
 
 export interface QueryMiddleware {
-  execute(
-    query: Query,
-    next: (query: Query) => Promise<QueryResponse<unknown>>
+  execute<Q extends Query>(
+    query: Q,
+    next: (query: Q) => Promise<QueryResponse<unknown>>
   ): Promise<QueryResponse<unknown>>;
 }
 
-export interface QueryClass {
-  new (...args: any[]): Query;
+export interface QueryClass<Q extends Query = Query> {
+  new (...args: any[]): Q;
 }
 
 export interface QueryBus {
-  register(
-    query: QueryClass,
-    handler: QueryHandler<Query, QueryResponse<unknown>>
+  register<Q extends Query, Data = unknown>(
+    query: QueryClass<Q>,
+    handler: QueryHandler<Q, Data>
   ): void;
 
-  dispatch(query: Query): Promise<QueryResponse<unknown>>;
+  dispatch<Q extends Query, Data = unknown>(
+    query: Q
+  ): Promise<QueryResponse<Data>>;
 
   addMiddleware(middleware: QueryMiddleware): void;
 }

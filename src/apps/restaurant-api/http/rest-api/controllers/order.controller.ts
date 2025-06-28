@@ -1,20 +1,15 @@
-import { Type } from '@fastify/type-provider-typebox';
-import type { FastifyReply, FastifyRequest, FastifySchema } from 'fastify';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 
 import { CreatorOrderCommand } from '@src/bounded-contexts/orders/application/commands/creator-order/creator-order.command';
 import { UpdaterOrderByIdCommand } from '@src/bounded-contexts/orders/application/commands/updater-order-by-id/updater-order-by-id.command';
+import type { OrderDto } from '@src/bounded-contexts/orders/application/order.dto';
 import { FinderOrderByIdQuery } from '@src/bounded-contexts/orders/application/queries/finder-order-by-id/finder-order-by-id.query';
 import { GetterAllOrdersQuery } from '@src/bounded-contexts/orders/application/queries/getter-all-orders/getter-all-orders.query';
 import type { CommandBus } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import type { QueryBus } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
 
 import { HttpStatusCode } from '../contracts/api-contracts';
-import type { FastifyRequestTypeBox } from '../types/fastify-typebox.type';
 import { ResponseBuilder } from '../utils/response.builder';
-
-const GetOrderByIdSchema: FastifySchema = {
-  params: Type.Object({ id: Type.String() }),
-}; // TODO: MOVE THIS
 
 export class OrderController {
   constructor(
@@ -28,7 +23,10 @@ export class OrderController {
   ): Promise<void> {
     const query = new GetterAllOrdersQuery({ reqId: request.id });
 
-    const orders = await this.queryBus.dispatch(query);
+    const orders = await this.queryBus.dispatch<
+      GetterAllOrdersQuery,
+      OrderDto[]
+    >(query);
 
     return await ResponseBuilder.success({
       reply,
@@ -37,7 +35,9 @@ export class OrderController {
   }
 
   async getOrderById(
-    request: FastifyRequestTypeBox<typeof GetOrderByIdSchema>,
+    request: FastifyRequest<{
+      Params: { id: string };
+    }>,
     reply: FastifyReply
   ): Promise<void> {
     // TODO: añadir validaciones de esquemas para datos basura y validaciones comunes
@@ -46,7 +46,9 @@ export class OrderController {
 
     const query = new FinderOrderByIdQuery(id, { reqId: request.id });
 
-    const order = await this.queryBus.dispatch(query);
+    const order = await this.queryBus.dispatch<FinderOrderByIdQuery, OrderDto>(
+      query
+    );
 
     return await ResponseBuilder.success({
       reply,
