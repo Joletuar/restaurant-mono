@@ -10,6 +10,14 @@ export type RootAggregatePrimitives = {
 };
 
 export abstract class RootAggregate<T> {
+  protected static recordCreation<T extends RootAggregate<unknown>>(
+    instance: T,
+    creationEvent: DomainEvent
+  ): T {
+    instance.record(creationEvent);
+    return instance;
+  }
+
   abstract toPrimitives(): T;
 
   private domainEvents: Array<DomainEvent> = [];
@@ -54,13 +62,5 @@ export abstract class RootAggregate<T> {
 
   protected record(event: DomainEvent): void {
     this.domainEvents.push(event);
-  }
-
-  protected static recordCreation<T extends RootAggregate<unknown>>(
-    instance: T,
-    creationEvent: DomainEvent
-  ): T {
-    instance.record(creationEvent);
-    return instance;
   }
 }
