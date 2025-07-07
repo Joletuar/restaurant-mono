@@ -10,10 +10,10 @@ export class InfrastructureError extends RootError {
   constructor(
     message: string,
     errors: string[],
-    originalError?: Error,
+    readonly originalError?: Error,
     readonly isCritical: boolean = false
   ) {
-    super(message, AppErrorCode.INFRASTRUCTURE_ERROR, errors, originalError);
+    super(message, AppErrorCode.INFRASTRUCTURE_ERROR, errors);
 
     this.name = this.constructor.name;
   }

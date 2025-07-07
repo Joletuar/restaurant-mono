@@ -79,4 +79,8 @@ export class Order extends RootAggregate<OrderPrimitives> {
 
     this.status = newStatus;
   }
+
+  getRecipeIdValue(): string {
+    return this.recipeId.value;
+  }
 }

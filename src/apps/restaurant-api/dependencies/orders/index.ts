@@ -90,7 +90,7 @@ export const registerOrderDependencies = (
     factory: () =>
       new CreatorOrderCommandHandler(
         container.resolve('OrderRepository'),
-        queryBus,
+        container.resolve('RecipeRepository'),
         eventBus
       ),
   });

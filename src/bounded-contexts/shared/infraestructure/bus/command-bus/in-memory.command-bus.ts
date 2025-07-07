@@ -8,6 +8,8 @@ import {
 } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import { type Logger } from '@src/bounded-contexts/shared/domain/logger.interface';
 
+import { CommandHandlerNotRegisteredError } from './errors/command-handler-not-registered.error';
+
 export class InMemoryCommandBus implements CommandBus {
   private _logger?: Logger;
 
@@ -34,7 +36,7 @@ export class InMemoryCommandBus implements CommandBus {
     const handler = this.handlers.get(cmd.constructor as CommandClass);
 
     if (!handler) {
-      throw new Error(`No handler registered for <${cmd.constructor.name}>.`);
+      throw new CommandHandlerNotRegisteredError(cmd.constructor.name);
     }
 
     let next = (cmd: Command): Promise<void> => handler.handle(cmd);
