@@ -15,7 +15,10 @@
     "clean": "bunx rimraf dist && echo 'Done.'",
     "prepare": "husky",
     "typecheck": "bunx tsc --noEmit",
-    "lint": "bunx eslint ."
+    "lint": "bunx eslint .",
+    "lint:fix": "bunx eslint . --fix",
+    "format": "bunx prettier --check .",
+    "format:fix": "bunx prettier --write ."
   },
   "dependencies": {
     "@fastify/express": "4.0.2",
