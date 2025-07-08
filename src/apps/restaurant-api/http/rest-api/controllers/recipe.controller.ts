@@ -13,7 +13,7 @@ export class RecipeController {
   async getAllRecipes(
     request: FastifyRequest,
     reply: FastifyReply
-  ): Promise<void> {
+  ): Promise<FastifyReply> {
     const query = new GetterAllRecipesQuery({ reqId: request.id });
 
     const recipes = await this.queryBus.dispatch<
@@ -30,7 +30,7 @@ export class RecipeController {
   async getRecipeById(
     request: FastifyRequest<{ Params: { id: string } }>,
     reply: FastifyReply
-  ): Promise<void> {
+  ): Promise<FastifyReply> {
     const { id } = request.params;
 
     const query = new FinderRecipeByIdQuery(id, { reqId: request.id });

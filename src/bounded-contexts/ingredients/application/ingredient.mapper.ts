@@ -12,4 +12,8 @@ export class IngredientMapper {
       updatedAt,
     };
   }
+
+  static toDtos(ingredients: Ingredient[]): IngredientDto[] {
+    return ingredients.map((ingredient) => this.toDto(ingredient));
+  }
 }

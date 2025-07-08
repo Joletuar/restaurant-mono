@@ -20,7 +20,7 @@ export class OrderController {
   async getAllOrders(
     request: FastifyRequest,
     reply: FastifyReply
-  ): Promise<void> {
+  ): Promise<FastifyReply> {
     const query = new GetterAllOrdersQuery({ reqId: request.id });
 
     const orders = await this.queryBus.dispatch<
@@ -39,7 +39,7 @@ export class OrderController {
       Params: { id: string };
     }>,
     reply: FastifyReply
-  ): Promise<void> {
+  ): Promise<FastifyReply> {
     const { id } = request.params;
 
     const query = new FinderOrderByIdQuery(id, { reqId: request.id });
@@ -55,7 +55,7 @@ export class OrderController {
   async createOrder(
     request: FastifyRequest<{ Body: { recipeId: string; status: string } }>,
     reply: FastifyReply
-  ): Promise<void> {
+  ): Promise<FastifyReply> {
     const orderData = request.body;
 
     const command = new CreatorOrderCommand(orderData, { reqId: request.id });
@@ -74,7 +74,7 @@ export class OrderController {
       Body: { status: string };
     }>,
     reply: FastifyReply
-  ): Promise<void> {
+  ): Promise<FastifyReply> {
     const { id } = request.params;
     const updateData = request.body;
 
