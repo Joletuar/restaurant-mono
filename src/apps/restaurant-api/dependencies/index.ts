@@ -45,6 +45,7 @@ export default (function bootstrap(): DependencyContainer {
         routes: [
           dependencyContainer.resolve('HealthCheckRouteRegistar'),
           dependencyContainer.resolve('RecipeRouteRegistrar'),
+          dependencyContainer.resolve('IngredientRouteRegistrar'),
           dependencyContainer.resolve('OrderRouteRegistrar'),
         ],
       }),

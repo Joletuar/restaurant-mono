@@ -26,12 +26,19 @@ export class InMemoryIngredientRepository
 
       return ingredient || null;
     } catch (error) {
-      this.errorHandler(error);
-      return null;
+      return this.errorHandler(error);
     }
   }
 
-  errorHandler(error: unknown): void {
+  async findAll(): Promise<Ingredient[]> {
+    try {
+      return Array.from(this.ingredients.values());
+    } catch (error) {
+      return this.errorHandler(error);
+    }
+  }
+
+  errorHandler(error: unknown): never {
     if (error instanceof RootError) throw error;
 
     throw new InfrastructureError(
