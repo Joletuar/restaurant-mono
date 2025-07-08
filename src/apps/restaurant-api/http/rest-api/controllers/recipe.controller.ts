@@ -31,8 +31,6 @@ export class RecipeController {
     request: FastifyRequest<{ Params: { id: string } }>,
     reply: FastifyReply
   ): Promise<void> {
-    // TODO: añadir validaciones de esquemas para datos basura y validaciones comunes
-
     const { id } = request.params;
 
     const query = new FinderRecipeByIdQuery(id, { reqId: request.id });

@@ -40,8 +40,6 @@ export class OrderController {
     }>,
     reply: FastifyReply
   ): Promise<void> {
-    // TODO: añadir validaciones de esquemas para datos basura y validaciones comunes
-
     const { id } = request.params;
 
     const query = new FinderOrderByIdQuery(id, { reqId: request.id });
@@ -58,8 +56,6 @@ export class OrderController {
     request: FastifyRequest<{ Body: { recipeId: string; status: string } }>,
     reply: FastifyReply
   ): Promise<void> {
-    // TODO: añadir validaciones de esquemas para datos basura y validaciones comunes
-
     const orderData = request.body;
 
     const command = new CreatorOrderCommand(orderData, { reqId: request.id });
@@ -79,8 +75,6 @@ export class OrderController {
     }>,
     reply: FastifyReply
   ): Promise<void> {
-    // TODO: añadir validaciones de esquemas para datos basura y validaciones comunes
-
     const { id } = request.params;
     const updateData = request.body;
 

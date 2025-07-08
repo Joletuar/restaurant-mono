@@ -12,10 +12,10 @@ import type {
   RouteGenericInterface,
 } from 'fastify';
 
-export type FastifyTypeBox = FastifyInstance<
+export type FastifyTypebox = FastifyInstance<
   RawServerDefault,
-  RawRequestDefaultExpression,
-  RawReplyDefaultExpression,
+  RawRequestDefaultExpression<RawServerDefault>,
+  RawReplyDefaultExpression<RawServerDefault>,
   FastifyBaseLogger,
   TypeBoxTypeProvider
 >;
