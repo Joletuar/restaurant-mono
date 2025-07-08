@@ -30,7 +30,7 @@ export class InMemoryIngredientRepository
     }
   }
 
-  async findAll(): Promise<Ingredient[]> {
+  async getAll(): Promise<Ingredient[]> {
     try {
       return Array.from(this.ingredients.values());
     } catch (error) {

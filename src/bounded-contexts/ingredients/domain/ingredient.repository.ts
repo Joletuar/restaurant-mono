@@ -6,5 +6,5 @@ import type { Ingredient } from './ingredient.entity';
 export interface IngredientRepository {
   findById(id: IdValueObject): Promise<Nullable<Ingredient>>;
 
-  findAll(): Promise<Ingredient[]>;
+  getAll(): Promise<Ingredient[]>;
 }

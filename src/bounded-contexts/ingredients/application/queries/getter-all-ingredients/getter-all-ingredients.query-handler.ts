@@ -14,7 +14,7 @@ export class GetterAllIngredientsQueryHandler
   constructor(private readonly repository: IngredientRepository) {}
 
   async handle(): Promise<QueryResponse<IngredientDto[]>> {
-    const ingredients = await this.repository.findAll();
+    const ingredients = await this.repository.getAll();
 
     return { data: IngredientMapper.toDtos(ingredients) };
   }
