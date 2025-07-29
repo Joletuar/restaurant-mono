@@ -1,4 +1,4 @@
-# orders
+# restaurant-mono
 
 To install dependencies:
 
