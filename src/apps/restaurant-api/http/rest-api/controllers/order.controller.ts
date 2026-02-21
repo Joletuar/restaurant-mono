@@ -7,6 +7,8 @@ import { FinderOrderByIdQuery } from '@src/bounded-contexts/orders/application/q
 import { GetterAllOrdersQuery } from '@src/bounded-contexts/orders/application/queries/getter-all-orders/getter-all-orders.query';
 import type { CommandBus } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import type { QueryBus } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
+import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infrastructure.error';
+import { InvalidPathParameter } from '@src/bounded-contexts/shared/infrastructure/http/errors/invalida-path-parameter.error';
 
 import { HttpStatusCode } from '../contracts/api-contracts';
 import { ResponseBuilder } from '../utils/response.builder';
@@ -36,11 +38,24 @@ export class OrderController {
 
   async getOrderById(
     request: FastifyRequest<{
-      Params: { id: string };
+      Params: { id?: string };
     }>,
     reply: FastifyReply
   ): Promise<FastifyReply> {
     const { id } = request.params;
+
+    if (
+      id === null ||
+      id === undefined ||
+      (id && id.length === 0) ||
+      !isNaN(Number(id))
+    ) {
+      throw new InfrastructureError(
+        `Invalid path parameter`,
+        [],
+        new InvalidPathParameter('id')
+      );
+    }
 
     const query = new FinderOrderByIdQuery(id, { reqId: request.id });
 

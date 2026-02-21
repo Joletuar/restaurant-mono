@@ -2,7 +2,6 @@ import { Type } from '@sinclair/typebox';
 import type { FastifyInstance } from 'fastify';
 
 import type { IngredientController } from '../controllers/ingredient.controller';
-import type { FastifyTypebox } from '../types/fastify-typebox.type';
 import type { RouteRegistrar } from './route-registar.interface';
 
 export class IngredientRoute implements RouteRegistrar {
@@ -10,7 +9,7 @@ export class IngredientRoute implements RouteRegistrar {
 
   async registerRoutes(fastify: FastifyInstance): Promise<void> {
     fastify.register(
-      async (instance: FastifyTypebox) => {
+      async (instance) => {
         instance.get(
           '/',
           this.ingredientController.getAllIngredients.bind(
