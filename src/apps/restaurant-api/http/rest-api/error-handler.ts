@@ -4,7 +4,8 @@ import { AppErrorCode } from '@src/bounded-contexts/shared/domain/app-error-code
 import { DomainValidationError } from '@src/bounded-contexts/shared/domain/errors/domain-validation.error';
 import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infrastructure.error';
 import { NotFoundError } from '@src/bounded-contexts/shared/domain/errors/not-found.error';
-import { InvalidPathParameter } from '@src/bounded-contexts/shared/infrastructure/http/errors/invalida-path-parameter.error';
+import { InvalidPathParameter } from '@src/bounded-contexts/shared/infrastructure/http/errors/invalid-path-parameter.error';
+import { InvalidRequestBody } from '@src/bounded-contexts/shared/infrastructure/http/errors/invalid-request-body.error';
 
 import { HttpStatusCode } from './contracts/api-contracts';
 import { ResponseBuilder } from './utils/response.builder';
@@ -27,7 +28,7 @@ export const errorHandler = async (
       requestId,
       message: error.message,
       code: error.appErrorCode,
-      details: error.errors.map((err) => ({ message: err })),
+      details: [],
       statusCode: HttpStatusCode.NOT_FOUND,
     });
   }
@@ -51,9 +52,20 @@ export const errorHandler = async (
         reply,
         requestId,
         code: error.appErrorCode,
-        message: originalError.message,
+        message: error.message,
         statusCode: HttpStatusCode.BAD_REQUEST,
         details: [],
+      });
+    }
+
+    if (originalError instanceof InvalidRequestBody) {
+      return ResponseBuilder.error({
+        reply,
+        requestId,
+        code: error.appErrorCode,
+        message: error.message,
+        statusCode: HttpStatusCode.BAD_REQUEST,
+        details: originalError.details.map((message) => ({ message })),
       });
     }
 
@@ -63,7 +75,7 @@ export const errorHandler = async (
       code: error.appErrorCode,
       message: error.message,
       statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
-      details: error.errors.map((err) => ({ message: err })),
+      details: [],
     });
   }
 

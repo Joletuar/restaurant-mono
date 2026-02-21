@@ -8,7 +8,8 @@ import { GetterAllOrdersQuery } from '@src/bounded-contexts/orders/application/q
 import type { CommandBus } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import type { QueryBus } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
 import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infrastructure.error';
-import { InvalidPathParameter } from '@src/bounded-contexts/shared/infrastructure/http/errors/invalida-path-parameter.error';
+import { InvalidPathParameter } from '@src/bounded-contexts/shared/infrastructure/http/errors/invalid-path-parameter.error';
+import { InvalidRequestBody } from '@src/bounded-contexts/shared/infrastructure/http/errors/invalid-request-body.error';
 
 import { HttpStatusCode } from '../contracts/api-contracts';
 import { ResponseBuilder } from '../utils/response.builder';
@@ -52,7 +53,6 @@ export class OrderController {
     ) {
       throw new InfrastructureError(
         `Invalid path parameter`,
-        [],
         new InvalidPathParameter('id')
       );
     }
@@ -68,12 +68,39 @@ export class OrderController {
   }
 
   async createOrder(
-    request: FastifyRequest<{ Body: { recipeId: string; status: string } }>,
+    request: FastifyRequest<{ Body?: { recipeId?: string; status?: string } }>,
     reply: FastifyReply
   ): Promise<FastifyReply> {
     const orderData = request.body;
 
-    const command = new CreatorOrderCommand(orderData, { reqId: request.id });
+    if (orderData === undefined) {
+      throw new InfrastructureError(
+        'Body has not provided',
+        new InvalidRequestBody(['body request is requiered'])
+      );
+    }
+
+    const { recipeId, status } = orderData;
+
+    if (
+      recipeId === undefined ||
+      status === undefined ||
+      recipeId.length === 0 ||
+      status.length === 0
+    ) {
+      throw new InfrastructureError(
+        'Body has not correct schema',
+        new InvalidRequestBody([
+          'recipeId is requiered and must be a valid string',
+          'status is requiered and must be a valid string',
+        ])
+      );
+    }
+
+    const command = new CreatorOrderCommand(
+      { recipeId, status },
+      { reqId: request.id }
+    );
 
     await this.commandBus.dispatch(command);
 

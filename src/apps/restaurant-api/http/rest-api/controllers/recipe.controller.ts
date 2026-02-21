@@ -4,7 +4,7 @@ import { FinderRecipeByIdQuery } from '@src/bounded-contexts/recipes/application
 import { GetterAllRecipesQuery } from '@src/bounded-contexts/recipes/application/queries/getter-all-recipes/getter-all-recipes.query';
 import type { RecipeDto } from '@src/bounded-contexts/recipes/application/recipe.dto';
 import type { QueryBus } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
-import { InvalidPathParameter } from '@src/bounded-contexts/shared/infrastructure/http/errors/invalida-path-parameter.error';
+import { InvalidPathParameter } from '@src/bounded-contexts/shared/infrastructure/http/errors/invalid-path-parameter.error';
 
 import { ResponseBuilder } from '../utils/response.builder';
 
