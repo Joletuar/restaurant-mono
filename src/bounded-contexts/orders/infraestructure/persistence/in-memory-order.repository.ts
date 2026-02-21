@@ -1,7 +1,7 @@
 import { Order } from '@src/bounded-contexts/orders/domain/order.entity';
 import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
 import { OrderStatus } from '@src/bounded-contexts/orders/domain/value-objects/order-status.value-object';
-import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infraestructure.error';
+import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infrastructure.error';
 import { RootError } from '@src/bounded-contexts/shared/domain/errors/root.error';
 import type { Nullable } from '@src/bounded-contexts/shared/domain/nullable.type';
 import { RootRespository } from '@src/bounded-contexts/shared/domain/root.repository';

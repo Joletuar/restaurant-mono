@@ -5,7 +5,6 @@ import type {
   QueryHandler,
   QueryResponse,
 } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
-import { NotFoundError } from '@src/bounded-contexts/shared/domain/errors/not-found.error';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
 import type { FinderOrderByIdQuery } from './finder-order-by-id.query';

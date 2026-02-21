@@ -1,6 +1,6 @@
 import { Recipe } from '@src/bounded-contexts/recipes/domain/recipe.entity';
 import type { RecipeRepository } from '@src/bounded-contexts/recipes/domain/recipe.repository';
-import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infraestructure.error';
+import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infrastructure.error';
 import { RootError } from '@src/bounded-contexts/shared/domain/errors/root.error';
 import type { Nullable } from '@src/bounded-contexts/shared/domain/nullable.type';
 import { RootRespository } from '@src/bounded-contexts/shared/domain/root.repository';

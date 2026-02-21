@@ -4,9 +4,9 @@ import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.
 import type { RecipeRepository } from '@src/bounded-contexts/recipes/domain/recipe.repository';
 import type { CommandHandler } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import type { EventBus } from '@src/bounded-contexts/shared/domain/bus/event-bus.interface';
-import { NotFoundError } from '@src/bounded-contexts/shared/domain/errors/not-found.error';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
+import { NotFoundOrderError } from '../../errors/not-found-order.error';
 import type { CreatorOrderCommand } from './creator-order.command';
 
 export class CreatorOrderCommandHandler
@@ -37,9 +37,7 @@ export class CreatorOrderCommandHandler
     );
 
     if (!recipe) {
-      throw new NotFoundError(`Recipe with id <${recipeId}> not found.`, [
-        `Recipe with id <${recipeId}> not found.`,
-      ]);
+      throw new NotFoundOrderError();
     }
   }
 

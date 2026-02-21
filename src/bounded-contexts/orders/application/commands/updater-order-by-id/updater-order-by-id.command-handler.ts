@@ -3,9 +3,9 @@ import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.
 import { OrderStatus } from '@src/bounded-contexts/orders/domain/value-objects/order-status.value-object';
 import type { CommandHandler } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import type { EventBus } from '@src/bounded-contexts/shared/domain/bus/event-bus.interface';
-import { NotFoundError } from '@src/bounded-contexts/shared/domain/errors/not-found.error';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
+import { NotFoundOrderError } from '../../errors/not-found-order.error';
 import type { UpdaterOrderByIdCommand } from './updater-order-by-id.command';
 
 export class UpdaterOrderByIdCommandHandler
@@ -34,9 +34,7 @@ export class UpdaterOrderByIdCommandHandler
     );
 
     if (!order) {
-      throw new NotFoundError('Order not found', [
-        `Order with id <${orderId}> doesn't exists.`,
-      ]);
+      throw new NotFoundOrderError();
     }
 
     return order;
