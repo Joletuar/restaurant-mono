@@ -7,6 +7,7 @@ import type {
 } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
+import { NotFoundOrderError } from '../../errors/not-found-order.error';
 import type { FinderOrderByIdQuery } from './finder-order-by-id.query';
 
 export class FinderOrderByIdQueryHandler
@@ -20,9 +21,7 @@ export class FinderOrderByIdQueryHandler
     );
 
     if (!order) {
-      throw new NotFoundError('Order not found', [
-        `Order with id <${query.orderId}> not found.`,
-      ]);
+      throw new NotFoundOrderError();
     }
 
     return { data: OrderMapper.toDto(order) };
