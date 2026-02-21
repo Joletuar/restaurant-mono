@@ -1,4 +1,4 @@
-import { PinoLogger } from '@src/bounded-contexts/shared/infraestructure/logger/pino-logger';
+import { PinoLogger } from '@src/bounded-contexts/shared/infrastructure/logger/pino-logger';
 
 import { ConfigProvider } from '../config/app-config';
 import type { HttpServer } from '../http/http-server.interface';

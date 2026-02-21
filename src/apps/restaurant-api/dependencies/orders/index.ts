@@ -10,7 +10,7 @@ import { FinderOrderByIdQuery } from '@src/bounded-contexts/orders/application/q
 import { FinderOrderByIdQueryHandler } from '@src/bounded-contexts/orders/application/queries/finder-order-by-id/finder-order-by-id.query-handler';
 import { GetterAllOrdersQuery } from '@src/bounded-contexts/orders/application/queries/getter-all-orders/getter-all-orders.query';
 import { GetterAllOrdersQueryHandler } from '@src/bounded-contexts/orders/application/queries/getter-all-orders/getter-all-orders.query-handler';
-import { InMemoryOrderRepository } from '@src/bounded-contexts/orders/infraestructure/persistence/in-memory-order.repository';
+import { InMemoryOrderRepository } from '@src/bounded-contexts/orders/infrastructure/persistence/in-memory-order.repository';
 import type { CommandBus } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import type { EventBus } from '@src/bounded-contexts/shared/domain/bus/event-bus.interface';
 import type { QueryBus } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';

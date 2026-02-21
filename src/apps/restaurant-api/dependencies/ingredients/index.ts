@@ -3,7 +3,7 @@ import { FinderIngredientByIdQuery } from '@src/bounded-contexts/ingredients/app
 import { FinderIngredientByIdQueryHandler } from '@src/bounded-contexts/ingredients/application/queries/finder-ingredient-by-id/finder-ingredient-by-id.query-handler';
 import { GetterAllIngredientsQuery } from '@src/bounded-contexts/ingredients/application/queries/getter-all-ingredients/getter-all-ingredients.query';
 import { GetterAllIngredientsQueryHandler } from '@src/bounded-contexts/ingredients/application/queries/getter-all-ingredients/getter-all-ingredients.query-handler';
-import { InMemoryIngredientRepository } from '@src/bounded-contexts/ingredients/infraestructure/persistence/in-memory-ingredient.repository';
+import { InMemoryIngredientRepository } from '@src/bounded-contexts/ingredients/infrastructure/persistence/in-memory-ingredient.repository';
 import type { QueryBus } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
 
 import { IngredientRoute } from '../../http/rest-api/routes/ingredient.route';

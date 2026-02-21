@@ -4,7 +4,7 @@ import { FinderRecipeByIdQuery } from '@src/bounded-contexts/recipes/application
 import { FinderRecipeByIdQueryHandler } from '@src/bounded-contexts/recipes/application/queries/finder-recipe-by-id/finder-recipe-by-id.query-handler';
 import { GetterAllRecipesQuery } from '@src/bounded-contexts/recipes/application/queries/getter-all-recipes/getter-all-recipes.query';
 import { GetterAllRecipesQueryHandler } from '@src/bounded-contexts/recipes/application/queries/getter-all-recipes/getter-all-recipes.query-handler';
-import { InMemoryRecipeRepository } from '@src/bounded-contexts/recipes/infraestructure/persistence/in-memory-recipe.repository';
+import { InMemoryRecipeRepository } from '@src/bounded-contexts/recipes/infrastructure/persistence/in-memory-recipe.repository';
 import type { QueryBus } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
 
 import type { DependencyContainer } from '../dependency-container';

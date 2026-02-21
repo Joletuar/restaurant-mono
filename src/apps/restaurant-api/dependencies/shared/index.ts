@@ -1,10 +1,10 @@
 import type { CommandBus } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import type { QueryBus } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
-import { InMemoryCommandBus } from '@src/bounded-contexts/shared/infraestructure/bus/command-bus/in-memory.command-bus';
-import { LoggerCommandMiddleware } from '@src/bounded-contexts/shared/infraestructure/bus/command-bus/middlewares/logger.command-middleware';
-import { EventEmitterEventBus } from '@src/bounded-contexts/shared/infraestructure/bus/event-bus/event-emitter.event-bus';
-import { InMemoryQueryBus } from '@src/bounded-contexts/shared/infraestructure/bus/query-bus/in-memory.query-bus';
-import { LoggerQueryMiddleware } from '@src/bounded-contexts/shared/infraestructure/bus/query-bus/middlewares/logger.query-middleware';
+import { InMemoryCommandBus } from '@src/bounded-contexts/shared/infrastructure/bus/command-bus/in-memory.command-bus';
+import { LoggerCommandMiddleware } from '@src/bounded-contexts/shared/infrastructure/bus/command-bus/middlewares/logger.command-middleware';
+import { EventEmitterEventBus } from '@src/bounded-contexts/shared/infrastructure/bus/event-bus/event-emitter.event-bus';
+import { InMemoryQueryBus } from '@src/bounded-contexts/shared/infrastructure/bus/query-bus/in-memory.query-bus';
+import { LoggerQueryMiddleware } from '@src/bounded-contexts/shared/infrastructure/bus/query-bus/middlewares/logger.query-middleware';
 
 import type { DependencyContainer } from '../dependency-container';
 
