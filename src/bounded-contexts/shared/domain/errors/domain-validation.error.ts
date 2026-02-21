@@ -10,6 +10,6 @@ export class DomainValidationError extends DomainError {
   constructor(message: string, errors: string[]) {
     super(message, errors);
 
-    this.name = this.constructor.name;
+    this.name = 'DomainValidationError';
   }
 }

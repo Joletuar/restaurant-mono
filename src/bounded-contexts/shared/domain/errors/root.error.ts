@@ -1,6 +1,6 @@
 import type { AppErrorCode } from '../app-error-code.enum';
 
-export class RootError extends Error {
+export abstract class RootError extends Error {
   constructor(
     message: string,
     readonly appErrorCode: AppErrorCode,
@@ -8,6 +8,6 @@ export class RootError extends Error {
   ) {
     super(message);
 
-    this.name = this.constructor.name;
+    this.name = 'RootError';
   }
 }

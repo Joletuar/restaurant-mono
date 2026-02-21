@@ -6,10 +6,10 @@ import { RootError } from './root.error';
  * It represents an application-level error with a specific error code and additional error messages.
  */
 
-export class ApplicationError extends RootError {
+export abstract class ApplicationError extends RootError {
   constructor(message: string, errors: string[]) {
     super(message, AppErrorCode.APPLICATION_ERROR, errors);
 
-    this.name = this.constructor.name;
+    this.name = 'ApplicationError';
   }
 }

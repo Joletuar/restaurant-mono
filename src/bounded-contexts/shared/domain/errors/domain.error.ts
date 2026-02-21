@@ -6,10 +6,10 @@ import { RootError } from './root.error';
  * It represents a domain-level error with a specific error code and additional error messages.
  */
 
-export class DomainError extends RootError {
+export abstract class DomainError extends RootError {
   constructor(message: string, errors: string[]) {
     super(message, AppErrorCode.DOMAIN_ERROR, errors);
 
-    this.name = this.constructor.name;
+    this.name = 'DomainError';
   }
 }

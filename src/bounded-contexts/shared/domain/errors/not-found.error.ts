@@ -1,15 +1,10 @@
-import { ApplicationError } from './application.error';
+import { AppErrorCode } from '../app-error-code.enum';
+import { RootError } from './root.error';
 
-/**
- * NotFoundError class
- * This class represents an error that occurs when a resource is not found.
- * It extends the ApplicationError class.
- */
+export abstract class NotFoundError extends RootError {
+  constructor(message: string) {
+    super(message, AppErrorCode.NOT_FOUND, []);
 
-export class NotFoundError extends ApplicationError {
-  constructor(message: string, errors: string[]) {
-    super(message, errors);
-
-    this.name = this.constructor.name;
+    this.name = 'NotFoundError';
   }
 }

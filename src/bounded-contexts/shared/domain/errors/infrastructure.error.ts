@@ -6,15 +6,15 @@ import { RootError } from './root.error';
  * It represents an infrastructure-level error with a specific error code and additional error messages.
  */
 
-export class InfrastructureError extends RootError {
+export abstract class InfrastructureError extends RootError {
   constructor(
     message: string,
     errors: string[],
-    readonly originalError?: Error,
+    readonly originalError: Error | null,
     readonly isCritical: boolean = false
   ) {
     super(message, AppErrorCode.INFRASTRUCTURE_ERROR, errors);
 
-    this.name = this.constructor.name;
+    this.name = 'InfrastructureError';
   }
 }
