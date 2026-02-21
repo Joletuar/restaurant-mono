@@ -2,7 +2,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify';
 
 import { AppErrorCode } from '@src/bounded-contexts/shared/domain/app-error-code.enum';
 import { DomainValidationError } from '@src/bounded-contexts/shared/domain/errors/domain-validation.error';
-import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infraestructure.error';
+import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infrastructure.error';
 import { NotFoundError } from '@src/bounded-contexts/shared/domain/errors/not-found.error';
 import { RootError } from '@src/bounded-contexts/shared/domain/errors/root.error';
 
