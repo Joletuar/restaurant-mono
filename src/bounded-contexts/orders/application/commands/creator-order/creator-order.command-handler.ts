@@ -28,7 +28,7 @@ export class CreatorOrderCommandHandler
 
     await this.orderRepository.create(order);
 
-    await this.publisEvents(order);
+    await this.publishEvents(order);
   }
 
   private async ensureIsValidRecipe(recipeId: string): Promise<void> {
@@ -41,7 +41,7 @@ export class CreatorOrderCommandHandler
     }
   }
 
-  private async publisEvents(order: Order): Promise<void> {
+  private async publishEvents(order: Order): Promise<void> {
     const event = OrderCreatedEvent.fromPrimitives(order);
 
     await this.eventBus.publish(event);

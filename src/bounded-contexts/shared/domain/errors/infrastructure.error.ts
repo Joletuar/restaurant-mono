@@ -8,11 +8,10 @@ import { RootError } from './root.error';
 export class InfrastructureError extends RootError {
   constructor(
     message: string,
-    errors: string[],
     readonly originalError: Error | unknown | null,
     readonly isCritical: boolean = false
   ) {
-    super(message, AppErrorCode.INFRASTRUCTURE_ERROR, errors);
+    super(message, AppErrorCode.INFRASTRUCTURE_ERROR);
 
     this.name = 'InfrastructureError';
   }

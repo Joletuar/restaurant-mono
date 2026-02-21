@@ -7,8 +7,11 @@ import { RootError } from './root.error';
  */
 
 export abstract class DomainError extends RootError {
-  constructor(message: string, errors: string[]) {
-    super(message, AppErrorCode.DOMAIN_ERROR, errors);
+  constructor(
+    message: string,
+    readonly errors: string[]
+  ) {
+    super(message, AppErrorCode.DOMAIN_ERROR);
 
     this.name = 'DomainError';
   }
