@@ -1,6 +1,5 @@
 import type { OrderDto } from '@src/bounded-contexts/orders/application/order.dto';
-import { OrderMapper } from '@src/bounded-contexts/orders/application/order.mapper';
-import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
+import type { OrderReadModelRepository } from '@src/bounded-contexts/orders/application/read-models/order-read-model.repository';
 import type {
   QueryHandler,
   QueryResponse,
@@ -11,11 +10,11 @@ import type { GetterAllOrdersQuery } from './getter-all-orders.query';
 export class GetterAllOrdersQueryHandler
   implements QueryHandler<GetterAllOrdersQuery, OrderDto[]>
 {
-  constructor(private readonly orderRepository: OrderRepository) {}
+  constructor(private readonly orderReadRepository: OrderReadModelRepository) {}
 
   async handle(): Promise<QueryResponse<OrderDto[]>> {
-    const orders = await this.orderRepository.getAll();
+    const orders = await this.orderReadRepository.getAll();
 
-    return { data: OrderMapper.toDtoList(orders) };
+    return { data: orders };
   }
 }

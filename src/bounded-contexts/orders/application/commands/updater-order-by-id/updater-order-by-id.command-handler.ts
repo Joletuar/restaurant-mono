@@ -3,6 +3,7 @@ import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.
 import { OrderStatus } from '@src/bounded-contexts/orders/domain/value-objects/order-status.value-object';
 import type { CommandHandler } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import type { EventBus } from '@src/bounded-contexts/shared/domain/bus/event-bus.interface';
+import type { EventStore } from '@src/bounded-contexts/shared/domain/event-store.interface';
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
 import { NotFoundOrderError } from '../../errors/not-found-order.error';
@@ -13,7 +14,8 @@ export class UpdaterOrderByIdCommandHandler
 {
   constructor(
     private readonly repository: OrderRepository,
-    private readonly eventBus: EventBus
+    private readonly eventBus: EventBus,
+    private readonly eventStore: EventStore
   ) {}
 
   async handle(cmd: UpdaterOrderByIdCommand): Promise<void> {
@@ -43,6 +45,7 @@ export class UpdaterOrderByIdCommandHandler
   private async publishEvents(order: Order): Promise<void> {
     const events = order.pullDomainEvents();
 
+    await this.eventStore.saveEvents(order.getId(), events, 1);
     await this.eventBus.publishAll(events);
   }
 }

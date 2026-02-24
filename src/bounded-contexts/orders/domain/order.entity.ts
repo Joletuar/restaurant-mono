@@ -7,8 +7,15 @@ import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects
 import { NumberValueObject } from '@src/bounded-contexts/shared/domain/value-objects/number.value-object';
 
 import { InvalidOrderStatusTransitionError } from './errors/invalid-order-status-transition.error';
+import { OrderCancelledEvent } from './events/order-cancelled.event';
+import { OrderCompletedEvent } from './events/order-completed.event';
+import { OrderCreatedEvent } from './events/order-created.event';
+import { OrderMovedToInProgressEvent } from './events/order-moved-to-in-progress.event';
 import { OrderStatusUpdatedEvent } from './events/order-status-updated.event';
-import { OrderStatus } from './value-objects/order-status.value-object';
+import {
+  OrderStatus,
+  OrderStatusEnum,
+} from './value-objects/order-status.value-object';
 
 export type OrderPrimitives = RootAggregatePrimitives & {
   recipeId: string;
@@ -16,17 +23,31 @@ export type OrderPrimitives = RootAggregatePrimitives & {
 };
 
 export class Order extends RootAggregate<OrderPrimitives> {
-  static fromPrimitives(
+  static create(
     props: Omit<OrderPrimitives, 'id' | 'createdAt' | 'updatedAt'>
   ): Order {
     const { recipeId, status } = props;
 
-    return new Order(
+    const order = new Order(
       IdValueObject.generateId(),
       new IdValueObject(recipeId),
       OrderStatus.fromPrimitives(status),
       DateValueObject.now(),
       DateValueObject.now()
+    );
+
+    return this.recordCreation(order, OrderCreatedEvent.fromPrimitives(order));
+  }
+
+  static rehydrate(props: OrderPrimitives): Order {
+    const { id, recipeId, status, createdAt, updatedAt } = props;
+
+    return new Order(
+      IdValueObject.fromPrimitives(id),
+      IdValueObject.fromPrimitives(recipeId),
+      OrderStatus.fromPrimitives(status),
+      DateValueObject.fromPrimitives(createdAt),
+      DateValueObject.fromPrimitives(updatedAt)
     );
   }
 
@@ -51,10 +72,12 @@ export class Order extends RootAggregate<OrderPrimitives> {
   }
 
   updateStatus(newStatus: OrderStatus): void {
+    const previousStatus = this.status.value;
+
     if (this.status.isCancelled() || this.status.isCompleted()) {
       throw new InvalidOrderStatusTransitionError(
         'Cannot update status for an order that is already cancelled or completed',
-        this.status.value,
+        previousStatus,
         newStatus.value
       );
     }
@@ -63,7 +86,7 @@ export class Order extends RootAggregate<OrderPrimitives> {
       if (newStatus.isCancelled() || newStatus.isCompleted()) {
         throw new InvalidOrderStatusTransitionError(
           'Cannot transition directly from pending status to cancelled or completed',
-          this.status.value,
+          previousStatus,
           newStatus.value
         );
       }
@@ -72,10 +95,40 @@ export class Order extends RootAggregate<OrderPrimitives> {
     this.record(
       new OrderStatusUpdatedEvent({
         orderId: this.id.value,
-        previousStatus: this.status.value,
+        previousStatus,
         newStatus: newStatus.value,
       })
     );
+
+    if (newStatus.value === OrderStatusEnum.IN_PROGRESS) {
+      this.record(
+        new OrderMovedToInProgressEvent({
+          orderId: this.id.value,
+          previousStatus,
+          newStatus: newStatus.value,
+        })
+      );
+    }
+
+    if (newStatus.value === OrderStatusEnum.COMPLETED) {
+      this.record(
+        new OrderCompletedEvent({
+          orderId: this.id.value,
+          previousStatus,
+          newStatus: newStatus.value,
+        })
+      );
+    }
+
+    if (newStatus.value === OrderStatusEnum.CANCELLED) {
+      this.record(
+        new OrderCancelledEvent({
+          orderId: this.id.value,
+          previousStatus,
+          newStatus: newStatus.value,
+        })
+      );
+    }
 
     this.status = newStatus;
   }

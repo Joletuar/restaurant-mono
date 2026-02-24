@@ -1,30 +1,28 @@
-import { Order } from '@src/bounded-contexts/orders/domain/order.entity';
+import {
+  Order,
+  type OrderPrimitives,
+} from '@src/bounded-contexts/orders/domain/order.entity';
 import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
-import { OrderStatus } from '@src/bounded-contexts/orders/domain/value-objects/order-status.value-object';
 import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infrastructure.error';
 import { RootError } from '@src/bounded-contexts/shared/domain/errors/root.error';
 import type { Nullable } from '@src/bounded-contexts/shared/domain/nullable.type';
 import { RootRespository } from '@src/bounded-contexts/shared/domain/root.repository';
-import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
+import type { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
 export class InMemoryOrderRepository
   extends RootRespository
   implements OrderRepository
 {
-  private orders: Map<string, Order> = new Map<string, Order>();
+  private orders: Map<string, OrderPrimitives> = new Map<
+    string,
+    OrderPrimitives
+  >();
 
-  constructor(
-    initialOrders: Order[] = [
-      Order.fromPrimitives({
-        recipeId: IdValueObject.generateId().value,
-        status: OrderStatus.Pending().value,
-      }),
-    ]
-  ) {
+  constructor(initialOrders: Order[] = []) {
     super();
 
     initialOrders.forEach((order) => {
-      this.orders.set(order.getId(), order);
+      this.orders.set(order.getId(), order.toPrimitives());
     });
   }
 
@@ -32,7 +30,7 @@ export class InMemoryOrderRepository
     try {
       const order = this.orders.get(id.value);
 
-      return order || null;
+      return order ? Order.rehydrate(order) : null;
     } catch (error) {
       this.errorHandler(error);
       return null;
@@ -41,7 +39,9 @@ export class InMemoryOrderRepository
 
   async getAll(): Promise<Order[]> {
     try {
-      return Array.from(this.orders.values());
+      return Array.from(this.orders.values()).map((order) =>
+        Order.rehydrate(order)
+      );
     } catch (error) {
       this.errorHandler(error);
       return [];
@@ -52,7 +52,7 @@ export class InMemoryOrderRepository
     try {
       const id = order.getId();
 
-      this.orders.set(id, order);
+      this.orders.set(id, order.toPrimitives());
     } catch (error) {
       this.errorHandler(error);
     }
@@ -62,7 +62,7 @@ export class InMemoryOrderRepository
     try {
       const id = order.getId();
 
-      this.orders.set(id, order);
+      this.orders.set(id, order.toPrimitives());
     } catch (error) {
       this.errorHandler(error);
     }

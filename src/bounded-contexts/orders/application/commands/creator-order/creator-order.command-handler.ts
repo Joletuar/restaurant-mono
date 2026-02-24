@@ -1,12 +1,10 @@
-import { OrderCreatedEvent } from '@src/bounded-contexts/orders/domain/events/order-created.event';
 import { Order } from '@src/bounded-contexts/orders/domain/order.entity';
 import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
-import type { RecipeRepository } from '@src/bounded-contexts/recipes/domain/recipe.repository';
+import type { OrderRecipeExistenceChecker } from '@src/bounded-contexts/orders/domain/services/order-recipe-existence-checker.service';
 import type { CommandHandler } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import type { EventBus } from '@src/bounded-contexts/shared/domain/bus/event-bus.interface';
-import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
+import type { EventStore } from '@src/bounded-contexts/shared/domain/event-store.interface';
 
-import { NotFoundOrderError } from '../../errors/not-found-order.error';
 import type { CreatorOrderCommand } from './creator-order.command';
 
 export class CreatorOrderCommandHandler
@@ -14,14 +12,17 @@ export class CreatorOrderCommandHandler
 {
   constructor(
     private readonly orderRepository: OrderRepository,
-    private readonly recipeRepository: RecipeRepository,
-    private readonly eventBus: EventBus
+    private readonly orderRecipeExistenceChecker: OrderRecipeExistenceChecker,
+    private readonly eventBus: EventBus,
+    private readonly eventStore: EventStore
   ) {}
 
   async handle(command: CreatorOrderCommand): Promise<void> {
-    await this.ensureIsValidRecipe(command.data.recipeId);
+    await this.orderRecipeExistenceChecker.ensureRecipeExists(
+      command.data.recipeId
+    );
 
-    const order = Order.fromPrimitives({
+    const order = Order.create({
       recipeId: command.data.recipeId,
       status: command.data.status,
     });
@@ -30,20 +31,10 @@ export class CreatorOrderCommandHandler
 
     await this.publishEvents(order);
   }
-
-  private async ensureIsValidRecipe(recipeId: string): Promise<void> {
-    const recipe = await this.recipeRepository.findById(
-      IdValueObject.fromPrimitives(recipeId)
-    );
-
-    if (!recipe) {
-      throw new NotFoundOrderError();
-    }
-  }
-
   private async publishEvents(order: Order): Promise<void> {
-    const event = OrderCreatedEvent.fromPrimitives(order);
+    const events = order.pullDomainEvents();
 
-    await this.eventBus.publish(event);
+    await this.eventStore.saveEvents(order.getId(), events, 0);
+    await this.eventBus.publishAll(events);
   }
 }
