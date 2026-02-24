@@ -1,4 +1,3 @@
-import { Type } from '@sinclair/typebox';
 import type { FastifyInstance } from 'fastify';
 
 import type { IngredientController } from '../controllers/ingredient.controller';
@@ -19,14 +18,14 @@ export class IngredientRoute implements RouteRegistrar {
 
         instance.get(
           '/:id',
-          {
-            schema: {
-              params: Type.Object({
-                id: Type.String(),
-              }),
-            },
-          },
           this.ingredientController.findIngredientById.bind(
+            this.ingredientController
+          )
+        );
+
+        instance.post(
+          '/',
+          this.ingredientController.createIngredient.bind(
             this.ingredientController
           )
         );

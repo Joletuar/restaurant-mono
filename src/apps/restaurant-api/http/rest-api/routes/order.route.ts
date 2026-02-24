@@ -1,4 +1,3 @@
-import { Type } from '@sinclair/typebox';
 import type { FastifyInstance } from 'fastify';
 
 import type { OrderController } from '../controllers/order.controller';
@@ -16,14 +15,12 @@ export class OrderRouteRegistrar implements RouteRegistrar {
         );
 
         instance.get(
+          '/stats',
+          this.orderController.getOrderStats.bind(this.orderController)
+        );
+
+        instance.get(
           '/:id',
-          {
-            schema: {
-              params: Type.Object({
-                id: Type.String(),
-              }),
-            },
-          },
           this.orderController.getOrderById.bind(this.orderController)
         );
 
@@ -34,17 +31,6 @@ export class OrderRouteRegistrar implements RouteRegistrar {
 
         instance.patch(
           '/:id',
-          {
-            schema: {
-              params: Type.Object({
-                id: Type.String(),
-              }),
-              body: Type.Object({
-                status: Type.String(),
-                recipeId: Type.String(),
-              }),
-            },
-          },
           this.orderController.updateOrder.bind(this.orderController)
         );
       },

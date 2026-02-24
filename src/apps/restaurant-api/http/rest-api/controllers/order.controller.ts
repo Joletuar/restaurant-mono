@@ -5,6 +5,8 @@ import { UpdaterOrderByIdCommand } from '@src/bounded-contexts/orders/applicatio
 import type { OrderDto } from '@src/bounded-contexts/orders/application/order.dto';
 import { FinderOrderByIdQuery } from '@src/bounded-contexts/orders/application/queries/finder-order-by-id/finder-order-by-id.query';
 import { GetterAllOrdersQuery } from '@src/bounded-contexts/orders/application/queries/getter-all-orders/getter-all-orders.query';
+import { GetterOrderStatsQuery } from '@src/bounded-contexts/orders/application/queries/getter-order-stats/getter-order-stats.query';
+import type { OrderStatsReadModel } from '@src/bounded-contexts/orders/application/read-models/order-stats.read-model';
 import type { CommandBus } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import type { QueryBus } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
 import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infrastructure.error';
@@ -33,7 +35,7 @@ export class OrderController {
 
     return await ResponseBuilder.success({
       reply,
-      data: orders,
+      data: orders.data,
     });
   }
 
@@ -63,7 +65,24 @@ export class OrderController {
 
     return await ResponseBuilder.success({
       reply,
-      data: order,
+      data: order.data,
+    });
+  }
+
+  async getOrderStats(
+    request: FastifyRequest,
+    reply: FastifyReply
+  ): Promise<FastifyReply> {
+    const query = new GetterOrderStatsQuery({ reqId: request.id });
+
+    const stats = await this.queryBus.dispatch<
+      GetterOrderStatsQuery,
+      OrderStatsReadModel
+    >(query);
+
+    return await ResponseBuilder.success({
+      reply,
+      data: stats.data,
     });
   }
 
