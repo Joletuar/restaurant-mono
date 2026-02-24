@@ -1,4 +1,4 @@
-import type { ReadModelRepository } from '@src/bounded-contexts/shared/domain/read-model.repository';
+import type { ReadModelRepository } from '@src/bounded-contexts/shared/application/read-model.repository';
 
 export class InMemoryReadModelRepository<T extends { id: string }>
   implements ReadModelRepository<T>
