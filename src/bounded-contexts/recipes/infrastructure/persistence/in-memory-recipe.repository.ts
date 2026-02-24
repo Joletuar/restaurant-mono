@@ -1,28 +1,28 @@
-import { Recipe } from '@src/bounded-contexts/recipes/domain/recipe.entity';
+import {
+  Recipe,
+  type RecipePrimitives,
+} from '@src/bounded-contexts/recipes/domain/recipe.entity';
 import type { RecipeRepository } from '@src/bounded-contexts/recipes/domain/recipe.repository';
 import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infrastructure.error';
 import { RootError } from '@src/bounded-contexts/shared/domain/errors/root.error';
 import type { Nullable } from '@src/bounded-contexts/shared/domain/nullable.type';
 import { RootRespository } from '@src/bounded-contexts/shared/domain/root.repository';
-import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
+import type { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
 export class InMemoryRecipeRepository
   extends RootRespository
   implements RecipeRepository
 {
-  private recipes: Map<string, Recipe> = new Map<string, Recipe>();
+  private recipes: Map<string, RecipePrimitives> = new Map<
+    string,
+    RecipePrimitives
+  >();
 
-  constructor(
-    initialRecipes: Recipe[] = [
-      Recipe.fromPrimitives({
-        ingredientsIds: [IdValueObject.generateId().value],
-      }),
-    ]
-  ) {
+  constructor(initialRecipes: Recipe[] = []) {
     super();
 
     initialRecipes.forEach((recipe) => {
-      this.recipes.set(recipe.getId(), recipe);
+      this.recipes.set(recipe.getId(), recipe.toPrimitives());
     });
   }
 
@@ -30,7 +30,7 @@ export class InMemoryRecipeRepository
     try {
       const recipe = this.recipes.get(id.value);
 
-      return recipe || null;
+      return recipe ? Recipe.rehydrate(recipe) : null;
     } catch (error) {
       this.errorHandler(error);
       return null;
@@ -39,10 +39,20 @@ export class InMemoryRecipeRepository
 
   async getAll(): Promise<Recipe[]> {
     try {
-      return Array.from(this.recipes.values());
+      return Array.from(this.recipes.values()).map((recipe) =>
+        Recipe.rehydrate(recipe)
+      );
     } catch (error) {
       this.errorHandler(error);
       return [];
+    }
+  }
+
+  async create(recipe: Recipe): Promise<void> {
+    try {
+      this.recipes.set(recipe.getId(), recipe.toPrimitives());
+    } catch (error) {
+      this.errorHandler(error);
     }
   }
 

@@ -7,4 +7,6 @@ export interface RecipeRepository {
   findById(id: IdValueObject): Promise<Nullable<Recipe>>;
 
   getAll(): Promise<Recipe[]>;
+
+  create(recipe: Recipe): Promise<void>;
 }

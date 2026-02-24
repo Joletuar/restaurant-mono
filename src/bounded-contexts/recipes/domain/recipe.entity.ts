@@ -6,6 +6,7 @@ import { DateValueObject } from '@src/bounded-contexts/shared/domain/value-objec
 import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 import { NumberValueObject } from '@src/bounded-contexts/shared/domain/value-objects/number.value-object';
 
+import { RecipeCreatedEvent } from './events/recipe-created.event';
 import { IngredientsIds } from './value-objects/ingredients-ids.value-object';
 
 export type RecipePrimitives = RootAggregatePrimitives & {
@@ -13,16 +14,32 @@ export type RecipePrimitives = RootAggregatePrimitives & {
 };
 
 export class Recipe extends RootAggregate<RecipePrimitives> {
-  static fromPrimitives(
+  static create(
     props: Omit<RecipePrimitives, 'id' | 'createdAt' | 'updatedAt'>
   ): Recipe {
     const { ingredientsIds } = props;
 
-    return new Recipe(
+    const recipe = new Recipe(
       IdValueObject.generateId(),
       IngredientsIds.fromPrimitives(ingredientsIds),
       DateValueObject.now(),
       DateValueObject.now()
+    );
+
+    return this.recordCreation(
+      recipe,
+      RecipeCreatedEvent.fromPrimitives(recipe)
+    );
+  }
+
+  static rehydrate(props: RecipePrimitives): Recipe {
+    const { id, ingredientsIds, createdAt, updatedAt } = props;
+
+    return new Recipe(
+      IdValueObject.fromPrimitives(id),
+      IngredientsIds.fromPrimitives(ingredientsIds),
+      DateValueObject.fromPrimitives(createdAt),
+      DateValueObject.fromPrimitives(updatedAt)
     );
   }
 

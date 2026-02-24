@@ -1,6 +1,5 @@
+import type { RecipeReadModelRepository } from '@src/bounded-contexts/recipes/application/read-models/recipe-read-model.repository';
 import type { RecipeDto } from '@src/bounded-contexts/recipes/application/recipe.dto';
-import { RecipeMapper } from '@src/bounded-contexts/recipes/application/recipe.mapper';
-import type { RecipeRepository } from '@src/bounded-contexts/recipes/domain/recipe.repository';
 import type {
   QueryHandler,
   QueryResponse,
@@ -11,11 +10,11 @@ import type { GetterAllRecipesQuery } from './getter-all-recipes.query';
 export class GetterAllRecipesQueryHandler
   implements QueryHandler<GetterAllRecipesQuery, RecipeDto[]>
 {
-  constructor(private readonly repository: RecipeRepository) {}
+  constructor(private readonly repository: RecipeReadModelRepository) {}
 
   async handle(): Promise<QueryResponse<RecipeDto[]>> {
     const recipes = await this.repository.getAll();
 
-    return { data: RecipeMapper.toDtoList(recipes) };
+    return { data: recipes };
   }
 }
