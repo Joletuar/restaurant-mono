@@ -47,6 +47,7 @@ export default (function bootstrap(): DependencyContainer {
           dependencyContainer.resolve('RecipeRouteRegistrar'),
           dependencyContainer.resolve('IngredientRouteRegistrar'),
           dependencyContainer.resolve('OrderRouteRegistrar'),
+          dependencyContainer.resolve('KitchenRouteRegistrar'),
         ],
       }),
   });
