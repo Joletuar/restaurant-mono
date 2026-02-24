@@ -1,5 +1,5 @@
+import type { IngredientReadModelRepository } from '@src/bounded-contexts/ingredients/application/read-models/ingredient-read-model.repository';
 import { IngredientCreatedEvent } from '@src/bounded-contexts/ingredients/domain/events/ingredient-created.event';
-import type { IngredientReadModelRepository } from '@src/bounded-contexts/ingredients/domain/read-models/ingredient-read-model.repository';
 import type { EventHandler } from '@src/bounded-contexts/shared/domain/bus/event-bus.interface';
 
 export class IngredientCreatedReadModelProjector

@@ -1,5 +1,5 @@
 import type { IngredientDto } from '@src/bounded-contexts/ingredients/application/ingredient.dto';
-import type { IngredientReadModelRepository } from '@src/bounded-contexts/ingredients/domain/read-models/ingredient-read-model.repository';
+import type { IngredientReadModelRepository } from '@src/bounded-contexts/ingredients/application/read-models/ingredient-read-model.repository';
 import type {
   QueryHandler,
   QueryResponse,
