@@ -1,6 +1,5 @@
 import type { IngredientDto } from '@src/bounded-contexts/ingredients/application/ingredient.dto';
-import { IngredientMapper } from '@src/bounded-contexts/ingredients/application/ingredient.mapper';
-import type { IngredientRepository } from '@src/bounded-contexts/ingredients/domain/ingredient.repository';
+import type { IngredientReadModelRepository } from '@src/bounded-contexts/ingredients/domain/read-models/ingredient-read-model.repository';
 import type {
   QueryHandler,
   QueryResponse,
@@ -11,11 +10,11 @@ import type { GetterAllIngredientsQuery } from './getter-all-ingredients.query';
 export class GetterAllIngredientsQueryHandler
   implements QueryHandler<GetterAllIngredientsQuery, IngredientDto[]>
 {
-  constructor(private readonly repository: IngredientRepository) {}
+  constructor(private readonly repository: IngredientReadModelRepository) {}
 
   async handle(): Promise<QueryResponse<IngredientDto[]>> {
     const ingredients = await this.repository.getAll();
 
-    return { data: IngredientMapper.toDtos(ingredients) };
+    return { data: ingredients };
   }
 }

@@ -7,21 +7,39 @@ import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects
 import { NumberValueObject } from '@src/bounded-contexts/shared/domain/value-objects/number.value-object';
 import { StringValueObject } from '@src/bounded-contexts/shared/domain/value-objects/string.value-object';
 
+import { IngredientCreatedEvent } from './events/ingredient-created.event';
+
 export type IngredientPrimivites = RootAggregatePrimitives & {
   name: string;
 };
 
 export class Ingredient extends RootAggregate<IngredientPrimivites> {
-  static fromPrimitives(
+  static create(
     props: Omit<IngredientPrimivites, 'id' | 'createdAt' | 'updatedAt'>
   ): Ingredient {
     const { name } = props;
 
-    return new Ingredient(
+    const ingredient = new Ingredient(
       IdValueObject.generateId(),
       new StringValueObject(name),
       DateValueObject.now(),
       DateValueObject.now()
+    );
+
+    return this.recordCreation(
+      ingredient,
+      IngredientCreatedEvent.fromPrimitives(ingredient)
+    );
+  }
+
+  static rehydrate(props: IngredientPrimivites): Ingredient {
+    const { id, name, createdAt, updatedAt } = props;
+
+    return new Ingredient(
+      IdValueObject.fromPrimitives(id),
+      new StringValueObject(name),
+      DateValueObject.fromPrimitives(createdAt),
+      DateValueObject.fromPrimitives(updatedAt)
     );
   }
 

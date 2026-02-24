@@ -7,4 +7,6 @@ export interface IngredientRepository {
   findById(id: IdValueObject): Promise<Nullable<Ingredient>>;
 
   getAll(): Promise<Ingredient[]>;
+
+  create(ingredient: Ingredient): Promise<void>;
 }

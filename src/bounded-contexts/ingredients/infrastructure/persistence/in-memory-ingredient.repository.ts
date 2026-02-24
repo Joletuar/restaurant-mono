@@ -1,4 +1,7 @@
-import type { Ingredient } from '@src/bounded-contexts/ingredients/domain/ingredient.entity';
+import {
+  Ingredient,
+  type IngredientPrimivites,
+} from '@src/bounded-contexts/ingredients/domain/ingredient.entity';
 import type { IngredientRepository } from '@src/bounded-contexts/ingredients/domain/ingredient.repository';
 import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infrastructure.error';
 import { RootError } from '@src/bounded-contexts/shared/domain/errors/root.error';
@@ -10,13 +13,16 @@ export class InMemoryIngredientRepository
   extends RootRespository
   implements IngredientRepository
 {
-  private ingredients: Map<string, Ingredient> = new Map<string, Ingredient>();
+  private ingredients: Map<string, IngredientPrimivites> = new Map<
+    string,
+    IngredientPrimivites
+  >();
 
   constructor(initialIngredients: Ingredient[] = []) {
     super();
 
     initialIngredients.forEach((ingredient) => {
-      this.ingredients.set(ingredient.getId(), ingredient);
+      this.ingredients.set(ingredient.getId(), ingredient.toPrimitives());
     });
   }
 
@@ -24,7 +30,7 @@ export class InMemoryIngredientRepository
     try {
       const ingredient = this.ingredients.get(id.value);
 
-      return ingredient || null;
+      return ingredient ? Ingredient.rehydrate(ingredient) : null;
     } catch (error) {
       return this.errorHandler(error);
     }
@@ -32,9 +38,19 @@ export class InMemoryIngredientRepository
 
   async getAll(): Promise<Ingredient[]> {
     try {
-      return Array.from(this.ingredients.values());
+      return Array.from(this.ingredients.values()).map((ingredient) =>
+        Ingredient.rehydrate(ingredient)
+      );
     } catch (error) {
       return this.errorHandler(error);
+    }
+  }
+
+  async create(ingredient: Ingredient): Promise<void> {
+    try {
+      this.ingredients.set(ingredient.getId(), ingredient.toPrimitives());
+    } catch (error) {
+      this.errorHandler(error);
     }
   }
 
