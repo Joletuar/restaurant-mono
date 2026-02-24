@@ -1,6 +1,7 @@
 import { ConfigProvider } from './config/app-config';
 import dependencyContainer from './dependencies';
 import type { HttpServer } from './http/http-server.interface';
+import { seedInitialData } from './seed/initial-data.seed';
 
 export class RestaurantApiApp {
   private readonly server: HttpServer;
@@ -13,6 +14,8 @@ export class RestaurantApiApp {
 
   async init(): Promise<void> {
     try {
+      await seedInitialData(this.dependencies);
+
       await this.server.start();
 
       console.log(
