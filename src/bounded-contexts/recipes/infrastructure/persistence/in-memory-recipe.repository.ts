@@ -51,7 +51,6 @@ export class InMemoryRecipeRepository
 
     throw new InfrastructureError(
       'An unexpected error occurred in the Recipe Repository',
-      [(error as Error)?.message || 'Unknown error.'],
       error instanceof Error ? error : undefined,
       true
     );

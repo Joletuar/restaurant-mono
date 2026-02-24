@@ -1,5 +1,4 @@
 import express from '@fastify/express';
-import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import Fastify, { type FastifyInstance } from 'fastify';
 import type { PinoLoggerOptions } from 'fastify/types/logger';
 
@@ -39,7 +38,7 @@ export class FastifyRestApiServer implements HttpServer<FastifyInstance> {
       genReqId: () => {
         return crypto.randomUUID();
       },
-    }).withTypeProvider<TypeBoxTypeProvider>();
+    });
   }
 
   async start(): Promise<void> {

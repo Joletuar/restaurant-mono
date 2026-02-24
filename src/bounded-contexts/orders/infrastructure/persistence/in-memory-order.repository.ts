@@ -72,8 +72,7 @@ export class InMemoryOrderRepository
     if (error instanceof RootError) throw error;
 
     throw new InfrastructureError(
-      'An unexpected error occurred in the Order epository',
-      [(error as Error)?.message || 'Unknown error'],
+      'An unexpected error occurred in the Order Repository',
       error instanceof Error ? error : undefined,
       true
     );

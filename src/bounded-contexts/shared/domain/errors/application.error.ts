@@ -7,8 +7,8 @@ import { RootError } from './root.error';
  */
 
 export abstract class ApplicationError extends RootError {
-  constructor(message: string, errors: string[]) {
-    super(message, AppErrorCode.APPLICATION_ERROR, errors);
+  constructor(message: string) {
+    super(message, AppErrorCode.APPLICATION_ERROR);
 
     this.name = 'ApplicationError';
   }

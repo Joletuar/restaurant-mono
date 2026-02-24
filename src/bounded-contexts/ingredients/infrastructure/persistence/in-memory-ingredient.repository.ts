@@ -43,7 +43,6 @@ export class InMemoryIngredientRepository
 
     throw new InfrastructureError(
       'An unexpected error occurred in the Ingredient Repository',
-      [(error as Error)?.message || 'Unknown error'],
       error instanceof Error ? error : undefined,
       true
     );
