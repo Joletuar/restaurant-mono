@@ -3,8 +3,8 @@ export interface Command {
   readonly _metadata?: Record<string, unknown>;
 }
 
-export interface CommandHandler<T extends Command> {
-  handle(cmd: T): Promise<void>;
+export interface CommandHandler<T extends Command, D = void> {
+  handle(cmd: T): Promise<D>;
 }
 
 export interface CommandMiddleware {

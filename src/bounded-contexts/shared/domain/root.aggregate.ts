@@ -10,7 +10,7 @@ export type RootAggregatePrimitives = {
 };
 
 export abstract class RootAggregate<T> {
-  protected static recordCreation<T extends RootAggregate<unknown>>(
+  protected static recordCreation<T extends RootAggregate<any>>(
     instance: T,
     creationEvent: DomainEvent
   ): T {
