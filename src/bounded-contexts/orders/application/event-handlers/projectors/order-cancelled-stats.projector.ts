@@ -14,7 +14,7 @@ export class OrderCancelledStatsProjector
       ...current,
       inProgressOrders:
         current.inProgressOrders > 0
-          ? current.inProgressOrders - 1
+          ? current.pendingOrders - 1
           : current.inProgressOrders,
       cancelledOrders: current.cancelledOrders + 1,
     });

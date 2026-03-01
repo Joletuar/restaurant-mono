@@ -4,5 +4,5 @@ import { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects
 export class FinderIngredientByIdQuery implements Query {
   readonly _id: string = IdValueObject.generateId().value;
 
-  constructor(readonly recipeId: string) {}
+  constructor(readonly ingredientId: string) {}
 }

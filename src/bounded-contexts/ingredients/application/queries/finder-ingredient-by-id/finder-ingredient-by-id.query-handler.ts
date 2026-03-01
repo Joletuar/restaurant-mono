@@ -16,12 +16,12 @@ export class FinderIngredientByIdQueryHandler
   async handle(
     query: FinderIngredientByIdQuery
   ): Promise<QueryResponse<IngredientDto>> {
-    const { recipeId } = query;
+    const { ingredientId } = query;
 
-    const ingredient = await this.repository.findById(recipeId);
+    const ingredient = await this.repository.findById(ingredientId);
 
     if (!ingredient) {
-      throw new IngredientNotFoundError(recipeId);
+      throw new IngredientNotFoundError(ingredientId);
     }
 
     return { data: ingredient };
