@@ -12,21 +12,15 @@ export class DateValueObject extends RootValueObject<Date> {
   }
 
   private static validate(value: Date): void {
-    if (value.getTime() < 0) {
-      throw new DomainValidationError('Date is in the past', [
-        `Date value <${value.toISOString()}> is in the past.`,
-      ]);
-    }
-
     if (isNaN(value.getTime())) {
       throw new DomainValidationError('Date is invalid', [
-        `Date value <${value.toISOString()}> is invalid.`,
+        'Date value is invalid.',
       ]);
     }
 
-    if (value.toString() === 'Invalid Date') {
-      throw new DomainValidationError('Date is invalid', [
-        `Date value <${value.toISOString()}> is invalid.`,
+    if (value.getTime() < 0) {
+      throw new DomainValidationError('Date is before Unix epoch (1970)', [
+        `Date value <${value.toISOString()}> is before Unix epoch (1970).`,
       ]);
     }
   }
