@@ -1,9 +1,12 @@
 import { EventEmitter } from 'events';
 
-import type { EventHandler } from '@src/bounded-contexts/shared/domain/bus/event-bus.interface';
+import type {
+  EventBus,
+  EventHandler,
+} from '@src/bounded-contexts/shared/domain/bus/event-bus.interface';
 import type { DomainEvent } from '@src/bounded-contexts/shared/domain/domain-event.interface';
 
-export class EventEmitterEventBus {
+export class EventEmitterEventBus implements EventBus {
   private emitter = new EventEmitter();
 
   constructor() {

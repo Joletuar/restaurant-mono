@@ -24,7 +24,7 @@ import { GetterKitchenQueueQuery } from '@src/bounded-contexts/orders/applicatio
 import { GetterKitchenQueueQueryHandler } from '@src/bounded-contexts/orders/application/queries/getter-kitchen-queue/getter-kitchen-queue.query-handler';
 import { GetterOrderStatsQuery } from '@src/bounded-contexts/orders/application/queries/getter-order-stats/getter-order-stats.query';
 import { GetterOrderStatsQueryHandler } from '@src/bounded-contexts/orders/application/queries/getter-order-stats/getter-order-stats.query-handler';
-import { OrderRecipeExistenceChecker } from '@src/bounded-contexts/orders/domain/services/order-recipe-existence-checker.service';
+import { OrderRecipeExistenceChecker } from '@src/bounded-contexts/orders/application/services/order-recipe-existence-checker.service';
 import { InMemoryOrderRepository } from '@src/bounded-contexts/orders/infrastructure/persistence/in-memory-order.repository';
 import type { CommandBus } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import type { EventBus } from '@src/bounded-contexts/shared/domain/bus/event-bus.interface';

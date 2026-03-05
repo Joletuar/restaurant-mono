@@ -49,6 +49,8 @@ export class Ingredient extends RootAggregate<IngredientPrimivites> {
     createdAt: DateValueObject,
     updatedAt: DateValueObject
   ) {
+    // TODO: version is hardcoded to 1. Implement optimistic concurrency control
+    // by persisting and incrementing version on each aggregate mutation.
     super(id, new NumberValueObject(1), createdAt, updatedAt);
   }
 

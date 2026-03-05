@@ -7,7 +7,7 @@ import { FinderRecipeByIdQuery } from '@src/bounded-contexts/recipes/application
 import { FinderRecipeByIdQueryHandler } from '@src/bounded-contexts/recipes/application/queries/finder-recipe-by-id/finder-recipe-by-id.query-handler';
 import { GetterAllRecipesQuery } from '@src/bounded-contexts/recipes/application/queries/getter-all-recipes/getter-all-recipes.query';
 import { GetterAllRecipesQueryHandler } from '@src/bounded-contexts/recipes/application/queries/getter-all-recipes/getter-all-recipes.query-handler';
-import { RecipeIngredientsExistenceChecker } from '@src/bounded-contexts/recipes/domain/services/recipe-ingredients-existence-checker.service';
+import { RecipeIngredientsExistenceChecker } from '@src/bounded-contexts/recipes/application/services/recipe-ingredients-existence-checker.service';
 import { InMemoryRecipeRepository } from '@src/bounded-contexts/recipes/infrastructure/persistence/in-memory-recipe.repository';
 import type { CommandBus } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import type { EventBus } from '@src/bounded-contexts/shared/domain/bus/event-bus.interface';

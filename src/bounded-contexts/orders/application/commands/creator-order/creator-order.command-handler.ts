@@ -1,6 +1,6 @@
 import { Order } from '@src/bounded-contexts/orders/domain/order.entity';
 import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.repository';
-import type { OrderRecipeExistenceChecker } from '@src/bounded-contexts/orders/domain/services/order-recipe-existence-checker.service';
+import type { RecipeExistenceChecker } from '@src/bounded-contexts/orders/domain/services/recipe-existence-checker.port';
 import type { CommandHandler } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import type { EventBus } from '@src/bounded-contexts/shared/domain/bus/event-bus.interface';
 import type { EventStore } from '@src/bounded-contexts/shared/domain/event-store.interface';
@@ -12,7 +12,7 @@ export class CreatorOrderCommandHandler
 {
   constructor(
     private readonly orderRepository: OrderRepository,
-    private readonly orderRecipeExistenceChecker: OrderRecipeExistenceChecker,
+    private readonly orderRecipeExistenceChecker: RecipeExistenceChecker,
     private readonly eventBus: EventBus,
     private readonly eventStore: EventStore
   ) {}
