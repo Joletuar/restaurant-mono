@@ -1,4 +1,3 @@
-import dependencies from '@src/apps/restaurant-api/dependencies';
 import type {
   Command,
   CommandMiddleware,
@@ -6,7 +5,7 @@ import type {
 import type { Logger } from '@src/bounded-contexts/shared/domain/logger.interface';
 
 export class LoggerCommandMiddleware implements CommandMiddleware {
-  private _logger?: Logger;
+  constructor(private readonly logger: Logger) {}
 
   async execute<T extends Command>(
     command: T,
@@ -16,7 +15,7 @@ export class LoggerCommandMiddleware implements CommandMiddleware {
     const commandName = command.constructor.name;
     const { _metadata, ...commandData } = { ...command };
 
-    this.getLogger().info(
+    this.logger.info(
       { reqId, commandType: commandName, commandId: command._id, commandData },
       `[🛠️ Command] Starting execution of ${commandName}`
     );
@@ -26,7 +25,7 @@ export class LoggerCommandMiddleware implements CommandMiddleware {
       const result = await next(command);
       const executionTime = (performance.now() - startTime).toFixed(2);
 
-      this.getLogger().info(
+      this.logger.info(
         {
           reqId,
           commandType: commandName,
@@ -37,7 +36,7 @@ export class LoggerCommandMiddleware implements CommandMiddleware {
 
       return result;
     } catch (error) {
-      this.getLogger().error(
+      this.logger.error(
         {
           reqId,
           commandType: commandName,
@@ -49,13 +48,5 @@ export class LoggerCommandMiddleware implements CommandMiddleware {
 
       throw error;
     }
-  }
-
-  private getLogger(): Logger {
-    if (!this._logger) {
-      this._logger = dependencies.resolve('Logger');
-    }
-
-    return this._logger;
   }
 }

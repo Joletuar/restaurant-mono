@@ -5,6 +5,7 @@ import { InMemoryOrderStatsRepository } from '@src/bounded-contexts/orders/infra
 import type { RecipeReadModel } from '@src/bounded-contexts/recipes/application/read-models/recipe.read-model';
 import type { CommandBus } from '@src/bounded-contexts/shared/domain/bus/command-bus.interface';
 import type { QueryBus } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
+import type { Logger } from '@src/bounded-contexts/shared/domain/logger.interface';
 import { InMemoryCommandBus } from '@src/bounded-contexts/shared/infrastructure/bus/command-bus/in-memory.command-bus';
 import { LoggerCommandMiddleware } from '@src/bounded-contexts/shared/infrastructure/bus/command-bus/middlewares/logger.command-middleware';
 import { EventEmitterEventBus } from '@src/bounded-contexts/shared/infrastructure/bus/event-bus/event-emitter.event-bus';
@@ -82,16 +83,18 @@ export const registerSharedDependencies = (
 
   const queryBus = container.resolve<QueryBus>('QueryBus');
 
+  const logger = container.resolve<Logger>('Logger');
+
   // Command and Query Middlewares
 
   container.register({
     key: 'LoggerQueryMiddleware',
-    factory: () => new LoggerQueryMiddleware(),
+    factory: () => new LoggerQueryMiddleware(logger),
   });
 
   container.register({
     key: 'LoggerCommandMiddleware',
-    factory: () => new LoggerCommandMiddleware(),
+    factory: () => new LoggerCommandMiddleware(logger),
   });
 
   queryBus.addMiddleware(container.resolve('LoggerQueryMiddleware'));
