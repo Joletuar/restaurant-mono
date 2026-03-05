@@ -29,11 +29,7 @@ export abstract class RootValueObject<T extends Primitives> {
       return false;
     }
 
-    if (JSON.stringify(this._value) !== JSON.stringify(valueObject.value)) {
-      return false;
-    }
-
-    return this._value === valueObject.value;
+    return JSON.stringify(this._value) === JSON.stringify(valueObject.value);
   }
 
   private ensureIsDefined(): void {

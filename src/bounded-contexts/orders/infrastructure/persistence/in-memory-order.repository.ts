@@ -6,11 +6,11 @@ import type { OrderRepository } from '@src/bounded-contexts/orders/domain/order.
 import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infrastructure.error';
 import { RootError } from '@src/bounded-contexts/shared/domain/errors/root.error';
 import type { Nullable } from '@src/bounded-contexts/shared/domain/nullable.type';
-import { RootRespository } from '@src/bounded-contexts/shared/domain/root.repository';
+import { RootRepository } from '@src/bounded-contexts/shared/domain/root.repository';
 import type { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
 export class InMemoryOrderRepository
-  extends RootRespository
+  extends RootRepository
   implements OrderRepository
 {
   private orders: Map<string, OrderPrimitives> = new Map<

@@ -1,6 +1,6 @@
 import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infrastructure.error';
 
-export class QuerydHandlerNotRegisteredError extends InfrastructureError {
+export class QueryHandlerNotRegisteredError extends InfrastructureError {
   constructor(queryName: string) {
     super(`Handler not registered for query: ${queryName}`, null, true);
 

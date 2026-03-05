@@ -3,7 +3,7 @@ import type { FastifyInstance } from 'fastify';
 import type { IngredientController } from '../controllers/ingredient.controller';
 import type { RouteRegistrar } from './route-registar.interface';
 
-export class IngredientRoute implements RouteRegistrar {
+export class IngredientRouteRegistrar implements RouteRegistrar {
   constructor(private readonly ingredientController: IngredientController) {}
 
   async registerRoutes(fastify: FastifyInstance): Promise<void> {

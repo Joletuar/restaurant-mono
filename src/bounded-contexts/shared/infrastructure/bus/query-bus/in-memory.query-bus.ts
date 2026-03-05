@@ -9,7 +9,7 @@ import {
 } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
 import type { Logger } from '@src/bounded-contexts/shared/domain/logger.interface';
 
-import { QuerydHandlerNotRegisteredError } from './query-handler-not-registered.error';
+import { QueryHandlerNotRegisteredError } from './query-handler-not-registered.error';
 
 export class InMemoryQueryBus implements QueryBus {
   private _logger?: Logger;
@@ -40,7 +40,7 @@ export class InMemoryQueryBus implements QueryBus {
     const handler = this.handlers.get(query.constructor as QueryClass);
 
     if (!handler) {
-      throw new QuerydHandlerNotRegisteredError(query.constructor.name);
+      throw new QueryHandlerNotRegisteredError(query.constructor.name);
     }
 
     let next = (query: Query): Promise<QueryResponse<Data>> =>

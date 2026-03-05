@@ -43,7 +43,7 @@ export default (function bootstrap(): DependencyContainer {
         port: config.http.port,
         environment: config.http.environment,
         routes: [
-          dependencyContainer.resolve('HealthCheckRouteRegistar'),
+          dependencyContainer.resolve('HealthCheckRouteRegistrar'),
           dependencyContainer.resolve('RecipeRouteRegistrar'),
           dependencyContainer.resolve('IngredientRouteRegistrar'),
           dependencyContainer.resolve('OrderRouteRegistrar'),

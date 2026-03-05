@@ -6,11 +6,11 @@ import type { RecipeRepository } from '@src/bounded-contexts/recipes/domain/reci
 import { InfrastructureError } from '@src/bounded-contexts/shared/domain/errors/infrastructure.error';
 import { RootError } from '@src/bounded-contexts/shared/domain/errors/root.error';
 import type { Nullable } from '@src/bounded-contexts/shared/domain/nullable.type';
-import { RootRespository } from '@src/bounded-contexts/shared/domain/root.repository';
+import { RootRepository } from '@src/bounded-contexts/shared/domain/root.repository';
 import type { IdValueObject } from '@src/bounded-contexts/shared/domain/value-objects/id.value-object';
 
 export class InMemoryRecipeRepository
-  extends RootRespository
+  extends RootRepository
   implements RecipeRepository
 {
   private recipes: Map<string, RecipePrimitives> = new Map<

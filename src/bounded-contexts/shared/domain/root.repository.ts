@@ -1,3 +1,3 @@
-export abstract class RootRespository {
+export abstract class RootRepository {
   abstract errorHandler(error: unknown): void;
 }

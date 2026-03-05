@@ -11,7 +11,7 @@ import type { CommandBus } from '@src/bounded-contexts/shared/domain/bus/command
 import type { EventBus } from '@src/bounded-contexts/shared/domain/bus/event-bus.interface';
 import type { QueryBus } from '@src/bounded-contexts/shared/domain/bus/query-bus.interface';
 
-import { IngredientRoute } from '../../http/rest-api/routes/ingredient.route';
+import { IngredientRouteRegistrar } from '../../http/rest-api/routes/ingredient.route';
 import type { DependencyContainer } from '../dependency-container';
 
 export const registerIngredientsDependencies = (
@@ -114,6 +114,6 @@ export const registerIngredientsDependencies = (
   container.register({
     key: 'IngredientRouteRegistrar',
     factory: () =>
-      new IngredientRoute(container.resolve('IngredientController')),
+      new IngredientRouteRegistrar(container.resolve('IngredientController')),
   });
 };
