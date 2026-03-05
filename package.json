@@ -1,5 +1,5 @@
 {
-  "name": "node-ts-base-template",
+  "name": "restaurant-mono",
   "module": "src/index.ts",
   "private": true,
   "author": {
@@ -36,6 +36,7 @@
     "@eslint/js": "9.25.1",
     "@trivago/prettier-plugin-sort-imports": "5.2.2",
     "@types/bun": "latest",
+    "@types/cors": "^2.8.19",
     "@types/jest": "29.5.14",
     "eslint": "9.25.1",
     "globals": "16.0.0",

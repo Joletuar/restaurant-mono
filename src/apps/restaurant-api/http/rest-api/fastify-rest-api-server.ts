@@ -1,6 +1,8 @@
 import express from '@fastify/express';
+import cors from 'cors';
 import Fastify, { type FastifyInstance } from 'fastify';
 import type { PinoLoggerOptions } from 'fastify/types/logger';
+import helmet from 'helmet';
 
 import type { HttpServer } from '../http-server.interface';
 import { errorHandler } from './error-handler';
@@ -90,8 +92,8 @@ export class FastifyRestApiServer implements HttpServer<FastifyInstance> {
 
   private async setupMiddlewares(): Promise<void> {
     await this.fastify.register(express);
-    this.fastify.use(require('cors')());
-    this.fastify.use(require('helmet')());
+    this.fastify.use(cors());
+    this.fastify.use(helmet());
   }
 
   async stop(): Promise<void> {
